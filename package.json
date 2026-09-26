@@ -5,7 +5,7 @@
   "description": "Jawad Ul Hadi portfolio: static pages + Claude-backed portfolio agent",
   "author": "Jawad Ul Hadi (https://gravatar.com/juhbukhari)",
   "license": "MIT",
-  "homepage": "https://jawadulhadi-portfolio.vercel.app",
+  "homepage": "https://juh-bukhari.vercel.app",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JawadulHadi/juh_Bukhari_Portfolio.git"

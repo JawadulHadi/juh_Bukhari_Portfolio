@@ -31,7 +31,7 @@ body:
     attributes:
       label: Steps to reproduce
       placeholder: |
-        1. Open Portfolio.dc.html
+        1. Open the home page (/)
         2. Switch to Mono theme
         3. ...
     validations:

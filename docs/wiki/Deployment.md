@@ -12,7 +12,8 @@ What `vercel.json` does:
 | Setting | Effect |
 | --- | --- |
 | `rewrites: /api/(.*) → /api/index.js` | Every API path goes to the single function, which routes `/api/agent` and returns 404 otherwise |
-| `cleanUrls: false` | Keeps `.html` in URLs, so `Portfolio.dc.html` links stay valid |
+| `cleanUrls: true`, `trailingSlash: false` | Serves `index.html` at `/` and `case-study.html` at `/case-study`. `.html` URLs 308-redirect to the clean form |
+| `redirects` | `/Portfolio.dc*` → `/`, `/Case*Study.dc*` → `/case-study` (301), `/resume` → `/resume.pdf` |
 | `headers` | `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy: camera=(), microphone=(self), geolocation=(), payment=()` |
 
 > `microphone=(self)` is required for voice input. An older config sent `microphone=()`, which silently blocks the mic.
@@ -28,11 +29,12 @@ Works on Render, Railway, Fly.io, a VPS and similar.
 | Node version | 20+ |
 | Env vars | `ANTHROPIC_API_KEY`, and `PORT` if the platform doesn't inject it |
 
-`server.js` binds `0.0.0.0`, sets the same security headers as `vercel.json`, serves static files, and falls back to `index.html` for unknown paths.
+`server.js` mirrors `vercel.json`: it binds `0.0.0.0`, sets the same security headers, serves the same clean URLs (`/`, `/case-study`) and redirects, and falls back to `index.html` for unknown paths.
 
 ## After deploying
 
-- [ ] `/` redirects to `/Portfolio.dc.html`
+- [ ] `/` shows the portfolio and `/case-study` shows the case study
+- [ ] Old links like `/Portfolio.dc` redirect to `/`
 - [ ] The agent answers with Claude, not the built-in fallback (ask something the fallback table wouldn't know)
 - [ ] The voice mic prompt appears in Chrome
 - [ ] Response headers include `Permissions-Policy` with `microphone=(self)`
@@ -40,15 +42,12 @@ Works on Render, Railway, Fly.io, a VPS and similar.
 
 ## Legacy URL redirects
 
-The old `projects.html`, `certifications.html`, `agent.html` and `case-study.html` were removed. If they have inbound links, add redirects to `vercel.json`:
+The old `projects.html`, `certifications.html` and `agent.html` pages were removed. (`/case-study.html` still works, because `cleanUrls` redirects it to `/case-study`.) If the removed pages have inbound links, add these to the `redirects` array in `vercel.json`:
 
 ```json
-"redirects": [
-  { "source": "/projects.html",       "destination": "/Portfolio.dc.html#projects",    "permanent": true },
-  { "source": "/certifications.html", "destination": "/Portfolio.dc.html#credentials", "permanent": true },
-  { "source": "/agent.html",          "destination": "/Portfolio.dc.html",             "permanent": true },
-  { "source": "/case-study.html",     "destination": "/Case%20Study.dc.html",          "permanent": true }
-]
+{ "source": "/projects.html",       "destination": "/#projects",    "permanent": true },
+{ "source": "/certifications.html", "destination": "/#credentials", "permanent": true },
+{ "source": "/agent.html",          "destination": "/",             "permanent": true }
 ```
 
 ## Rollback

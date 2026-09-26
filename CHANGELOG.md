@@ -16,6 +16,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 - The project now lives at the repository root instead of `juh-portfolio/`.
 - `node_modules/` is no longer tracked in git.
+- Short URLs: the portfolio is served at `/` (was `/Portfolio.dc.html`) and the case study at `/case-study` (was `/Case Study.dc.html`). The old URLs 301-redirect, and `/resume` goes to `resume.pdf`.
+- Pages now have their own `<title>`, meta description and favicon.
+
+### Fixed
+
+- `vercel.json`: removed `outputDirectory: "public"` (the folder doesn't exist) and the `/resume` redirect to a missing `/source/` path, and restored `microphone=(self)` so voice input works.
 
 ## [2.0.0] - 2026-09-26
 

@@ -27,7 +27,7 @@ The persona and facts live in `SYSTEM_PROMPT` in [`api/_agent.js`](../../api/_ag
 
 1. Edit the `Facts you can rely on` list in `SYSTEM_PROMPT`.
 2. Update the matching fallback answers in `Agent.dc.html` so both paths agree.
-3. Update `Portfolio.dc.html` if the fact is shown on the page.
+3. Update `index.html` if the fact is shown on the page.
 4. Keep claims consistent across all three. The agent should never contradict the page.
 
 ## Model & parameters

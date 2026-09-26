@@ -12,7 +12,7 @@ Static portfolio pages plus one serverless endpoint that powers **"Ask Jawad"**,
 [![Claude](https://img.shields.io/badge/agent-Claude-d97757)](https://docs.anthropic.com)
 [![CI](https://github.com/JawadulHadi/juh_Bukhari_Portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/JawadulHadi/juh_Bukhari_Portfolio/actions/workflows/ci.yml)
 
-[Live site](https://jawadulhadi-portfolio.vercel.app) · [Wiki](docs/wiki/Home.md) · [Changelog](CHANGELOG.md) · [Contact](https://gravatar.com/juhbukhari)
+[Live site](https://juh-bukhari.vercel.app) · [Wiki](docs/wiki/Home.md) · [Changelog](CHANGELOG.md) · [Contact](https://gravatar.com/juhbukhari)
 
 </div>
 
@@ -87,9 +87,8 @@ Agent tuning lives in [`api/_agent.js`](api/_agent.js):
 
 ```text
 .
-├── index.html              # Redirects to Portfolio.dc.html (keeps #hash)
-├── Portfolio.dc.html       # Main page
-├── Case Study.dc.html      # "Designing for AI Failure" + failure simulator
+├── index.html              # Main page, served at /
+├── case-study.html         # "Designing for AI Failure" + failure simulator, served at /case-study
 ├── Agent.dc.html           # Floating "Ask Jawad" agent, imported by both pages
 ├── theme.js                # Horizon / Paper / Mono themes, scroll reveals, cursor effects
 ├── support.js              # GENERATED dc-runtime, do not edit

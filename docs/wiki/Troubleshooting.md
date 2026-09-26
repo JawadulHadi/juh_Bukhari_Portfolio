@@ -12,8 +12,8 @@
 | Mic blocked on a custom host | Not a secure context | Serve over HTTPS (`localhost` is exempt) |
 | Blank page | Opened from `file://`, or unpkg (React) blocked | Run through `npm run dev`. Check the network tab for `react.production.min.js` |
 | Theme resets on reload | `localStorage` blocked (private mode or strict settings) | Expected. The theme falls back to Horizon |
-| `/` doesn't redirect | JS disabled and the meta refresh is blocked | The fallback link on `index.html` still works |
-| Case Study link 404s | A space in the file name wasn't encoded | Link to `Case%20Study.dc.html` |
+| Old `/Portfolio.dc` link 404s | Redirects missing from `vercel.json` | Keep the `redirects` block: `/Portfolio.dc*` → `/`, `/Case*Study.dc*` → `/case-study` |
+| `/case-study` 404s locally | Old `server.js` without `extensions: ["html"]` | Pull the latest `server.js` |
 | Vercel: `/api/agent` → 404 | The rewrite is missing, or `api/index.js` was renamed | Check `vercel.json` `rewrites` |
 | `EADDRINUSE :3000` | Port already in use | `PORT=3001 npm run dev` |
 

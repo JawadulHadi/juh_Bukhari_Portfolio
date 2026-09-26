@@ -4,13 +4,13 @@ Where each piece of content lives, and what else to update when it changes.
 
 | Content | File | Anchor / location | Also update |
 | --- | --- | --- | --- |
-| Name, headline, intro | `Portfolio.dc.html` | hero `<h1>` | `index.html` `<title>` and meta description |
-| Selected work | `Portfolio.dc.html` | `#work` | Agent prompt, if the facts change |
-| Projects & open source | `Portfolio.dc.html` | `#projects` | `SYSTEM_PROMPT` "Projects" line |
-| Experience | `Portfolio.dc.html` | `#experience` | `SYSTEM_PROMPT` "Role" and "Experience" lines, `resume.pdf` |
-| Stack & credentials | `Portfolio.dc.html` | `#credentials` | `SYSTEM_PROMPT` "Stack" and "Credentials" lines |
-| Services & contact | `Portfolio.dc.html` | `#contact` | `SYSTEM_PROMPT` "Services" line |
-| Case study | `Case Study.dc.html` | whole page | Agent fallback answer for "fallback / resilience" |
+| Name, headline, intro | `index.html` | hero `<h1>` | `<title>` and meta description in the same file |
+| Selected work | `index.html` | `#work` | Agent prompt, if the facts change |
+| Projects & open source | `index.html` | `#projects` | `SYSTEM_PROMPT` "Projects" line |
+| Experience | `index.html` | `#experience` | `SYSTEM_PROMPT` "Role" and "Experience" lines, `resume.pdf` |
+| Stack & credentials | `index.html` | `#credentials` | `SYSTEM_PROMPT` "Stack" and "Credentials" lines |
+| Services & contact | `index.html` | `#contact` | `SYSTEM_PROMPT` "Services" line |
+| Case study | `case-study.html` | whole page | Agent fallback answer for "fallback / resilience" |
 | Agent facts & rules | `api/_agent.js` | `SYSTEM_PROMPT` | Fallback table in `Agent.dc.html` |
 | Offline agent answers | `Agent.dc.html` | regex → answer table | |
 | Portrait | `assets/portrait.jpg` | | Keep it under ~200 KB, and square or 4:5 |

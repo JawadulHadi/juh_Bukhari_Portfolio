@@ -2,18 +2,10 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
   "trailingSlash": false,
-  "outputDirectory": "public",
   "redirects": [
-    {
-      "source": "/resume.html",
-      "destination": "/source/resume.html",
-      "permanent": true
-    },
-    {
-      "source": "/resume",
-      "destination": "/source/resume",
-      "permanent": true
-    }
+    { "source": "/Portfolio.dc(.*)", "destination": "/", "permanent": true },
+    { "source": "/Case(.*)Study.dc(.*)", "destination": "/case-study", "permanent": true },
+    { "source": "/resume", "destination": "/resume.pdf", "permanent": false }
   ],
   "rewrites": [
     {
@@ -35,42 +27,16 @@
         },
         {
           "key": "Permissions-Policy",
-          "value": "camera=(), microphone=(), geolocation=(), payment=()"
+          "value": "camera=(), microphone=(self), geolocation=(), payment=()"
         }
       ]
     },
     {
-      "source": "/assets/(.*).css",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "text/css; charset=utf-8"
-        },
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=3600, must-revalidate"
-        }
-      ]
-    },
-    {
-      "source": "/assets/(.*).js",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "application/javascript; charset=utf-8"
-        },
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=3600, must-revalidate"
-        }
-      ]
-    },
-    {
-      "source": "/assets/fonts/(.*)",
+      "source": "/(_ds|assets)/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
+          "value": "public, max-age=604800"
         }
       ]
     },
@@ -78,30 +44,8 @@
       "source": "/favicon.svg",
       "headers": [
         {
-          "key": "Content-Type",
-          "value": "image/svg+xml"
-        },
-        {
           "key": "Cache-Control",
           "value": "public, max-age=86400"
-        }
-      ]
-    },
-    {
-      "source": "/badges/(.*).png",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=604800"
-        }
-      ]
-    },
-    {
-      "source": "/banners/(.*).png",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=604800"
         }
       ]
     }
