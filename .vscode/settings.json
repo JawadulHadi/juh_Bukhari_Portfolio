@@ -1,0 +1,5 @@
+{
+  // The .dc.html pages bind values inside inline styles, e.g. style="color: {{ micColor }};".
+  // VS Code's CSS validator can't parse {{ }} and reports false "semi-colon expected" / "} expected" warnings.
+  "html.validate.styles": false
+}

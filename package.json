@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.128.0",
+    "@vercel/analytics": "^2.0.1",
     "express": "^5.2.1"
   }
 }
