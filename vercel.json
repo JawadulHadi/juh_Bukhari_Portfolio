@@ -1,6 +1,20 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "cleanUrls": false,
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "outputDirectory": "public",
+  "redirects": [
+    {
+      "source": "/resume.html",
+      "destination": "/source/resume.html",
+      "permanent": true
+    },
+    {
+      "source": "/resume",
+      "destination": "/source/resume",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/api/(.*)",
@@ -21,7 +35,73 @@
         },
         {
           "key": "Permissions-Policy",
-          "value": "camera=(), microphone=(self), geolocation=(), payment=()"
+          "value": "camera=(), microphone=(), geolocation=(), payment=()"
+        }
+      ]
+    },
+    {
+      "source": "/assets/(.*).css",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/css; charset=utf-8"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/assets/(.*).js",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/javascript; charset=utf-8"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/assets/fonts/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/favicon.svg",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "image/svg+xml"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
+        }
+      ]
+    },
+    {
+      "source": "/badges/(.*).png",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800"
+        }
+      ]
+    },
+    {
+      "source": "/banners/(.*).png",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800"
         }
       ]
     }
