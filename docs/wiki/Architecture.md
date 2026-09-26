@@ -5,8 +5,8 @@
 ```mermaid
 flowchart TB
     subgraph Browser
-        I[index.html] -->|redirect + #hash| P[Portfolio.dc.html]
-        P -.->|link| CS[Case Study.dc.html]
+        P[index.html<br/>served at /]
+        P -.->|link| CS[case-study.html<br/>served at /case-study]
         P -->|dc-import| AG[Agent.dc.html]
         CS -->|dc-import| AG
         RT[support.js<br/>dc-runtime + React 18] --- P & CS & AG
@@ -26,7 +26,7 @@ flowchart TB
 
 | Component | Responsibility |
 | --- | --- |
-| `index.html` | Instant redirect to `Portfolio.dc.html`, keeping the URL hash. Has a `<meta refresh>` and a link as no-JS fallbacks |
+| `index.html`, `case-study.html` | The two pages, served at `/` and `/case-study` via `cleanUrls`. Old `/Portfolio.dc*` and `/Case Study.dc*` URLs 301-redirect to them |
 | `*.dc.html` | Page templates inside `<x-dc>`. `<helmet>` injects head tags, `<sc-if>` handles conditionals, `<dc-import>` embeds another dc page |
 | `support.js` | **Generated** dc-runtime. Parses `<x-dc>` and renders it with React 18 (UMD from unpkg) |
 | `_ds/classical-…/` | **Generated** Classical design system: CSS custom properties (colour ramps, spacing, fonts) and a namespace bundle |

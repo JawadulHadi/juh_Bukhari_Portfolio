@@ -12,8 +12,8 @@ The following is **personal content** and is © 2026 Jawad Ul Hadi, all rights r
 | --- | --- |
 | Portrait photograph | `assets/portrait.jpg` |
 | Résumé | `resume.pdf` |
-| Biography, work history, project write-ups and credentials text | `Portfolio.dc.html` |
-| The case study "Designing for AI Failure" (text and figures) | `Case Study.dc.html` |
+| Biography, work history, project write-ups and credentials text | `index.html` |
+| The case study "Designing for AI Failure" (text and figures) | `case-study.html` |
 | The agent's persona and facts in the system prompt | `api/_agent.js` (`SYSTEM_PROMPT`) |
 | Name, logo mark and favicon | `favicon.svg` |
 

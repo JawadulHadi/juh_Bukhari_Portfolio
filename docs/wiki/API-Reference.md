@@ -59,7 +59,7 @@ Checks run in this order: configured → rate limit → validation. An unconfigu
 ### Example
 
 ```bash
-curl -s -X POST https://jawadulhadi-portfolio.vercel.app/api/agent \
+curl -s -X POST https://juh-bukhari.vercel.app/api/agent \
   -H "Content-Type: application/json" \
   -d '{"messages":[{"role":"user","content":"How does your AI fallback ladder work?"}]}'
 ```

@@ -99,9 +99,9 @@ const SECTIONS = [
   { id: 'credentials', label: 'Credentials', re: /\b(credentials?|certifications?|certificates?|badges?|stack|skills|education)\b/ },
   { id: 'contact', label: 'Contact', re: /\b(contact|hire|reach)\b/ }
 ];
-const PAGE_MAIN = 'Portfolio.dc.html';
-const PAGE_CASE = 'Case%20Study.dc.html';
-const RESUME = 'resume.pdf';
+const PAGE_MAIN = '/';
+const PAGE_CASE = '/case-study';
+const RESUME = '/resume.pdf';
 const CONTACT = 'https://gravatar.com/juhbukhari';
 
 const SYSTEM = `You are the portfolio assistant for Jawad Ul Hadi, speaking on his behalf in first person. If sincerely asked, say you are an AI assistant representing him.
@@ -208,7 +208,7 @@ class Component extends DCLogic {
     if (nav) {
       const target = nav[1];
       if (/case stud|deep dive|architecture|diagram/.test(target)) {
-        if (!/Case%20Study|Case Study/.test(location.pathname)) location.href = PAGE_CASE;
+        if (!/case-study/.test(location.pathname)) location.href = PAGE_CASE;
         else window.scrollTo({ top: 0, behavior: 'smooth' });
         return { text: 'Opening the case study.' };
       }
