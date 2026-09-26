@@ -1,0 +1,58 @@
+name: 🐛 Bug report
+description: Something on the site or the agent isn't working
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for reporting! Please check existing issues first.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Portfolio page
+        - Case study / failure simulator
+        - Ask Jawad agent (chat)
+        - Ask Jawad agent (voice)
+        - Themes
+        - API / deployment
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What did you expect, and what happened instead?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open Portfolio.dc.html
+        2. Switch to Mono theme
+        3. ...
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: Browser, OS and theme
+      placeholder: Chrome 140 / Windows 11 / Horizon
+    validations:
+      required: true
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where did you see it?
+      options:
+        - Live site
+        - Local (npm run dev)
+        - Other deployment
+  - type: textarea
+    id: logs
+    attributes:
+      label: Console output / screenshots
+      render: text

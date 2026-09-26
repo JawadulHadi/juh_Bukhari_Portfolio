@@ -1,0 +1,5 @@
+# Default owner for everything in the repo
+*                 @JawadulHadi
+
+# Agent backend and prompt (content + security sensitive)
+/api/             @JawadulHadi
