@@ -1,4 +1,4 @@
-# Jawad Ul Hadi · Portfolio v2
+# Jawad Ul Hadi · Portfolio
 
 Static pages plus one serverless endpoint for the portfolio agent.
 
@@ -14,7 +14,7 @@ The old `projects.html`, `certifications.html`, `agent.html` and `case-study.htm
 
 ## Contact policy
 
-The only contact channel is <https://gravatar.com/juhbukhari>. The pages, the agent and the server prompt (`api/_agent.js`) all point there, and the agent is told never to share an email or phone number.
+The only contact channel is [https://gravatar.com/juhbukhari](https://gravatar.com/juhbukhari). The pages, the agent and the server prompt (`api/_agent.js`) all point there, and the agent is told never to share an email or phone number.
 
 ## AI agent setup
 
@@ -30,4 +30,4 @@ Voice input uses the browser's Speech Recognition API (Chrome, Edge, Safari). Th
 
 ## Run locally
 
-`npm run dev`, then open <http://localhost:3000>
+`npm run dev`, then open [http://localhost:3000](http://localhost:3000)
