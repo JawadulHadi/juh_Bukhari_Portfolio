@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: Syntax check & smoke test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Syntax check
+        run: |
+          for f in server.js api/*.js theme.js; do
+            node --check "$f"
+          done
+
+      - name: Start server
+        run: |
+          PORT=3000 node server.js > server.log 2>&1 &
+          for i in $(seq 1 20); do
+            curl -sf http://localhost:3000/ > /dev/null && break
+            sleep 0.5
+          done
+
+      - name: Pages are served
+        run: |
+          for p in / /Portfolio.dc.html "/Case%20Study.dc.html" /Agent.dc.html /theme.js /favicon.svg; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "http://localhost:3000$p")
+            echo "$p -> $code"
+            [ "$code" = "200" ] || exit 1
+          done
+
+      - name: Security headers present
+        run: |
+          headers=$(curl -sI http://localhost:3000/)
+          echo "$headers"
+          echo "$headers" | grep -qi 'permissions-policy: .*microphone=(self)'
+          echo "$headers" | grep -qi 'x-content-type-options: nosniff'
+
+      - name: Agent returns 503 without an API key
+        run: |
+          code=$(curl -s -o /dev/null -w '%{http_code}' -X POST http://localhost:3000/api/agent \
+            -H 'Content-Type: application/json' \
+            -d '{"messages":[{"role":"user","content":"hi"}]}')
+          echo "POST /api/agent -> $code"
+          [ "$code" = "503" ]
+
+      - name: Server log
+        if: always()
+        run: cat server.log || true

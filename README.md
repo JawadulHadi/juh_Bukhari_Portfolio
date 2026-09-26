@@ -1,33 +1,168 @@
+<div align="center">
+
 # Jawad Ul Hadi · Portfolio
 
-Static pages plus one serverless endpoint for the portfolio agent.
+**Backend Lead / Architect building multi-tenant SaaS and AI-first systems that fail predictably.**
 
-## Pages
+Static portfolio pages plus one serverless endpoint that powers **"Ask Jawad"**, a Claude-backed portfolio agent you can chat with by text or voice.
 
-- `Portfolio.dc.html`: the main page (work, projects, experience, credentials, services & contact)
-- `Case Study.dc.html`: Designing for AI Failure, with figures and a failure simulator
-- `Agent.dc.html`: the floating "Ask Jawad" agent, loaded by both pages
-- `theme.js`: shared Horizon / Paper / Mono theme (saved in localStorage, synced across tabs), scroll reveals and cursor effects
-- `index.html` redirects to `Portfolio.dc.html`
+[![License: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE)
+[![Node](https://img.shields.io/badge/node-%3E%3D20-339933?logo=node.js&logoColor=white)](.nvmrc)
+[![Deploy: Vercel](https://img.shields.io/badge/deploy-Vercel-000?logo=vercel)](https://vercel.com)
+[![Claude](https://img.shields.io/badge/agent-Claude-d97757)](https://docs.anthropic.com)
+[![CI](https://github.com/JawadulHadi/juh_Bukhari_Portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/JawadulHadi/juh_Bukhari_Portfolio/actions/workflows/ci.yml)
 
-The old `projects.html`, `certifications.html`, `agent.html` and `case-study.html` are replaced by these pages. Add redirects for them if they have inbound links.
+[Live site](https://jawadulhadi-portfolio.vercel.app) · [Wiki](docs/wiki/Home.md) · [Changelog](CHANGELOG.md) · [Contact](https://gravatar.com/juhbukhari)
+
+</div>
+
+---
+
+## Contents
+
+- [Features](#features)
+- [Tech stack](#tech-stack)
+- [Quick start](#quick-start)
+- [Configuration](#configuration)
+- [Project structure](#project-structure)
+- [How it works](#how-it-works)
+- [Deployment](#deployment)
+- [Contact policy](#contact-policy)
+- [Documentation](#documentation)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Features
+
+- **Portfolio page**: selected work, projects & open source, experience, stack & credentials, services & contact.
+- **Case study: *Designing for AI Failure***: the Retry → RAG Fallback → Rule-Based Floor pattern, with architecture figures and an interactive failure simulator.
+- **"Ask Jawad" agent**: a floating chat on every page, backed by Claude on the server. It supports voice input and read-aloud, can navigate the site ("take me to projects"), and falls back to built-in answers when the API isn't configured.
+- **Three themes**: Horizon (dark, ember glow), Paper (light, classical) and Mono. The choice is saved in `localStorage` and synced across tabs.
+- **Accessibility**: honours `prefers-reduced-motion`, uses ARIA-labelled controls and semantic sections.
+- **Hardened by default**: the API key never reaches the browser, input is validated, requests are rate-limited, and security headers are set.
+
+## Tech stack
+
+| Layer | Technology |
+| --- | --- |
+| Pages | `.dc.html` templates rendered by the generated dc-runtime (`support.js`, React 18 UMD) |
+| Styling | Classical design system tokens (`_ds/`) + theme overrides (`theme.js`) |
+| Agent backend | Node.js ≥ 20, [`@anthropic-ai/sdk`](https://www.npmjs.com/package/@anthropic-ai/sdk) |
+| Local / Node host | Express 4 (`server.js`) |
+| Serverless | Vercel function (`api/index.js`) |
+| Voice | Web Speech API (`SpeechRecognition` + `speechSynthesis`) |
+
+## Quick start
+
+```bash
+git clone https://github.com/JawadulHadi/juh_Bukhari_Portfolio.git
+cd juh_Bukhari_Portfolio
+npm install
+cp .env.example .env        # optional: add ANTHROPIC_API_KEY for the live agent
+npm run dev
+```
+
+Open <http://localhost:3000>. Without an API key, everything works and the agent answers from its built-in responses.
+
+> `server.js` doesn't load `.env` automatically. Export the variable in your shell (`export ANTHROPIC_API_KEY=...`, or `$env:ANTHROPIC_API_KEY="..."` in PowerShell) or run `node --env-file=.env server.js`.
+
+## Configuration
+
+| Variable | Required | Default | Purpose |
+| --- | --- | --- | --- |
+| `ANTHROPIC_API_KEY` | For the live agent | none | Claude API key, used server-side only |
+| `ANTHROPIC_AUTH_TOKEN` | No | none | Alternative bearer-token auth |
+| `PORT` | No | `3000` | Express port (ignored on Vercel) |
+
+Agent tuning lives in [`api/_agent.js`](api/_agent.js):
+
+| Constant | Value | Meaning |
+| --- | --- | --- |
+| `MODEL` | `claude-opus-5` | Claude model used for replies |
+| `MAX_TURNS` | `20` | Max messages per request |
+| `MAX_CHARS` | `2000` | Per-message character cap (content is truncated) |
+| `MAX_REQUESTS_PER_WINDOW` / `WINDOW_MS` | `30` / 10 min | Per-IP rate limit (per instance) |
+
+## Project structure
+
+```text
+.
+├── index.html              # Redirects to Portfolio.dc.html (keeps #hash)
+├── Portfolio.dc.html       # Main page
+├── Case Study.dc.html      # "Designing for AI Failure" + failure simulator
+├── Agent.dc.html           # Floating "Ask Jawad" agent, imported by both pages
+├── theme.js                # Horizon / Paper / Mono themes, scroll reveals, cursor effects
+├── support.js              # GENERATED dc-runtime, do not edit
+├── _ds/                    # GENERATED Classical design-system tokens + bundle
+├── api/
+│   ├── _agent.js           # Shared Claude handler (validation, rate limit, prompt)
+│   └── index.js            # Vercel serverless entry → /api/agent
+├── server.js               # Express server for local dev / any Node host
+├── assets/portrait.jpg
+├── favicon.svg
+├── resume.pdf
+├── vercel.json             # Rewrites + security headers
+└── docs/wiki/              # Project wiki (GitHub-wiki compatible)
+```
+
+## How it works
+
+```mermaid
+flowchart LR
+    B[Browser<br/>Agent.dc.html] -- "POST /api/agent<br/>{ messages }" --> H{Host}
+    H -->|Vercel| V[api/index.js]
+    H -->|Node / local| E[server.js]
+    V --> A[api/_agent.js<br/>validate · rate-limit]
+    E --> A
+    A -- "system prompt + history" --> C[(Claude API)]
+    C --> A --> B
+    A -. "503 not_configured" .-> F[Built-in answers<br/>in the browser]
+```
+
+1. The agent posts the chat history to `POST /api/agent`.
+2. `api/_agent.js` checks that a key is configured, applies the per-IP rate limit, and validates the history.
+3. It calls Claude with a cached system prompt that states Jawad's facts and the house rules.
+4. The reply comes back as plain text, suitable for read-aloud. On any failure, the browser falls back to built-in answers.
+
+See [Architecture](docs/wiki/Architecture.md) and [API Reference](docs/wiki/API-Reference.md) for details.
+
+## Deployment
+
+**Vercel (recommended).** Import the repo, set `ANTHROPIC_API_KEY` under *Project Settings → Environment Variables*, and deploy. `vercel.json` routes `/api/*` to the function and sets the security headers.
+
+**Any Node host (Render, Railway, Fly, VPS).** Build with `npm ci`, start with `npm start`, and set `ANTHROPIC_API_KEY` (plus `PORT` if the host needs it).
+
+Full guide: [Deployment](docs/wiki/Deployment.md).
 
 ## Contact policy
 
-The only contact channel is [https://gravatar.com/juhbukhari](https://gravatar.com/juhbukhari). The pages, the agent and the server prompt (`api/_agent.js`) all point there, and the agent is told never to share an email or phone number.
+The **only** public contact channel is **[gravatar.com/juhbukhari](https://gravatar.com/juhbukhari)**. The pages, the agent's fallback answers and the server prompt all point there. The agent is instructed never to share an email address or phone number. Keep it that way when you edit content.
 
-## AI agent setup
+## Documentation
 
-1. `npm install`
-2. Set `ANTHROPIC_API_KEY` in the host's environment (Vercel: Project Settings, Environment Variables).
-3. Deploy. The page calls `POST /api/agent`; without a key it answers 503 and the agent falls back to built-in answers.
+| Page | What's inside |
+| --- | --- |
+| [Wiki home](docs/wiki/Home.md) | Start here |
+| [Architecture](docs/wiki/Architecture.md) | Components, request flow, design decisions |
+| [Local Development](docs/wiki/Local-Development.md) | Setup, scripts, testing the agent |
+| [Deployment](docs/wiki/Deployment.md) | Vercel and Node hosts, headers, redirects |
+| [Portfolio Agent](docs/wiki/Portfolio-Agent.md) | Prompt, fallbacks, voice, navigation |
+| [API Reference](docs/wiki/API-Reference.md) | `POST /api/agent` contract and error codes |
+| [Theming & Design System](docs/wiki/Theming-and-Design-System.md) | Themes, tokens, `JUHTheme` API |
+| [Content Guide](docs/wiki/Content-Guide.md) | How to update work, projects and credentials |
+| [Troubleshooting](docs/wiki/Troubleshooting.md) | Common problems and fixes |
 
-The model is set in `api/_agent.js` (`MODEL`). Rate limit: 30 requests per IP per 10 minutes.
+## Contributing
 
-## Voice
+Issues and PRs are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) and the [Code of Conduct](CODE_OF_CONDUCT.md) first. Report security issues privately as described in [SECURITY.md](SECURITY.md).
 
-Voice input uses the browser's Speech Recognition API (Chrome, Edge, Safari). The old `vercel.json` sent `Permissions-Policy: microphone=()`, which blocks the mic on the live site. This version sends `microphone=(self)`. Both `vercel.json` and `server.js` set it.
+## License
 
-## Run locally
+The code is released under the [MIT License](LICENSE). Personal content (portrait, résumé, bio, case study text) is **not** covered. See [NOTICE.md](NOTICE.md).
 
-`npm run dev`, then open [http://localhost:3000](http://localhost:3000)
+<div align="center">
+
+Built by **Jawad Ul Hadi** · Islamabad, Pakistan ·
+[GitHub](https://github.com/JawadulHadi) · [LinkedIn](https://linkedin.com/in/jawad-ul-hadi) · [Gravatar](https://gravatar.com/juhbukhari)
+
+</div>
