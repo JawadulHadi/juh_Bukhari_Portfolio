@@ -20,7 +20,7 @@ app.post('/api/agent', express.json({ limit: '64kb' }), async (req, res) => {
 // Old long URLs → short ones.
 app.get(/^\/Portfolio\.dc/, (req, res) => res.redirect(301, '/'));
 app.get(/^\/Case(%20| )Study\.dc/, (req, res) => res.redirect(301, '/case-study'));
-app.get('/resume', (req, res) => res.redirect(302, '/resume.pdf'));
+app.get('/resume', (req, res) => res.redirect(307, '/resume.pdf'));
 // cleanUrls: /index → /, /case-study.html → /case-study
 app.get(/^\/(index)?(\.html)?$/, (req, res, next) => (req.path === '/' ? next() : res.redirect(301, '/')));
 app.get(/^\/([\w-]+)\.html$/, (req, res) => res.redirect(301, '/' + req.params[0]));
