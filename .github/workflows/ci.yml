@@ -37,6 +37,7 @@ jobs:
             curl -sf http://localhost:3000/ > /dev/null && break
             sleep 0.5
           done
+          curl -sf http://localhost:3000/ > /dev/null || { echo "Server failed to start:"; cat server.log; exit 1; }
 
       - name: Pages are served
         run: |

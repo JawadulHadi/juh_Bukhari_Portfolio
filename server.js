@@ -26,6 +26,6 @@ app.get(/^\/(index)?(\.html)?$/, (req, res, next) => (req.path === '/' ? next() 
 app.get(/^\/([\w-]+)\.html$/, (req, res) => res.redirect(301, '/' + req.params[0]));
 
 app.use(express.static(__dirname, { index: 'index.html', extensions: ['html'] }));
-app.get('*', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
+app.get('/{*splat}', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
 
 app.listen(PORT, '0.0.0.0', () => console.log('Portfolio on http://localhost:' + PORT));
