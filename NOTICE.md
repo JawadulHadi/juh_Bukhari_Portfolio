@@ -15,7 +15,7 @@ The following is **personal content** and is © 2026 Jawad Ul Hadi, all rights r
 | Biography, work history, project write-ups and credentials text | `index.html` |
 | The case study "Designing for AI Failure" (text and figures) | `case-study.html` |
 | The agent's persona and facts in the system prompt | `api/_agent.js` (`SYSTEM_PROMPT`) |
-| Name, logo mark and favicon | `favicon.svg` |
+| Name, logo mark and JUH-LOGO | `JUH-LOGO.svg` |
 
 If you fork this project, replace all of the above with your own content before publishing.
 

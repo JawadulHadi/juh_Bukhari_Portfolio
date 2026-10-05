@@ -1,96 +1,183 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./support.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="./support.js"></script>
 </head>
+
 <body>
-<x-dc>
-<helmet>
-  <link rel="stylesheet" href="_ds/classical-14580d76-6aa9-445c-a1a1-c9bb8d7a9f0e/styles.css">
-  <script src="_ds/classical-14580d76-6aa9-445c-a1a1-c9bb8d7a9f0e/_ds_bundle.js"></script>
-  <script src="theme.js"></script>
-  <style>
-    @keyframes juhAgentIn { from { opacity: 0; transform: translateX(-14px) scale(.985); } to { opacity: 1; transform: none; } }
-    @keyframes juhPulse { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-accent) 55%, transparent); } 100% { box-shadow: 0 0 0 9px transparent; } }
-    @keyframes juhFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
-    @keyframes juhDots { 0%, 80%, 100% { opacity: .25; } 40% { opacity: 1; } }
-  </style>
-</helmet>
-<div style="font-family: var(--font-body);">
-  <sc-if value="{{ closed }}" hint-placeholder-val="{{ true }}">
-    <button type="button" ref="{{ launcherRef }}" onClick="{{ toggle }}" aria-label="Open Jawad's AI agent. Chat by text or voice." aria-expanded="false" aria-haspopup="dialog" style="position: fixed; left: 16px; bottom: 20px; z-index: 60; display: flex; align-items: center; gap: 10px; padding: 5px 16px 5px 5px; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-divider); border-radius: 999px; cursor: pointer; box-shadow: var(--shadow-md); animation: juhFloat 4.5s ease-in-out infinite; transition: border-color .25s ease, box-shadow .25s ease;" style-hover="border-color: var(--color-accent); box-shadow: var(--shadow-lg);">
-      <span style="position: relative; flex: none; width: 48px; height: 48px;">
-        <img src="assets/portrait.jpg" alt="" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; object-position: 50% 22%; border: 1.5px solid var(--color-accent); display: block;">
-        <span style="position: absolute; right: 1px; bottom: 1px; width: 11px; height: 11px; border-radius: 50%; background: var(--color-accent); border: 2px solid var(--color-surface); animation: juhPulse 2.2s ease-out infinite;"></span>
-      </span>
-      <span style="display: grid; text-align: left; line-height: 1.15; white-space: nowrap;">
-        <span style="font-family: var(--font-heading); font-size: 18px; font-weight: 600;">Ask Jawad</span>
-        <span style="font-size: 12px; color: var(--muted);">AI agent · text or voice</span>
-      </span>
-    </button>
-  </sc-if>
+  <x-dc>
+    <helmet>
+      <link rel="stylesheet" href="_ds/classical-14580d76-6aa9-445c-a1a1-c9bb8d7a9f0e/styles.css">
+      <script src="_ds/classical-14580d76-6aa9-445c-a1a1-c9bb8d7a9f0e/_ds_bundle.js"></script>
+      <script src="theme.js"></script>
+      <style>
+        @keyframes juhAgentIn {
+          from {
+            opacity: 0;
+            transform: translateX(-14px) scale(.985);
+          }
 
-  <sc-if value="{{ open }}" hint-placeholder-val="{{ false }}">
-    <div role="dialog" aria-labelledby="juh-agent-title" style="position: fixed; left: 16px; bottom: 16px; z-index: 61; width: min(390px, calc(100vw - 32px)); height: min(590px, calc(100vh - 32px)); display: flex; flex-direction: column; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-divider); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); overflow: hidden; animation: juhAgentIn .34s cubic-bezier(.2,.7,.2,1);">
-      <div style="display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--color-divider);">
-        <img src="assets/portrait.jpg" alt="" style="flex: none; width: 40px; height: 40px; border-radius: 50%; object-fit: cover; object-position: 50% 22%; border: 1px solid var(--color-accent);">
-        <div style="flex: 1; min-width: 0;">
-          <p id="juh-agent-title" style="font-family: var(--font-heading); font-size: 21px; line-height: 1.1; margin: 0;">Ask Jawad</p>
-          <p style="font-size: 12px; color: var(--muted); margin: 2px 0 0;">{{ status }}</p>
-        </div>
-        <button type="button" onClick="{{ toggleSpeak }}" aria-pressed="{{ speakPressed }}" title="{{ speakTitle }}" class="btn btn-ghost btn-icon" style="color: {{ speakColor }};">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+          to {
+            opacity: 1;
+            transform: none;
+          }
+        }
+
+        @keyframes juhPulse {
+          0% {
+            box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-accent) 55%, transparent);
+          }
+
+          100% {
+            box-shadow: 0 0 0 9px transparent;
+          }
+        }
+
+        @keyframes juhFloat {
+
+          0%,
+          100% {
+            transform: translateY(0);
+          }
+
+          50% {
+            transform: translateY(-6px);
+          }
+        }
+
+        @keyframes juhDots {
+
+          0%,
+          80%,
+          100% {
+            opacity: .25;
+          }
+
+          40% {
+            opacity: 1;
+          }
+        }
+      </style>
+    </helmet>
+    <div style="font-family: var(--font-body);">
+      <sc-if value="{{ closed }}" hint-placeholder-val="{{ true }}">
+        <button type="button" ref="{{ launcherRef }}" onClick="{{ toggle }}"
+          aria-label="Open Jawad's AI agent. Chat by text or voice." aria-expanded="false" aria-haspopup="dialog"
+          style="position: fixed; left: 16px; bottom: 20px; z-index: 60; display: flex; align-items: center; gap: 10px; padding: 5px 16px 5px 5px; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-divider); border-radius: 999px; cursor: pointer; box-shadow: var(--shadow-md); animation: juhFloat 4.5s ease-in-out infinite; transition: border-color .25s ease, box-shadow .25s ease;"
+          style-hover="border-color: var(--color-accent); box-shadow: var(--shadow-lg);">
+          <span style="position: relative; flex: none; width: 48px; height: 48px;">
+            <img src="assets/portrait.jpg" alt=""
+              style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; object-position: 50% 22%; border: 1.5px solid var(--color-accent); display: block;">
+            <span
+              style="position: absolute; right: 1px; bottom: 1px; width: 11px; height: 11px; border-radius: 50%; background: var(--color-accent); border: 2px solid var(--color-surface); animation: juhPulse 2.2s ease-out infinite;"></span>
+          </span>
+          <span style="display: grid; text-align: left; line-height: 1.15; white-space: nowrap;">
+            <span style="font-family: var(--font-heading); font-size: 18px; font-weight: 600;">Ask Jawad</span>
+            <span style="font-size: 12px; color: var(--muted);">AI agent · text or voice</span>
+          </span>
         </button>
-        <button type="button" onClick="{{ toggle }}" aria-label="Close agent" class="btn btn-ghost btn-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="stroke-width: 1.75; stroke-linecap: round;"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
-        </button>
-      </div>
-
-      <div ref="{{ listRef }}" role="log" aria-live="polite" aria-label="Conversation" style="flex: 1; overflow-y: auto; padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); scroll-behavior: smooth;">
-        <sc-for list="{{ messages }}" as="m" hint-placeholder-count="1">
-          <div style="display: flex; flex-direction: column; align-items: {{ m.align }}; gap: 3px;">
-            <div style="max-width: 88%; padding: 9px 13px; font-size: 14px; line-height: 1.55; white-space: pre-wrap; text-wrap: pretty; border: 1px solid {{ m.border }}; background: {{ m.bg }}; border-radius: var(--radius-md); font-family: {{ m.font }};">{{ m.text }}</div>
-            <span style="font-size: 11px; color: var(--muted);">{{ m.note }}</span>
-          </div>
-        </sc-for>
-        <sc-if value="{{ busy }}" hint-placeholder-val="{{ false }}">
-          <div style="display: flex; gap: 5px; padding: 6px 2px; color: var(--color-accent); font-size: 20px; line-height: 1;">
-            <span style="animation: juhDots 1.2s infinite;">·</span>
-            <span style="animation: juhDots 1.2s .15s infinite;">·</span>
-            <span style="animation: juhDots 1.2s .3s infinite;">·</span>
-          </div>
-        </sc-if>
-      </div>
-
-      <div role="group" aria-label="Quick questions and shortcuts" style="display: flex; gap: var(--space-2); overflow-x: auto; overflow-y: hidden; padding: var(--space-2) var(--space-3); border-top: 1px solid var(--color-divider); scrollbar-width: none; mask-image: linear-gradient(90deg, #000 88%, transparent);">
-        <sc-for list="{{ suggestions }}" as="s" hint-placeholder-count="6">
-          <button type="button" onClick="{{ s.run }}" disabled="{{ busy }}" style="flex: none; white-space: nowrap; font: inherit; font-size: 13px; padding: 5px 11px; color: var(--color-text); background: transparent; border: 1px solid var(--color-divider); border-radius: 999px; cursor: pointer; transition: border-color .2s, color .2s;" style-hover="border-color: var(--color-accent); color: var(--color-accent);">{{ s.label }}</button>
-        </sc-for>
-      </div>
-
-      <sc-if value="{{ listening }}" hint-placeholder-val="{{ false }}">
-        <div style="display: flex; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-4); border-top: 1px solid var(--color-divider); font-size: 13px; color: var(--ink-accent);">
-          <span style="width: 7px; height: 7px; border-radius: 50%; background: var(--color-accent); animation: juhPulse 1.2s ease-out infinite; flex: none;"></span>
-          <span style="font-style: italic; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ interimText }}</span>
-        </div>
       </sc-if>
 
-      <form onSubmit="{{ onSubmit }}" style="display: flex; align-items: center; gap: var(--space-2); padding: var(--space-3); border-top: 1px solid var(--color-divider);">
-        <button type="button" onClick="{{ toggleMic }}" aria-pressed="{{ micPressed }}" aria-label="Voice input" title="{{ micTitle }}" disabled="{{ micDisabled }}" class="btn btn-secondary btn-icon" style="flex: none; color: {{ micColor }}; border-color: {{ micBorder }};">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round;"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><path d="M12 19v3"></path></svg>
-        </button>
-        <input class="input" ref="{{ inputRef }}" value="{{ input }}" onChange="{{ onInput }}" placeholder="Ask, or say “show projects”" aria-label="Message" style="flex: 1; min-width: 0;">
-        <button type="submit" aria-label="Send" class="btn btn-primary btn-icon" style="flex: none;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round;"><path d="m22 2-7 20-4-9-9-4Z"></path><path d="M22 2 11 13"></path></svg>
-        </button>
-      </form>
+      <sc-if value="{{ open }}" hint-placeholder-val="{{ false }}">
+        <div role="dialog" aria-labelledby="juh-agent-title"
+          style="position: fixed; left: 16px; bottom: 16px; z-index: 61; width: min(390px, calc(100vw - 32px)); height: min(590px, calc(100vh - 32px)); display: flex; flex-direction: column; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-divider); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); overflow: hidden; animation: juhAgentIn .34s cubic-bezier(.2,.7,.2,1);">
+          <div
+            style="display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--color-divider);">
+            <img src="assets/portrait.jpg" alt=""
+              style="flex: none; width: 40px; height: 40px; border-radius: 50%; object-fit: cover; object-position: 50% 22%; border: 1px solid var(--color-accent);">
+            <div style="flex: 1; min-width: 0;">
+              <p id="juh-agent-title"
+                style="font-family: var(--font-heading); font-size: 21px; line-height: 1.1; margin: 0;">Ask Jawad</p>
+              <p style="font-size: 12px; color: var(--muted); margin: 2px 0 0;">{{ status }}</p>
+            </div>
+            <button type="button" onClick="{{ toggleSpeak }}" aria-pressed="{{ speakPressed }}" title="{{ speakTitle }}"
+              class="btn btn-ghost btn-icon" style="color: {{ speakColor }};">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                style="stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round;">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+              </svg>
+            </button>
+            <button type="button" onClick="{{ toggle }}" aria-label="Close agent" class="btn btn-ghost btn-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                style="stroke-width: 1.75; stroke-linecap: round;">
+                <path d="M18 6 6 18"></path>
+                <path d="m6 6 12 12"></path>
+              </svg>
+            </button>
+          </div>
+
+          <div ref="{{ listRef }}" role="log" aria-live="polite" aria-label="Conversation"
+            style="flex: 1; overflow-y: auto; padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); scroll-behavior: smooth;">
+            <sc-for list="{{ messages }}" as="m" hint-placeholder-count="1">
+              <div style="display: flex; flex-direction: column; align-items: {{ m.align }}; gap: 3px;">
+                <div
+                  style="max-width: 88%; padding: 9px 13px; font-size: 14px; line-height: 1.55; white-space: pre-wrap; text-wrap: pretty; border: 1px solid {{ m.border }}; background: {{ m.bg }}; border-radius: var(--radius-md); font-family: {{ m.font }};">
+                  {{ m.text }}</div>
+                <span style="font-size: 11px; color: var(--muted);">{{ m.note }}</span>
+              </div>
+            </sc-for>
+            <sc-if value="{{ busy }}" hint-placeholder-val="{{ false }}">
+              <div
+                style="display: flex; gap: 5px; padding: 6px 2px; color: var(--color-accent); font-size: 20px; line-height: 1;">
+                <span style="animation: juhDots 1.2s infinite;">·</span>
+                <span style="animation: juhDots 1.2s .15s infinite;">·</span>
+                <span style="animation: juhDots 1.2s .3s infinite;">·</span>
+              </div>
+            </sc-if>
+          </div>
+
+          <div role="group" aria-label="Quick questions and shortcuts"
+            style="display: flex; gap: var(--space-2); overflow-x: auto; overflow-y: hidden; padding: var(--space-2) var(--space-3); border-top: 1px solid var(--color-divider); scrollbar-width: none; mask-image: linear-gradient(90deg, #000 88%, transparent);">
+            <sc-for list="{{ suggestions }}" as="s" hint-placeholder-count="6">
+              <button type="button" onClick="{{ s.run }}" disabled="{{ busy }}"
+                style="flex: none; white-space: nowrap; font: inherit; font-size: 13px; padding: 5px 11px; color: var(--color-text); background: transparent; border: 1px solid var(--color-divider); border-radius: 999px; cursor: pointer; transition: border-color .2s, color .2s;"
+                style-hover="border-color: var(--color-accent); color: var(--color-accent);">{{ s.label }}</button>
+            </sc-for>
+          </div>
+
+          <sc-if value="{{ listening }}" hint-placeholder-val="{{ false }}">
+            <div
+              style="display: flex; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-4); border-top: 1px solid var(--color-divider); font-size: 13px; color: var(--ink-accent);">
+              <span
+                style="width: 7px; height: 7px; border-radius: 50%; background: var(--color-accent); animation: juhPulse 1.2s ease-out infinite; flex: none;"></span>
+              <span
+                style="font-style: italic; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{
+                interimText }}</span>
+            </div>
+          </sc-if>
+
+          <form onSubmit="{{ onSubmit }}"
+            style="display: flex; align-items: center; gap: var(--space-2); padding: var(--space-3); border-top: 1px solid var(--color-divider);">
+            <button type="button" onClick="{{ toggleMic }}" aria-pressed="{{ micPressed }}" aria-label="Voice input"
+              title="{{ micTitle }}" disabled="{{ micDisabled }}" class="btn btn-secondary btn-icon"
+              style="flex: none; color: {{ micColor }}; border-color: {{ micBorder }};">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                style="stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round;">
+                <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                <path d="M12 19v3"></path>
+              </svg>
+            </button>
+            <input class="input" ref="{{ inputRef }}" value="{{ input }}" onChange="{{ onInput }}"
+              placeholder="Ask, or say “show projects”" aria-label="Message" style="flex: 1; min-width: 0;">
+            <button type="submit" aria-label="Send" class="btn btn-primary btn-icon" style="flex: none;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                style="stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round;">
+                <path d="m22 2-7 20-4-9-9-4Z"></path>
+                <path d="M22 2 11 13"></path>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </sc-if>
     </div>
-  </sc-if>
-</div>
-</x-dc>
-<script type="text/x-dc" data-dc-script>
+  </x-dc>
+  <script type="text/x-dc" data-dc-script>
 const SECTIONS = [
   { id: 'top', label: 'the top', re: /\b(top|home|start|hero|beginning)\b/ },
   { id: 'work', label: 'Selected work', re: /\b(selected work|work|systems|enterprise)\b/ },
@@ -110,14 +197,14 @@ Answer in under 120 words, plain text, no markdown. Only state these facts; othe
 
 const KB = [
   [/\b(salary|rate|compensation|pay|ctc)\b/, `I don't discuss compensation here. Reach me through gravatar.com/juhbukhari with the role details.`],
-  [/(fallback|resilien|outage|failover|tier|provider|llm|rag|gemini|openai|anthropic|claude)/, 'One Unified AI Service sits in front of OpenAI, Gemini and Anthropic. Requests step down three tiers: retry and failover inside the BullMQ queue, then a tenant-scoped RAG answer, then a deterministic rule-based floor. User-facing AI failures stayed at zero through provider outages. Say "open the case study" for the diagrams.'],
+  [/(fallback|resilien|outage|failover|\btiers?\b|provider|\bllms?\b|\brag\b|gemini|openai|anthropic|claude)/, 'One Unified AI Service sits in front of OpenAI, Gemini and Anthropic. Requests step down three tiers: retry and failover inside the BullMQ queue, then a tenant-scoped RAG answer, then a deterministic rule-based floor. User-facing AI failures stayed at zero through provider outages. Say "open the case study" for the diagrams.'],
   [/(perform|latency|fast|speed|optimi|slow)/, 'Dashboards went from 12s to under 2s, an 83% cut, through PostgreSQL and MongoDB query work, indexing and a MeiliSearch rollout. Heavy work moved onto BullMQ and Redis so APIs stay sub-second under thousands of concurrent jobs.'],
-  [/(tenant|secur|isolation|auth|jwt|oauth|gdpr|privacy)/, 'Tenant isolation is enforced from verified JWT scopes in every REST and GraphQL query, with tenant-scoped vector search and a GDPR erasure cascade. There have been zero cross-tenant data exposure incidents.'],
+  [/(tenant|secur|isolation|\bauth(?:enticat|oriz|\b)|jwt|oauth|gdpr|privacy)/, 'Tenant isolation is enforced from verified JWT scopes in every REST and GraphQL query, with tenant-scoped vector search and a GDPR erasure cascade. There have been zero cross-tenant data exposure incidents.'],
   [/(certif|credential|course|badge|academy)/, 'Every certification is in the Credentials section with a verification link: Anthropic Claude Academy, LinkedIn Learning on agentic AI and MCP, Google, Microsoft, IBM, and Certified Django Developer. Say "show credentials" to jump there.'],
   [/(educat|degree|university|college|study)/, 'B.S. Computer Science, Government College University, Faisalabad.'],
-  [/(project|qeloma|open source|side|extension|github)/, 'The Qeloma suite is my public work: Verdict (tamper-evident decision receipts), OCR, Lens Studio, Voice Studio, Shift and Cover Studio, plus a 10-extension Chrome pack. Say "show projects" to see them.'],
+  [/(project|qeloma|open source|side|extension|github|omni|scanwise|catchbox|scrapefix|talntflow|monetiz)/, 'My public work is on GitHub. Omni.io is a multi-tenant RAG support engine with a three-tier resilience ladder and Postgres row-level-security isolation. TalntFlow AI is an ATS with a Claude-backed recruiting agent. Scanwise (formerly Qeloma OCR) reads scans and PDFs into cited summaries. Catchbox triages failed web scrapes. The Qeloma suite adds Verdict, Lens Studio, Voice Studio, Shift, Cover Studio, Qeloma Studio, Room Booking and a ten-tool Chrome extension suite. TRIA.GE and SAP-AGI Procure are simulations of LLM-plus-RPA workflows, not live integrations. Say "show projects" to see them.'],
   [/(stack|tech|language|framework|node|nest|python|database|postgres|mongo|redis|typescript)/, 'Node.js, NestJS and TypeScript at the core, Python and FastAPI where they fit better. PostgreSQL, MySQL, MongoDB, Redis and MeiliSearch for data. BullMQ, Docker, Kubernetes, AWS, GCP and GitHub Actions for delivery.'],
-  [/(hire|contact|email|reach|available|open to|relocat|remote|interview|call)/, `I'm open to Backend Lead, Solutions Architecture and AI Platform roles, remote, hybrid or relocating. The one place to reach me is gravatar.com/juhbukhari. Say “contact” and I'll open it.`],
+  [/(hire|contact|email|reach|available|open to|relocat|remote|interview|call|timezone|time zone|overlap)/, `I'm open to Backend Lead, Solutions Architecture and AI Platform roles. I'm based in Islamabad and my working hours are fully aligned to EST/PST, so US and Canada remote teams work well. The one place to reach me is gravatar.com/juhbukhari. Say “contact” and I'll open it.`],
   [/(experience|years|career|role|job|lead|microagility|market icon)/, "7+ years. Backend Lead / Architect at MicroAgility Services since 2024, backend engineer there from 2022, and software engineer at Market Icon from 2018. Say \"show experience\" for the details."],
   [/\b(hello|hi|hey|salam|assalam)\b/, "Hi. Ask about my stack, the AI fallback design, experience or projects, or tell me where to go."]
 ];
@@ -225,15 +312,28 @@ class Component extends DCLogic {
   }
 
   async answer(q) {
-    const history = [...this.state.messages.filter(m => m.chat), { role: 'user', content: q }]
-      .map(m => ({ role: m.role, content: m.content || m.text })).slice(-20);
+    // setState is batched, so the current question may or may not be in state yet:
+    // drop any trailing copy of it before appending it once.
+    const prior = this.state.messages.filter(m => m.chat).map(m => ({ role: m.role, content: m.content || m.text }));
+    while (prior.length && prior[prior.length - 1].role === 'user' && prior[prior.length - 1].content === q) prior.pop();
+    const history = [...prior, { role: 'user', content: q }].slice(-20);
     while (history.length && history[0].role !== 'user') history.shift();
+    const REASONS = { not_configured: 'live AI is not configured', rate_limited: 'too many requests, try again in a few minutes', upstream_rate_limited: 'the AI is busy, try again shortly', auth_error: 'the API key was rejected', upstream_error: 'the AI service returned an error', invalid_request: 'the request was rejected' };
+    let why = 'could not reach the server';
+    const ctl = new AbortController(); const timer = setTimeout(() => ctl.abort(), 28000);
     try {
-      const ctl = new AbortController(); const timer = setTimeout(() => ctl.abort(), 12000);
       const r = await fetch('/api/agent', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: history }), signal: ctl.signal });
-      clearTimeout(timer);
-      if (r.ok) { const j = await r.json(); if (j.reply) return { text: clean(j.reply), note: 'Claude · live' }; }
-    } catch (e) {}
+      if (r.ok) {
+        const j = await r.json();
+        if (j.reply) return { text: clean(j.reply), note: 'Claude · live' };
+        why = 'the AI returned an empty reply';
+      } else {
+        let code = ''; try { code = (await r.json()).error; } catch (e) {}
+        why = REASONS[code] || ('server error ' + r.status);
+      }
+    } catch (e) {
+      why = e && e.name === 'AbortError' ? 'the AI took too long to answer' : 'could not reach the server';
+    } finally { clearTimeout(timer); }
     try {
       if (window.claude && window.claude.complete) {
         const convo = history.map(m => (m.role === 'user' ? 'Visitor: ' : 'Assistant: ') + m.content).join('\n');
@@ -241,7 +341,7 @@ class Component extends DCLogic {
         if (out) return { text: clean(out), note: 'Claude' };
       }
     } catch (e) {}
-    return { text: this.local(q), note: 'Offline answer' };
+    return { text: this.local(q), note: 'Offline answer', why };
   }
 
   async submit(raw) {
@@ -253,7 +353,7 @@ class Component extends DCLogic {
     if (cmd) { if (!cmd.silent) this.push({ role: 'assistant', text: cmd.text, note: 'Command' }); return; }
     this.setState(s => ({ busy: true, messages: s.messages.map((m, i) => i === s.messages.length - 1 ? { ...m, chat: true, content: q } : m) }));
     const a = await this.answer(q);
-    this.setState({ busy: false, status: a.note === 'Offline answer' ? 'Offline answers · live AI unavailable' : 'Connected · ' + a.note });
+    this.setState({ busy: false, status: a.note === 'Offline answer' ? 'Offline answers · ' + (a.why || 'live AI unavailable') : 'Connected · ' + a.note });
     this.push({ role: 'assistant', text: a.text, note: a.note, chat: true, content: a.text });
   }
 
@@ -324,4 +424,5 @@ class Component extends DCLogic {
 }
 </script>
 </body>
+
 </html>

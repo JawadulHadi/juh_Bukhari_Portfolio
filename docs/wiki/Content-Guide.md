@@ -15,7 +15,7 @@ Where each piece of content lives, and what else to update when it changes.
 | Offline agent answers | `Agent.dc.html` | regex → answer table | |
 | Portrait | `assets/portrait.jpg` | | Keep it under ~200 KB, and square or 4:5 |
 | Résumé | `resume.pdf` | | Links on the portfolio page |
-| Favicon | `favicon.svg` | | |
+| JUH-LOGO | `JUH-LOGO.svg` | | |
 
 ## Rules of thumb
 

@@ -7,7 +7,10 @@
 // endpoint answers 503 and agent.html falls back to its built-in answers.
 const Anthropic = require('@anthropic-ai/sdk').default;
 
-const MODEL = 'claude-opus-5';
+// Primary model is overridable per deployment (AGENT_MODEL) without a code change.
+const MODEL = process.env.AGENT_MODEL || 'claude-opus-5';
+// Last-resort model if the primary is unavailable (retired, not enabled for the key, overloaded).
+const BACKUP_MODEL = process.env.AGENT_BACKUP_MODEL || 'claude-sonnet-5';
 const MAX_TURNS = 20;
 const MAX_CHARS = 2000;
 
@@ -23,9 +26,10 @@ Facts you can rely on:
 - Writing: authored the case study "Designing for AI Failure" (on the Case Study page of this site).
 - Credentials: verified certifications from Anthropic Claude Academy, LinkedIn Learning (agentic AI, MCP, Claude Code), Google, Microsoft, IBM, and Certified Django Developer. All are in the Credentials section of the main page with verification links. Don't quote a total count.
 - Education: Government College University, Faisalabad.
-- Contact: the ONE contact channel is https://gravatar.com/juhbukhari, which links every professional profile. Never give out an email address, phone number or WhatsApp. Open to remote, hybrid or relocation roles with US/EU/APAC overlap.
+- Contact: the ONE contact channel is https://gravatar.com/juhbukhari, which links every professional profile. Never give out an email address, phone number or WhatsApp. Based in Islamabad (UTC+5) and fully flexible: working hours align to EST/PST, so US and Canada remote teams are a natural fit. Open to Backend Lead, Solutions Architecture and AI Platform roles.
 - Services: backend architecture (multi-tenant SaaS, tenant isolation, API design), AI platform & resilience (provider-agnostic LLM layers, RAG, fallback ladders), performance & scale, technical leadership.
-- Projects: the open-source Qeloma suite (Verdict, OCR, Lens Studio, Voice Studio, Shift, Cover Studio, Room Booking Engine), a 10-extension Chrome pack, and an idempotent BullMQ queue spine.
+- Projects (public on github.com/JawadulHadi and github.com/Qeloma): Omni.io, a multi-tenant RAG support engine with a three-tier resilience ladder and Postgres row-level-security isolation; TalntFlow AI, an ATS with a Claude-backed recruiting agent; Scanwise, a document reader with on-device OCR and cited summaries; Catchbox (rebuilt from Scrapefix), human-in-the-loop triage for failed web scrapes; and the Qeloma suite (Verdict, Lens Studio, Voice Studio, Shift, Cover Studio, Qeloma Studio, Room Booking, and a ten-tool Chrome extension suite). Scanwise was formerly Qeloma OCR. TRIA.GE (LLM support triage) and SAP-AGI Procure (procurement automation) are UI simulations of LLM-plus-RPA workflows; never describe them as live SAP, UiPath or helpdesk integrations. Also an idempotent BullMQ queue spine.
+- Production systems are under NDA: describe architecture only, never client data or endpoints.
 
 How to answer:
 - Be direct and concise, like a senior engineer talking to a peer — usually under 150 words. Give real opinions on technical trade-offs when asked.
@@ -36,7 +40,8 @@ How to answer:
 
 let client = null;
 function getClient() {
-  if (!client) client = new Anthropic();
+  // The attempt ladder below is the retry policy, so SDK retries are off; each try is capped at 9s (3 tries fit Vercel's 30s limit).
+  if (!client) client = new Anthropic({ maxRetries: 0, timeout: 9000 });
   return client;
 }
 
@@ -67,10 +72,22 @@ function validate(body) {
     if (typeof m.content !== 'string') return null;
     const content = m.content.trim().slice(0, MAX_CHARS);
     if (!content) return null;
-    clean.push({ role: m.role, content });
+    const last = clean[clean.length - 1];
+    // Collapse consecutive same-role turns instead of rejecting the whole chat.
+    if (last && last.role === m.role) {
+      if (last.content !== content) last.content = (last.content + '\n' + content).slice(0, MAX_CHARS);
+    } else {
+      clean.push({ role: m.role, content });
+    }
   }
-  if (clean[0].role !== 'user' || clean[clean.length - 1].role !== 'user') return null;
+  while (clean.length && clean[0].role !== 'user') clean.shift();
+  if (!clean.length || clean[clean.length - 1].role !== 'user') return null;
   return clean;
+}
+
+// Public, secret-free status so a deploy can be checked in a browser: GET /api/agent
+function health() {
+  return { status: 200, body: { ok: true, configured: isConfigured(), model: MODEL, backup: BACKUP_MODEL } };
 }
 
 // Returns { status, body } so both Express and the Vercel handler can send it.
@@ -86,43 +103,53 @@ async function handleAgentRequest(body, ip) {
     return { status: 400, body: { error: 'invalid_request' } };
   }
 
-  try {
-    const response = await getClient().beta.messages.create({
-      model: MODEL,
-      max_tokens: 1024, // replies are deliberately short chat answers
-      system: [{ type: 'text', text: SYSTEM_PROMPT, cache_control: { type: 'ephemeral' } }],
-      output_config: { effort: 'low' },
-      // On a safety decline, let the API re-run the turn on a suitable fallback model.
-      betas: ['server-side-fallback-2026-07-01'],
-      fallbacks: 'default',
-      messages,
-    });
+  // Attempt ladder, mirroring the site's own case study: (1) primary model with server-side
+  // refusal fallback, (2) primary model plain, (3) backup model plain. Only errors that a
+  // different request could fix (400/404/5xx/overloaded) move down; auth and rate limits don't.
+  const attempts = [
+    { model: MODEL, extra: { output_config: { effort: 'low' }, betas: ['server-side-fallback-2026-07-01'], fallbacks: 'default' } },
+    { model: MODEL, extra: {} },
+    { model: BACKUP_MODEL, extra: {} },
+  ];
+  let lastError = null;
+  for (const attempt of attempts) {
+    try {
+      const response = await getClient().beta.messages.create({
+        model: attempt.model,
+        max_tokens: 1024, // replies are deliberately short chat answers
+        system: [{ type: 'text', text: SYSTEM_PROMPT, cache_control: { type: 'ephemeral' } }],
+        messages,
+        ...attempt.extra,
+      });
 
-    if (response.stop_reason === 'refusal') {
-      return {
-        status: 200,
-        body: { reply: "I can't help with that one — ask me about Jawad's work, stack or projects instead." },
-      };
-    }
+      if (response.stop_reason === 'refusal') {
+        return {
+          status: 200,
+          body: { reply: "I can't help with that one. Ask me about Jawad's work, stack or projects instead." },
+        };
+      }
 
-    const reply = response.content
-      .filter((block) => block.type === 'text')
-      .map((block) => block.text)
-      .join('\n')
-      .trim();
+      const reply = response.content
+        .filter((block) => block.type === 'text')
+        .map((block) => block.text)
+        .join('\n')
+        .trim();
 
-    return { status: 200, body: { reply: reply || "Sorry, I hit a snag. Try again." } };
-  } catch (error) {
-    if (error instanceof Anthropic.RateLimitError) {
-      return { status: 429, body: { error: 'upstream_rate_limited' } };
+      return { status: 200, body: { reply: reply || 'Sorry, I hit a snag. Try again.' } };
+    } catch (error) {
+      lastError = error;
+      const status = error && error.status;
+      if (status === 401 || status === 403) {
+        console.error('[agent] Claude API rejected the key (' + status + '). Check ANTHROPIC_API_KEY.');
+        return { status: 502, body: { error: 'auth_error' } };
+      }
+      if (status === 429) return { status: 429, body: { error: 'upstream_rate_limited' } };
+      console.error('[agent] attempt failed (' + attempt.model + ', ' + (attempt.extra.fallbacks ? 'with fallback beta' : 'plain') + '):',
+        status || '', error && error.message);
     }
-    if (error instanceof Anthropic.APIError) {
-      console.error(`[agent] Claude API error ${error.status}:`, error.message);
-    } else {
-      console.error('[agent] Unexpected error:', error);
-    }
-    return { status: 502, body: { error: 'upstream_error' } };
   }
+  console.error('[agent] all attempts failed:', lastError && lastError.message);
+  return { status: 502, body: { error: 'upstream_error' } };
 }
 
-module.exports = { handleAgentRequest };
+module.exports = { handleAgentRequest, health };

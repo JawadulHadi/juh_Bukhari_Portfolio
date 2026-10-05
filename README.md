@@ -34,7 +34,7 @@ Static portfolio pages plus one serverless endpoint that powers **"Ask Jawad"**,
 
 ## Features
 
-- **Portfolio page**: selected work, projects & open source, experience, stack & credentials, services & contact.
+- **Portfolio page**: selected work, public repositories and the Qeloma suite, experience, stack & credentials, services & contact. Includes Open Graph and Twitter card tags for link previews.
 - **Case study: *Designing for AI Failure***: the Retry → RAG Fallback → Rule-Based Floor pattern, with architecture figures and an interactive failure simulator.
 - **"Ask Jawad" agent**: a floating chat on every page, backed by Claude on the server. It supports voice input and read-aloud, can navigate the site ("take me to projects"), and falls back to built-in answers when the API isn't configured.
 - **Three themes**: Horizon (dark, ember glow), Paper (light, classical) and Mono. The choice is saved in `localStorage` and synced across tabs.
@@ -43,14 +43,14 @@ Static portfolio pages plus one serverless endpoint that powers **"Ask Jawad"**,
 
 ## Tech stack
 
-| Layer | Technology |
-| --- | --- |
-| Pages | `.dc.html` templates rendered by the generated dc-runtime (`support.js`, React 18 UMD) |
-| Styling | Classical design system tokens (`_ds/`) + theme overrides (`theme.js`) |
-| Agent backend | Node.js ≥ 20, [`@anthropic-ai/sdk`](https://www.npmjs.com/package/@anthropic-ai/sdk) |
-| Local / Node host | Express 4 (`server.js`) |
-| Serverless | Vercel function (`api/index.js`) |
-| Voice | Web Speech API (`SpeechRecognition` + `speechSynthesis`) |
+| Layer             | Technology                                                                                 |
+| ----------------- | ------------------------------------------------------------------------------------------ |
+| Pages             | `.dc.html` templates rendered by the generated dc-runtime (`support.js`, React 18 UMD) |
+| Styling           | Classical design system tokens (`_ds/`) + theme overrides (`theme.js`)                 |
+| Agent backend     | Node.js ≥ 20,[`@anthropic-ai/sdk`](https://www.npmjs.com/package/@anthropic-ai/sdk)      |
+| Local / Node host | Express 4 (`server.js`)                                                                  |
+| Serverless        | Vercel function (`api/index.js`)                                                         |
+| Voice             | Web Speech API (`SpeechRecognition` + `speechSynthesis`)                               |
 
 ## Quick start
 
@@ -62,26 +62,26 @@ cp .env.example .env        # optional: add ANTHROPIC_API_KEY for the live agent
 npm run dev
 ```
 
-Open <http://localhost:3000>. Without an API key, everything works and the agent answers from its built-in responses.
+Open [http://localhost:3000](http://localhost:3000). Without an API key, everything works and the agent answers from its built-in responses.
 
 > `server.js` doesn't load `.env` automatically. Export the variable in your shell (`export ANTHROPIC_API_KEY=...`, or `$env:ANTHROPIC_API_KEY="..."` in PowerShell) or run `node --env-file=.env server.js`.
 
 ## Configuration
 
-| Variable | Required | Default | Purpose |
-| --- | --- | --- | --- |
-| `ANTHROPIC_API_KEY` | For the live agent | none | Claude API key, used server-side only |
-| `ANTHROPIC_AUTH_TOKEN` | No | none | Alternative bearer-token auth |
-| `PORT` | No | `3000` | Express port (ignored on Vercel) |
+| Variable                 | Required           | Default  | Purpose                               |
+| ------------------------ | ------------------ | -------- | ------------------------------------- |
+| `ANTHROPIC_API_KEY`    | For the live agent | none     | Claude API key, used server-side only |
+| `ANTHROPIC_AUTH_TOKEN` | No                 | none     | Alternative bearer-token auth         |
+| `PORT`                 | No                 | `3000` | Express port (ignored on Vercel)      |
 
 Agent tuning lives in [`api/_agent.js`](api/_agent.js):
 
-| Constant | Value | Meaning |
-| --- | --- | --- |
-| `MODEL` | `claude-opus-5` | Claude model used for replies |
-| `MAX_TURNS` | `20` | Max messages per request |
-| `MAX_CHARS` | `2000` | Per-message character cap (content is truncated) |
-| `MAX_REQUESTS_PER_WINDOW` / `WINDOW_MS` | `30` / 10 min | Per-IP rate limit (per instance) |
+| Constant                                    | Value             | Meaning                                          |
+| ------------------------------------------- | ----------------- | ------------------------------------------------ |
+| `MODEL`                                   | `claude-opus-5` | Claude model used for replies                    |
+| `MAX_TURNS`                               | `20`            | Max messages per request                         |
+| `MAX_CHARS`                               | `2000`          | Per-message character cap (content is truncated) |
+| `MAX_REQUESTS_PER_WINDOW` / `WINDOW_MS` | `30` / 10 min   | Per-IP rate limit (per instance)                 |
 
 ## Project structure
 
@@ -95,10 +95,12 @@ Agent tuning lives in [`api/_agent.js`](api/_agent.js):
 ├── _ds/                    # GENERATED Classical design-system tokens + bundle
 ├── api/
 │   ├── _agent.js           # Shared Claude handler (validation, rate limit, prompt)
-│   └── index.js            # Vercel serverless entry → /api/agent
+│   ├── agent.js            # Vercel serverless entry → /api/agent (GET = health check, POST = chat)
+│   └── index.js            # Re-exports agent.js for the legacy /api/* rewrite
 ├── server.js               # Express server for local dev / any Node host
 ├── assets/portrait.jpg
-├── favicon.svg
+├── assets/og-1200x630.png  # Open Graph / Twitter card image
+├── JUH-LOGO.svg
 ├── resume.pdf
 ├── vercel.json             # Rewrites + security headers
 └── docs/wiki/              # Project wiki (GitHub-wiki compatible)
@@ -123,6 +125,10 @@ flowchart LR
 3. It calls Claude with a cached system prompt that states Jawad's facts and the house rules.
 4. The reply comes back as plain text, suitable for read-aloud. On any failure, the browser falls back to built-in answers.
 
+**Checking a deployment.** Open `/api/agent` in a browser. `{"ok":true,"configured":true,...}` means the key is set; `configured:false` means `ANTHROPIC_API_KEY` is missing from that environment. The chat also shows *why* it fell back to offline answers in its status line.
+
+**Failure ladder.** Each question tries the primary model with server-side refusal fallback, then the primary model plain, then a backup model (`AGENT_MODEL` and `AGENT_BACKUP_MODEL` override the defaults). Auth and rate-limit errors are not retried.
+
 See [Architecture](docs/wiki/Architecture.md) and [API Reference](docs/wiki/API-Reference.md) for details.
 
 ## Deployment
@@ -140,14 +146,14 @@ The **only** public contact channel is **[gravatar.com/juhbukhari](https://grava
 ## Documentation
 
 | Page | What's inside |
-| --- | --- |
+| -------------------------------------------------------------------- | -------------------------------------------- |
 | [Wiki home](docs/wiki/Home.md) | Start here |
 | [Architecture](docs/wiki/Architecture.md) | Components, request flow, design decisions |
 | [Local Development](docs/wiki/Local-Development.md) | Setup, scripts, testing the agent |
 | [Deployment](docs/wiki/Deployment.md) | Vercel and Node hosts, headers, redirects |
 | [Portfolio Agent](docs/wiki/Portfolio-Agent.md) | Prompt, fallbacks, voice, navigation |
 | [API Reference](docs/wiki/API-Reference.md) | `POST /api/agent` contract and error codes |
-| [Theming & Design System](docs/wiki/Theming-and-Design-System.md) | Themes, tokens, `JUHTheme` API |
+| [Theming &amp; Design System](docs/wiki/Theming-and-Design-System.md) | Themes, tokens,`JUHTheme` API |
 | [Content Guide](docs/wiki/Content-Guide.md) | How to update work, projects and credentials |
 | [Troubleshooting](docs/wiki/Troubleshooting.md) | Common problems and fixes |
 
@@ -160,8 +166,3 @@ Issues and PRs are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) and the [Cod
 The code is released under the [MIT License](LICENSE). Personal content (portrait, résumé, bio, case study text) is **not** covered. See [NOTICE.md](NOTICE.md).
 
 <div align="center">
-
-Built by **Jawad Ul Hadi** · Islamabad, Pakistan ·
-[GitHub](https://github.com/JawadulHadi) · [LinkedIn](https://linkedin.com/in/jawad-ul-hadi) · [Gravatar](https://gravatar.com/juhbukhari)
-
-</div>

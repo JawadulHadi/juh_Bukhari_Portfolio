@@ -3,9 +3,21 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "redirects": [
-    { "source": "/Portfolio.dc(.*)", "destination": "/", "permanent": true },
-    { "source": "/Case(.*)Study.dc(.*)", "destination": "/case-study", "permanent": true },
-    { "source": "/resume", "destination": "/resume.pdf", "permanent": false }
+    {
+      "source": "/Portfolio.dc(.*)",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/Case(.*)Study.dc(.*)",
+      "destination": "/case-study",
+      "permanent": true
+    },
+    {
+      "source": "/resume",
+      "destination": "/resume.pdf",
+      "permanent": false
+    }
   ],
   "rewrites": [
     {
@@ -41,7 +53,7 @@
       ]
     },
     {
-      "source": "/favicon.svg",
+      "source": "/JUH-LOGO.svg",
       "headers": [
         {
           "key": "Cache-Control",
@@ -49,5 +61,10 @@
         }
       ]
     }
-  ]
+  ],
+  "functions": {
+    "api/*.js": {
+      "maxDuration": 30
+    }
+  }
 }

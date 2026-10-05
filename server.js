@@ -2,7 +2,7 @@
 // Mirrors vercel.json: clean URLs (/, /case-study), legacy redirects, same headers.
 const express = require('express');
 const path = require('path');
-const { handleAgentRequest } = require('./api/_agent');
+const { handleAgentRequest, health } = require('./api/_agent');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,6 +12,7 @@ app.use((req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
   next();
 });
+app.get('/api/agent', (req, res) => { const h = health(); res.status(h.status).json(h.body); });
 app.post('/api/agent', express.json({ limit: '64kb' }), async (req, res) => {
   const result = await handleAgentRequest(req.body, req.ip);
   res.status(result.status).json(result.body);
