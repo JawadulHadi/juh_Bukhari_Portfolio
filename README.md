@@ -112,15 +112,16 @@ Agent tuning lives in [`api/_agent.js`](api/_agent.js):
 ## How it works
 
 ```mermaid
-flowchart LR
-    B[Browser<br/>Agent.dc.html] -- "POST /api/agent<br/>{ messages }" --> H{Host}
-    H -->|Vercel| V[api/index.js]
-    H -->|Node / local| E[server.js]
-    V --> A[api/_agent.js<br/>validate · rate-limit]
+flowchart TB
+    B["Browser<br>Agent.dc.html"] -- POST /api/agent<br>{ messages } --> H{"Host"}
+    H -- Vercel --> V["api/index.js"]
+    H -- Node / local --> E["server.js"]
+    V --> A["api/_agent.js<br>validate · rate-limit"]
     E --> A
-    A -- "system prompt + history" --> C[(Claude API)]
-    C --> A --> B
-    A -. "503 not_configured" .-> F[Built-in answers<br/>in the browser]
+    A -- system prompt + history --> C[("Claude API")]
+    C --> A
+    A --> B
+    A -. 503 not_configured .-> F["Built-in answers<br>in the browser"]
 ```
 
 1. The agent posts the chat history to `POST /api/agent`.
