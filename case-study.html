@@ -92,7 +92,7 @@
             <span style="font-family: var(--font-heading); font-size: 19px; font-weight: 600;">Jawad Ul Hadi</span>
           </a>
           <nav aria-label="Primary"
-            style="display: flex; gap: var(--space-2) var(--space-4); flex-wrap: wrap; font-family: var(--font-heading); font-size: 16px; flex: 1;">
+            style="display: flex; gap: var(--space-2) var(--space-3); flex-wrap: wrap; font-family: var(--font-heading); font-size: 15px; flex: 1;">
             <sc-for list="{{ nav }}" as="n" hint-placeholder-count="6">
               <a href="{{ n.href }}" aria-current="{{ n.current }}"
                 style="color: {{ n.color }}; text-decoration: none; padding-bottom: 2px; background: linear-gradient(var(--color-accent), var(--color-accent)) 0 100% / {{ n.bar }} 1px no-repeat; transition: background-size .3s ease, color .2s ease;"
@@ -116,9 +116,9 @@
 
       <main style="max-width: 1120px; margin: 0 auto; padding: 0 var(--space-6);">
         <section style="padding: calc(var(--space-8) * 2) 0 calc(var(--space-8) * 1.4); max-width: 820px;">
-          <a data-reveal="0" href="/#work"
+          <a data-reveal="0" href="/#case-study"
             style="display: inline-block; font-size: 14px; margin-bottom: var(--space-6); text-decoration: none;">← Back
-            to selected work</a>
+            to the portfolio</a>
           <p data-reveal="60"
             style="font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: var(--space-4);">
             Case study · Resilience architecture</p>
@@ -590,7 +590,7 @@ class Component extends DCLogic {
     const done = this.state.shown >= sc.logs.length;
     const colors = { INFO: 'var(--muted)', OK: 'var(--color-accent)', WARN: 'var(--ink-accent)', DONE: 'var(--color-text)' };
     return {
-      nav: [['Work', '/#work'], ['Projects', '/#projects'], ['Experience', '/#experience'], ['Credentials', '/#credentials'], ['Case study', '#'], ['Services & contact', '/#contact']]
+      nav: [['Experience', '/#experience'], ['Work', '/#work'], ['Stack', '/#stack'], ['Projects', '/#projects'], ['Case study', '#'], ['Credentials', '/credentials'], ['Contact', '/#contact']]
         .map(([label, href]) => ({ label, href, current: label === 'Case study' ? 'page' : undefined, color: label === 'Case study' ? 'var(--color-accent)' : 'var(--color-text)', bar: label === 'Case study' ? '100%' : '0' })),
       themeOpts: Object.keys(T).map(k => ({
         label: T[k].label, desc: T[k].desc, checked: k === cur ? 'true' : 'false',

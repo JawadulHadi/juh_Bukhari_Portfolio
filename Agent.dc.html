@@ -116,8 +116,7 @@
             <sc-for list="{{ messages }}" as="m" hint-placeholder-count="1">
               <div style="display: flex; flex-direction: column; align-items: {{ m.align }}; gap: 3px;">
                 <div
-                  style="max-width: 88%; padding: 9px 13px; font-size: 14px; line-height: 1.55; white-space: pre-wrap; text-wrap: pretty; border: 1px solid {{ m.border }}; background: {{ m.bg }}; border-radius: var(--radius-md); font-family: {{ m.font }};">
-                  {{ m.text }}</div>
+                  style="max-width: 88%; padding: 9px 13px; font-size: 14px; line-height: 1.55; white-space: pre-wrap; text-wrap: pretty; border: 1px solid {{ m.border }}; background: {{ m.bg }}; border-radius: var(--radius-md); font-family: {{ m.font }};">{{ m.text }}</div>
                 <span style="font-size: 11px; color: var(--muted);">{{ m.note }}</span>
               </div>
             </sc-for>
@@ -132,12 +131,15 @@
           </div>
 
           <div role="group" aria-label="Quick questions and shortcuts"
-            style="display: flex; gap: var(--space-2); overflow-x: auto; overflow-y: hidden; padding: var(--space-2) var(--space-3); border-top: 1px solid var(--color-divider); scrollbar-width: none; mask-image: linear-gradient(90deg, #000 88%, transparent);">
+            style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; max-height: {{ chipMax }}; overflow-y: auto; padding: var(--space-2) var(--space-3); border-top: 1px solid var(--color-divider);">
             <sc-for list="{{ suggestions }}" as="s" hint-placeholder-count="6">
               <button type="button" onClick="{{ s.run }}" disabled="{{ busy }}"
-                style="flex: none; white-space: nowrap; font: inherit; font-size: 13px; padding: 5px 11px; color: var(--color-text); background: transparent; border: 1px solid var(--color-divider); border-radius: 999px; cursor: pointer; transition: border-color .2s, color .2s;"
+                style="flex: none; white-space: nowrap; font: inherit; font-size: 13px; line-height: 1.2; padding: 5px 11px; color: var(--color-text); background: transparent; border: 1px solid var(--color-divider); border-radius: 999px; cursor: pointer; transition: border-color .2s, color .2s;"
                 style-hover="border-color: var(--color-accent); color: var(--color-accent);">{{ s.label }}</button>
             </sc-for>
+            <button type="button" onClick="{{ toggleMore }}" aria-expanded="{{ moreExpanded }}"
+              style="flex: none; white-space: nowrap; font: inherit; font-size: 13px; line-height: 1.2; padding: 5px 11px; color: var(--ink-accent); background: transparent; border: 1px dashed var(--color-divider); border-radius: 999px; cursor: pointer; transition: border-color .2s;"
+              style-hover="border-color: var(--color-accent);">{{ moreLabel }}</button>
           </div>
 
           <sc-if value="{{ listening }}" hint-placeholder-val="{{ false }}">
@@ -178,42 +180,79 @@
     </div>
   </x-dc>
   <script type="text/x-dc" data-dc-script>
-const SECTIONS = [
-  { id: 'top', label: 'the top', re: /\b(top|home|start|hero|beginning)\b/ },
-  { id: 'work', label: 'Selected work', re: /\b(selected work|work|systems|enterprise)\b/ },
-  { id: 'projects', label: 'Projects', re: /\b(projects?|qeloma|open source|extensions?|side)\b/ },
-  { id: 'experience', label: 'Experience', re: /\b(experience|career|history|jobs?|timeline)\b/ },
-  { id: 'credentials', label: 'Credentials', re: /\b(credentials?|certifications?|certificates?|badges?|stack|skills|education)\b/ },
-  { id: 'contact', label: 'Contact', re: /\b(contact|hire|reach)\b/ }
-];
 const PAGE_MAIN = '/';
 const PAGE_CASE = '/case-study';
+const PAGE_CREDS = '/credentials';
 const RESUME = '/resume.pdf';
 const CONTACT = 'https://gravatar.com/juhbukhari';
+// Order matches the page. Entries with `page` live on their own page.
+const SECTIONS = [
+  { id: 'top', label: 'the top', re: /\b(top|home|start|hero|beginning)\b/ },
+  { id: 'experience', label: 'Experience', re: /\b(experience|career|history|jobs?|timeline)\b/ },
+  { id: 'work', label: 'Selected work', re: /\b(selected work|work|systems|enterprise|talentnix|apac|hrms|iagility|agilebrains)\b/ },
+  { id: 'stack', label: 'Stack', re: /\b(stack|skills|tech|technologies|tools|education|degree)\b/ },
+  { id: 'projects', label: 'Projects', re: /\b(projects?|qeloma|open source|extensions?|side)\b/ },
+  { id: 'case-study', label: 'the case study', page: PAGE_CASE, re: /\b(case stud(?:y|ies)|deep dive|architecture|diagram)\b/ },
+  { id: 'credentials', label: 'Credentials', page: PAGE_CREDS, re: /\b(credentials?|certifications?|certificates?|badges?)\b/ },
+  { id: 'contact', label: 'Contact', re: /\b(contact|hire|reach)\b/ }
+];
 
 const SYSTEM = `You are the portfolio assistant for Jawad Ul Hadi, speaking on his behalf in first person. If sincerely asked, say you are an AI assistant representing him.
-Facts: Backend Lead / Architect at MicroAgility Services, Islamabad, since Jan 2024; Backend Software Engineer there Mar 2022 – Jan 2024; Software Engineer at Market Icon 2018 – 2022. 7+ years, multi-tenant SaaS and AI-powered enterprise systems. Stack: Node.js, NestJS, TypeScript, Python, FastAPI, PostgreSQL, MySQL, MongoDB, Redis, MeiliSearch, REST, GraphQL, BullMQ, Docker, Kubernetes, AWS, GCP, GitHub Actions, Jest. Provider-agnostic LLM layer over OpenAI, Gemini and Anthropic (~60% less AI integration complexity); three-tier resilience (retry → RAG fallback → rule-based floor), zero user-facing AI failures during outages. Dashboards 12s → under 2s. Zero cross-tenant exposure. Open-source Qeloma suite (Verdict, OCR, Lens Studio, Voice Studio, Shift, Cover Studio). Certifications from Anthropic Claude Academy, LinkedIn Learning, Google, Microsoft, IBM, Django. B.S. Computer Science, GCU Faisalabad. The single contact channel is gravatar.com/juhbukhari; never give an email address or phone number. Open to remote, hybrid or relocation.
+Facts: Backend Lead Engineer at MicroAgility Services, Islamabad, since Jan 2024; Backend Software Engineer there Mar 2022 – Jan 2024; Software Engineer at Market Icon Aug 2018 – Mar 2022. 8+ years, multi-tenant SaaS and AI-powered enterprise systems. At MicroAgility: Talentnix (multi-tenant SaaS, AI gateway), the APAC Management System (HRMS combining payroll, HR and attendance), an internal ATS built with Claude Code and Gemini 2.5 Flash; before that iAgility and AgileBrains, two hiring and consultancy products on a MEAN microservices stack. Stack: Node.js, NestJS, TypeScript, Python, FastAPI, PostgreSQL, MySQL, MongoDB, Redis, MeiliSearch, REST, GraphQL, BullMQ, Docker, Kubernetes, AWS, GCP, GitHub Actions, Jest. Provider-agnostic LLM layer over OpenAI, Gemini and Anthropic (~60% less AI integration complexity); three-tier resilience (retry → RAG fallback → rule-based floor), zero AI failures during live LLM outages. Dashboards 12s → under 2s (83%). 99.9% uptime through zero-downtime migrations. Zero cross-tenant exposure. Mentors three associate backend developers. Open-source Qeloma suite (Verdict, Scanwise, Lens Studio, Voice Studio, Shift, Cover Studio). Certifications from Anthropic Claude Academy, LinkedIn Learning, Google, Microsoft, IBM, Django, on the Credentials page. B.S. Computer Science, GCU Faisalabad. English (professional) and Urdu (native). The single contact channel is gravatar.com/juhbukhari; never give an email address or phone number. Open to remote, hybrid or relocation; hours align to EST/PST.
 Answer in under 120 words, plain text, no markdown. Only state these facts; otherwise point to gravatar.com/juhbukhari. Stay on topic.`;
 
+// First match wins, so the specific answers sit above the broad ones.
 const KB = [
   [/\b(salary|rate|compensation|pay|ctc)\b/, `I don't discuss compensation here. Reach me through gravatar.com/juhbukhari with the role details.`],
-  [/(fallback|resilien|outage|failover|\btiers?\b|provider|\bllms?\b|\brag\b|gemini|openai|anthropic|claude)/, 'One Unified AI Service sits in front of OpenAI, Gemini and Anthropic. Requests step down three tiers: retry and failover inside the BullMQ queue, then a tenant-scoped RAG answer, then a deterministic rule-based floor. User-facing AI failures stayed at zero through provider outages. Say "open the case study" for the diagrams.'],
+  [/\b(who are you|who is (jawad|he)|about (jawad|him|you)|introduce|tell me about (jawad|him|yourself))\b/, `I'm Jawad's portfolio agent. Jawad Ul Hadi is a Backend Lead Engineer with 8+ years building multi-tenant SaaS and AI-powered enterprise platforms. He's based in Islamabad and works hours aligned to EST/PST. Ask about his stack, projects or the AI fallback design.`],
+  [/\b(what do you do|what does he do|services?|offer|consult(?:ing|ant)?|how can (?:he|you) help)\b/, 'Backend architecture for multi-tenant SaaS, AI platform and resilience work (provider-agnostic LLM layers, RAG, fallback ladders), performance and scale, and technical leadership. Say "go to contact" to start a conversation.'],
+  [/(achiev|accomplish|biggest|proud|\bresults?\b|impact|\bwins?\b|numbers|metrics)/, 'The headline results: dashboards cut from 12s to under 2s (83%), AI integration complexity down 60%, zero AI failures during live LLM outages, 99.9% uptime through live multi-tenant migrations, and zero cross-tenant data exposure incidents.'],
+  [/(why (hire|should)|strengths?|stand out|different|unique)/, 'I own architecture end to end, from database schema to deployment, and I design AI features to fail predictably. The proof points are an 83% latency cut, 60% less AI integration complexity and zero cross-tenant exposure. Say "show experience" for the details.'],
+  [/(mentor|leadership|lead a team|team size)/, 'I mentor three associate backend developers through the Learning and Development program, and I lead architecture, design review and code review.'],
+  [/\b(speak|english|urdu)\b/, 'English at professional working proficiency, and Urdu as a native language.'],
+  [/(copilot|cursor|claude code|ai-first|ai tools|ai-assisted)/, 'I work AI-first: Claude Code and GitHub Copilot for scaffolding and implementation, Gemini 2.5 Flash for parsing and conversational features, and Jest for coverage. I keep full ownership of correctness, security and system design.'],
+  [/(iagility|agilebrains|talentnix|apac|hrms|\bats\b)/, 'At MicroAgility I lead backend architecture for Talentnix, a multi-tenant SaaS platform, and the APAC Management System, an HRMS that combines payroll, HR and attendance. I also built an internal ATS with Claude Code and Gemini 2.5 Flash. Before that I owned the backends for iAgility and AgileBrains, two hiring and consultancy products on a MEAN microservices stack. Say "show work" to jump there.'],
+  [/(fallback|resilien|outage|failover|\btiers?\b|provider|\bllms?\b|\brag\b|gemini|openai|anthropic|claude)/, 'One Unified AI Service sits in front of OpenAI, Gemini and Anthropic. Requests step down three tiers: retry and failover inside the BullMQ queue, then a tenant-scoped RAG answer, then a deterministic rule-based floor. Users saw zero AI failures during live LLM outages. Say "open the case study" for the diagrams.'],
   [/(perform|latency|fast|speed|optimi|slow)/, 'Dashboards went from 12s to under 2s, an 83% cut, through PostgreSQL and MongoDB query work, indexing and a MeiliSearch rollout. Heavy work moved onto BullMQ and Redis so APIs stay sub-second under thousands of concurrent jobs.'],
-  [/(tenant|secur|isolation|\bauth(?:enticat|oriz|\b)|jwt|oauth|gdpr|privacy)/, 'Tenant isolation is enforced from verified JWT scopes in every REST and GraphQL query, with tenant-scoped vector search and a GDPR erasure cascade. There have been zero cross-tenant data exposure incidents.'],
-  [/(certif|credential|course|badge|academy)/, 'Every certification is in the Credentials section with a verification link: Anthropic Claude Academy, LinkedIn Learning on agentic AI and MCP, Google, Microsoft, IBM, and Certified Django Developer. Say "show credentials" to jump there.'],
+  [/(tenant|secur|isolation|\bauth(?:enticat|oriz|\b)|jwt|oauth|gdpr|privacy)/, 'Tenant isolation is enforced across the REST and GraphQL APIs with OAuth 2.0 and JWT. There have been no cross-tenant data exposure incidents.'],
+  [/(certif|credential|course|badge|academy)/, 'Every certification has a verification link on the Credentials page: Anthropic Claude Academy, LinkedIn Learning on agentic AI and MCP, Google, Microsoft, IBM, and Certified Django Developer. Say "show credentials" to open it.'],
   [/(educat|degree|university|college|study)/, 'B.S. Computer Science, Government College University, Faisalabad.'],
   [/(project|qeloma|open source|side|extension|github|omni|scanwise|catchbox|scrapefix|talntflow|monetiz)/, 'My public work is on GitHub. Omni.io is a multi-tenant RAG support engine with a three-tier resilience ladder and Postgres row-level-security isolation. TalntFlow AI is an ATS with a Claude-backed recruiting agent. Scanwise (formerly Qeloma OCR) reads scans and PDFs into cited summaries. Catchbox triages failed web scrapes. The Qeloma suite adds Verdict, Lens Studio, Voice Studio, Shift, Cover Studio, Qeloma Studio, Room Booking and a ten-tool Chrome extension suite. TRIA.GE and SAP-AGI Procure are simulations of LLM-plus-RPA workflows, not live integrations. Say "show projects" to see them.'],
   [/(stack|tech|language|framework|node|nest|python|database|postgres|mongo|redis|typescript)/, 'Node.js, NestJS and TypeScript at the core, Python and FastAPI where they fit better. PostgreSQL, MySQL, MongoDB, Redis and MeiliSearch for data. BullMQ, Docker, Kubernetes, AWS, GCP and GitHub Actions for delivery.'],
   [/(hire|contact|email|reach|available|open to|relocat|remote|interview|call|timezone|time zone|overlap)/, `I'm open to Backend Lead, Solutions Architecture and AI Platform roles. I'm based in Islamabad and my working hours are fully aligned to EST/PST, so US and Canada remote teams work well. The one place to reach me is gravatar.com/juhbukhari. Say “contact” and I'll open it.`],
-  [/(experience|years|career|role|job|lead|microagility|market icon)/, "7+ years. Backend Lead / Architect at MicroAgility Services since 2024, backend engineer there from 2022, and software engineer at Market Icon from 2018. Say \"show experience\" for the details."],
+  [/(experience|years|career|role|job|lead|microagility|market icon)/, "8+ years. Backend Lead Engineer at MicroAgility Services since Jan 2024, Backend Software Engineer there from Mar 2022, and Software Engineer at Market Icon from Aug 2018. Say \"show experience\" for the details."],
   [/\b(hello|hi|hey|salam|assalam)\b/, "Hi. Ask about my stack, the AI fallback design, experience or projects, or tell me where to go."]
 ];
-const HELP = 'Commands (type or say them):\n• go to work · projects · experience · credentials · contact\n• open the case study\n• switch to horizon · paper · mono\n• resume  ·  contact\n• /clear to reset the chat';
+const HELP = 'Commands (type or say them):\n• go to experience · work · stack · projects · case study · credentials · contact\n• switch to horizon · paper · mono\n• resume  ·  contact\n• /clear to reset the chat';
+
+// [label, question]. The first CHIPS_SHOWN are visible; "More" reveals the rest.
+const CHIPS_SHOWN = 6;
+const CHIPS = [
+  ['Who is Jawad?', 'Who is Jawad?'],
+  ['Your stack?', "What's your stack?"],
+  ['AI fallback design', 'How does the AI fallback work?'],
+  ['Show projects', 'Show projects'],
+  ['Show experience', 'Show experience'],
+  ['Contact Jawad', 'contact'],
+  ['Why hire you?', 'Why should I hire you?'],
+  ['Biggest wins', 'What are your biggest achievements?'],
+  ['What do you do?', 'What do you do?'],
+  ['Open to relocate?', 'Are you open to relocation or remote work?'],
+  ['Timezone & hours', 'What timezone do you work in?'],
+  ['How you use AI', 'How do you use AI tools like Claude Code?'],
+  ['Leadership', 'Do you mentor or lead teams?'],
+  ['Education', 'What is your education?'],
+  ['Credentials', 'Show credentials'],
+  ['Case study', 'Open the case study'],
+  ['Résumé', 'Open the resume'],
+  ['Next theme', '__theme__'],
+  ['Help', '/help']
+];
 
 function clean(t) { return String(t || '').replace(/\*\*(.+?)\*\*/g, '$1').replace(/`([^`]+)`/g, '$1').replace(/^#+\s*/gm, '').trim(); }
 
 class Component extends DCLogic {
-  state = { open: false, messages: [], input: '', busy: false, listening: false, interim: '', speak: false, status: 'Text, voice or commands' };
+  state = { open: false, messages: [], input: '', busy: false, listening: false, interim: '', speak: false, moreChips: false, status: 'Text, voice or commands' };
   listRef = React.createRef();
   inputRef = React.createRef();
   launcherRef = React.createRef();
@@ -248,9 +287,11 @@ class Component extends DCLogic {
     if (this.rec) try { this.rec.abort(); } catch (e) {}
     if (window.speechSynthesis) speechSynthesis.cancel();
   }
-  componentDidUpdate(_, prev) {
-    const el = this.listRef.current;
-    if (el && (prev.messages !== this.state.messages || prev.busy !== this.state.busy || (!prev.open && this.state.open))) el.scrollTop = el.scrollHeight;
+  componentDidUpdate() {
+    // The dc-runtime passes only prevProps, so remember the previous state ourselves.
+    const el = this.listRef.current, st = this.state, p = this.lastSeen || {};
+    if (el && (p.messages !== st.messages || p.busy !== st.busy || (!p.open && st.open))) el.scrollTop = el.scrollHeight;
+    this.lastSeen = { messages: st.messages, busy: st.busy, open: st.open };
   }
   greet() {
     this.setState({ messages: [{ role: 'assistant', text: "Hi, I'm Jawad's portfolio agent. Ask about his work, or tell me where to go, like “show projects” or “switch to mono”. Type /help for everything I can do.", note: '' }] });
@@ -265,6 +306,11 @@ class Component extends DCLogic {
   }
 
   goSection(sec) {
+    if (sec.page) {
+      if (location.pathname.replace(/\/$/, '') !== sec.page) location.href = sec.page;
+      else window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
     const el = document.getElementById(sec.id);
     if (el) {
       window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 72, behavior: 'smooth' });
@@ -401,23 +447,24 @@ class Component extends DCLogic {
       micColor: s.listening ? 'var(--color-accent)' : 'var(--color-text)',
       micBorder: s.listening ? 'var(--color-accent)' : 'var(--color-divider)',
       messages: s.messages.map(m => ({
-        text: m.text, note: m.note,
+        text: String(m.text || '').trim(), note: m.note,
         align: m.role === 'user' ? 'flex-end' : 'flex-start',
         bg: m.role === 'user' ? 'color-mix(in srgb, var(--color-accent) 12%, transparent)' : 'transparent',
         border: m.role === 'user' ? 'color-mix(in srgb, var(--color-accent) 40%, transparent)' : 'var(--color-divider)',
         font: m.note === 'Command' ? 'var(--font-body)' : 'var(--font-body)'
       })),
+      chipMax: s.moreChips ? '176px' : 'none',
+      moreLabel: s.moreChips ? 'Fewer ▴' : 'More ▾',
+      moreExpanded: s.moreChips ? 'true' : 'false',
+      toggleMore: () => this.setState({ moreChips: !s.moreChips }),
       suggestions: [
         ...(s.offerTab ? [{ label: 'Open in new tab for voice ↗', run: () => window.open(location.href, '_blank', 'noopener') }] : []),
-        { label: 'Your stack?', run: () => this.submit("What's your stack?") },
-        { label: 'AI fallback design', run: () => this.submit('How does the AI fallback work?') },
-        { label: 'Show projects', run: () => this.submit('Show projects') },
-        { label: 'Show experience', run: () => this.submit('Show experience') },
-        { label: 'Credentials', run: () => this.submit('Show credentials') },
-        { label: 'Case study', run: () => this.submit('Open the case study') },
-        { label: 'Next theme', run: () => { const k = ['horizon', 'classical', 'mono']; const T = window.JUHTheme; const n = k[(k.indexOf(T ? T.get() : 'horizon') + 1) % 3]; this.submit('Switch to ' + (n === 'classical' ? 'paper' : n)); } },
-        { label: 'Contact Jawad', run: () => this.submit('contact') },
-        { label: 'Help', run: () => this.submit('/help') }
+        ...CHIPS.slice(0, s.moreChips ? CHIPS.length : CHIPS_SHOWN).map(([label, q]) => ({
+          label,
+          run: q === '__theme__'
+            ? () => { const k = ['horizon', 'classical', 'mono']; const T = window.JUHTheme; const n = k[(k.indexOf(T ? T.get() : 'horizon') + 1) % 3]; this.submit('Switch to ' + (n === 'classical' ? 'paper' : n)); }
+            : () => this.submit(q)
+        }))
       ]
     };
   }

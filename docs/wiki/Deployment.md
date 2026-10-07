@@ -12,7 +12,7 @@ What `vercel.json` does:
 | Setting | Effect |
 | --- | --- |
 | `rewrites: /api/(.*) → /api/index.js` | Every API path goes to the single function, which routes `/api/agent` and returns 404 otherwise |
-| `cleanUrls: true`, `trailingSlash: false` | Serves `index.html` at `/` and `case-study.html` at `/case-study`. `.html` URLs 308-redirect to the clean form |
+| `cleanUrls: true`, `trailingSlash: false` | Serves `index.html` at `/`, `case-study.html` at `/case-study` and `credentials.html` at `/credentials`. `.html` URLs 308-redirect to the clean form |
 | `redirects` | `/Portfolio.dc*` → `/`, `/Case*Study.dc*` → `/case-study` (301), `/resume` → `/resume.pdf` |
 | `headers` | `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy: camera=(), microphone=(self), geolocation=(), payment=()` |
 
@@ -33,7 +33,7 @@ Works on Render, Railway, Fly.io, a VPS and similar.
 
 ## After deploying
 
-- [ ] `/` shows the portfolio and `/case-study` shows the case study
+- [ ] `/` shows the portfolio, `/case-study` shows the case study and `/credentials` shows the certifications
 - [ ] Old links like `/Portfolio.dc` redirect to `/`
 - [ ] The agent answers with Claude, not the built-in fallback (ask something the fallback table wouldn't know)
 - [ ] The voice mic prompt appears in Chrome
@@ -46,7 +46,7 @@ The old `projects.html`, `certifications.html` and `agent.html` pages were remov
 
 ```json
 { "source": "/projects.html",       "destination": "/#projects",    "permanent": true },
-{ "source": "/certifications.html", "destination": "/#credentials", "permanent": true },
+{ "source": "/certifications.html", "destination": "/credentials", "permanent": true },
 { "source": "/agent.html",          "destination": "/",             "permanent": true }
 ```
 

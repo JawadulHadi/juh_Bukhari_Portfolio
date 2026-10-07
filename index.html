@@ -25,6 +25,7 @@
       <link rel="stylesheet" href="_ds/classical-14580d76-6aa9-445c-a1a1-c9bb8d7a9f0e/styles.css">
       <script src="_ds/classical-14580d76-6aa9-445c-a1a1-c9bb8d7a9f0e/_ds_bundle.js"></script>
       <script src="theme.js"></script>
+      <script src="certs.js"></script>
       <style>
         html {
           scroll-behavior: smooth;
@@ -84,7 +85,7 @@
             <span style="font-family: var(--font-heading); font-size: 19px; font-weight: 600;">Jawad Ul Hadi</span>
           </a>
           <nav aria-label="Primary"
-            style="display: flex; gap: var(--space-2) var(--space-4); flex-wrap: wrap; font-family: var(--font-heading); font-size: 16px; flex: 1;">
+            style="display: flex; gap: var(--space-2) var(--space-3); flex-wrap: wrap; font-family: var(--font-heading); font-size: 15px; flex: 1;">
             <sc-for list="{{ nav }}" as="n" hint-placeholder-count="6">
               <a href="{{ n.href }}"
                 style="color: var(--color-text); text-decoration: none; padding-bottom: 2px; background: linear-gradient(var(--color-accent), var(--color-accent)) 0 100% / 0 1px no-repeat; transition: background-size .3s ease, color .2s ease;"
@@ -113,18 +114,18 @@
           <div>
             <p data-reveal="0"
               style="font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: var(--space-4);">
-              Backend Lead / Architect · Islamabad · Open to relocation</p>
+              Islamabad, Pakistan · Open to relocation</p>
             <h1 data-reveal="90"
               style="font-size: clamp(52px, 8vw, 92px); font-weight: 400; line-height: .98; letter-spacing: -0.025em; margin-bottom: var(--space-3);">
               Jawad Ul Hadi</h1>
             <p data-reveal="180"
               style="font-family: var(--font-heading); font-style: italic; font-size: clamp(24px, 3vw, 32px); color: var(--color-accent); margin-bottom: var(--space-6);">
-              AI-first systems design</p>
+              Backend Lead Engineer / AI-first systems design</p>
             <p data-reveal="260"
               style="font-size: 17px; line-height: 1.65; max-width: 56ch; text-align: justify; hyphens: auto; text-wrap: pretty;">
-              Seven years building multi-tenant SaaS backends in NestJS, TypeScript and PostgreSQL. I design AI features
-              to fail predictably: a three-tier fallback of retry, retrieval and a rule-based floor keeps them working
-              through provider outages.</p>
+              Eight-plus years building multi-tenant SaaS backends in NestJS, TypeScript and PostgreSQL. I design AI
+              features to fail predictably: a three-tier fallback of retry, retrieval and a rule-based floor keeps them
+              working through provider outages.</p>
             <div data-reveal="340"
               style="display: flex; gap: var(--space-3); flex-wrap: wrap; align-items: center; margin-top: var(--space-6);">
               <a class="btn btn-primary" href="#contact" style="flex: none; white-space: nowrap;">Work with me</a>
@@ -146,7 +147,7 @@
             style="padding: var(--space-6) var(--space-4) var(--space-6) 0; border-right: 1px solid var(--color-divider);">
             <div
               style="font-family: var(--font-heading); font-size: 48px; font-weight: 400; line-height: 1; font-variant-numeric: tabular-nums; color: var(--color-accent);">
-              7+</div>
+              8+</div>
             <p style="font-size: 14px; color: var(--muted); margin: var(--space-2) 0 0;">years on production backends
             </p>
           </div>
@@ -173,27 +174,187 @@
           </div>
         </section>
 
-        <section id="work" style="padding: calc(var(--space-8) * 2) 0 var(--space-8); scroll-margin-top: 72px;">
+        <section id="experience" style="padding: calc(var(--space-8) * 2) 0 var(--space-8); scroll-margin-top: 72px;">
+          <div data-reveal="0"
+            style="display: flex; align-items: baseline; gap: var(--space-4); margin-bottom: var(--space-8);">
+            <span
+              style="font-family: var(--font-heading); font-size: 18px; color: var(--color-accent); font-variant-numeric: tabular-nums;">01</span>
+            <h2 style="font-size: 44px; font-weight: 400; margin: 0;">Experience</h2>
+          </div>
+          <sc-for list="{{ jobs }}" as="j" hint-placeholder-count="3">
+            <article data-reveal="0"
+              style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: var(--space-4) var(--space-8); padding: var(--space-6) 0; border-top: 1px solid var(--color-divider);">
+              <div>
+                <p
+                  style="font-size: 14px; font-variant-numeric: tabular-nums; color: var(--muted); margin-bottom: var(--space-1);">
+                  {{ j.dates }}</p>
+                <p style="font-size: 14px; font-style: italic; color: var(--muted); margin: 0;">{{ j.org }}</p>
+              </div>
+              <div style="grid-column: span 2; min-width: 0;">
+                <h3 style="font-size: 26px; font-weight: 400; margin-bottom: var(--space-3);">{{ j.role }}</h3>
+                <ul
+                  style="margin: 0; padding-left: 1.1em; display: grid; gap: var(--space-2); font-size: 15px; line-height: 1.6;">
+                  <sc-for list="{{ j.points }}" as="p" hint-placeholder-count="3">
+                    <li style="text-wrap: pretty;">{{ p }}</li>
+                  </sc-for>
+                </ul>
+              </div>
+            </article>
+          </sc-for>
+        </section>
+
+        <section id="work"
+          style="padding: calc(var(--space-8) * 1.5) 0 var(--space-8); border-top: 1px solid var(--color-divider); scroll-margin-top: 72px;">
           <div data-reveal="0"
             style="display: flex; align-items: baseline; gap: var(--space-4); flex-wrap: wrap; margin-bottom: var(--space-8);">
             <span
-              style="font-family: var(--font-heading); font-size: 18px; color: var(--color-accent); font-variant-numeric: tabular-nums;">01</span>
+              style="font-family: var(--font-heading); font-size: 18px; color: var(--color-accent); font-variant-numeric: tabular-nums;">02</span>
             <h2 style="font-size: 44px; font-weight: 400; margin: 0; flex: 1;">Selected work</h2>
             <p style="font-size: 13px; font-style: italic; color: var(--muted); margin: 0; max-width: 44ch;">Client
               systems are under NDA. Architecture is described without business data or endpoints.</p>
           </div>
 
+          <div
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: var(--space-8) calc(var(--space-8) * 1.2);">
+            <sc-for list="{{ work }}" as="w" hint-placeholder-count="4">
+              <article data-reveal="{{ w.delay }}"
+                style="border-top: 1px solid var(--color-divider); padding-top: var(--space-4);">
+                <p
+                  style="font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: var(--space-2);">
+                  {{ w.role }}</p>
+                <h3 style="font-size: 26px; font-weight: 400; margin-bottom: var(--space-3);">{{ w.title }}</h3>
+                <p
+                  style="font-size: 15px; line-height: 1.65; text-align: justify; hyphens: auto; margin-bottom: var(--space-3);">
+                  {{ w.desc }}</p>
+                <p style="font-size: 13px; font-style: italic; color: var(--muted); margin: 0;">{{ w.stack }}</p>
+              </article>
+            </sc-for>
+          </div>
+        </section>
+
+        <section id="stack"
+          style="padding: calc(var(--space-8) * 1.5) 0 var(--space-8); border-top: 1px solid var(--color-divider); scroll-margin-top: 72px;">
+          <div data-reveal="0"
+            style="display: flex; align-items: baseline; gap: var(--space-4); flex-wrap: wrap; margin-bottom: var(--space-6);">
+            <span
+              style="font-family: var(--font-heading); font-size: 18px; color: var(--color-accent); font-variant-numeric: tabular-nums;">03</span>
+            <h2 style="font-size: 44px; font-weight: 400; margin: 0; flex: 1;">Stack &amp; credentials</h2>
+
+          </div>
+          <div data-reveal="0"
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--space-6) var(--space-8);">
+            <sc-for list="{{ stack }}" as="s" hint-placeholder-count="4">
+              <div style="border-top: 1px solid var(--color-divider); padding-top: var(--space-3);">
+                <h4 style="font-size: 20px; margin-bottom: var(--space-2);">{{ s.group }}</h4>
+                <p style="font-size: 14px; line-height: 1.7; color: var(--muted); margin: 0;">{{ s.items }}</p>
+              </div>
+            </sc-for>
+          </div>
+
+          <p data-reveal="0" style="font-size: 15px; margin: calc(var(--space-8) * 1.2) 0 0;"><span
+              style="font-family: var(--font-heading); font-size: 20px; margin-right: var(--space-2);">Education</span>
+            B.S. Computer Science, Government College University, Faisalabad, 2018</p>
+
+          <div data-reveal="0"
+            style="margin-top: calc(var(--space-8) * 1.4); padding-top: var(--space-6); border-top: 1px solid var(--color-divider);">
+            <div
+              style="display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap; margin-bottom: var(--space-4);">
+              <h3 style="font-size: 30px; font-weight: 400; margin: 0;">Certifications</h3>
+              <p style="font-size: 13px; font-style: italic; color: var(--muted); margin: 0;">The ones on my résumé.
+                Each links to the issuer's verification page.</p>
+            </div>
+            <div
+              style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); gap: var(--space-4);">
+              <sc-for list="{{ certs }}" as="c" hint-placeholder-count="12">
+                <a href="{{ c.href }}" target="_blank" rel="noopener" title="{{ c.title }}" data-glow=""
+                  style="background-image: radial-gradient(220px circle at var(--gx, -50%) var(--gy, -50%), color-mix(in srgb, var(--color-accent) 14%, transparent), transparent 70%); display: flex; flex-direction: column; gap: var(--space-2); min-height: 150px; padding: var(--space-4); border: 1px solid var(--color-divider); border-radius: var(--radius-md); color: var(--color-text); text-decoration: none; transition: border-color .25s ease, transform .25s ease, box-shadow .25s ease;"
+                  style-hover="border-color: var(--color-accent); transform: translateY(-2px); box-shadow: var(--shadow-sm);">
+                  <span
+                    style="font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-accent);">{{
+                    c.issuer }}</span>
+                  <span
+                    style="font-family: var(--font-heading); font-size: 19px; line-height: 1.22; flex: 1; text-wrap: pretty;">{{
+                    c.title }}</span>
+                  <span
+                    style="display: flex; justify-content: space-between; gap: var(--space-2); font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums;">
+                    <span>{{ c.date }}</span>
+                    <span style="color: var(--ink-accent);">{{ c.action }}</span>
+                  </span>
+                </a>
+              </sc-for>
+            </div>
+
+            <div style="display: flex; justify-content: center; margin-top: var(--space-6);">
+              <a class="btn btn-secondary" href="/credentials">View all certifications →</a>
+            </div>
+          </div>
+        </section>
+
+        <section id="projects"
+          style="padding: calc(var(--space-8) * 1.5) 0 var(--space-8); border-top: 1px solid var(--color-divider); scroll-margin-top: 72px;">
+          <div data-reveal="0"
+            style="display: flex; align-items: baseline; gap: var(--space-4); flex-wrap: wrap; margin-bottom: var(--space-8);">
+            <span
+              style="font-family: var(--font-heading); font-size: 18px; color: var(--color-accent); font-variant-numeric: tabular-nums;">04</span>
+            <h2 style="font-size: 44px; font-weight: 400; margin: 0; flex: 1;">Projects &amp; open source</h2>
+            <p style="font-size: 13px; font-style: italic; color: var(--muted); margin: 0; max-width: 44ch;">Personal
+              builds, public and verifiable.</p>
+          </div>
+
+          <div data-reveal="0" style="margin-bottom: calc(var(--space-8) * 1.4);">
+            <h3 style="font-size: 24px; font-weight: 400; margin-bottom: var(--space-3);">Public repositories</h3>
+            <div style="border-top: 1px solid var(--color-divider);">
+              <sc-for list="{{ repos }}" as="r" hint-placeholder-count="6">
+                <a href="{{ r.href }}" target="_blank" rel="noopener" data-glow=""
+                  style="background-image: radial-gradient(300px circle at var(--gx, -50%) var(--gy, -50%), color-mix(in srgb, var(--color-accent) 11%, transparent), transparent 70%); display: grid; grid-template-columns: minmax(150px, 220px) minmax(0, 1fr) auto; gap: var(--space-2) var(--space-6); align-items: baseline; padding: var(--space-4) var(--space-2); border-bottom: 1px solid var(--color-divider); color: var(--color-text); text-decoration: none; transition: background-color .25s ease, padding .25s ease;"
+                  style-hover="background-color: color-mix(in srgb, var(--color-accent) 7%, transparent); padding-left: var(--space-4);">
+                  <span style="font-family: var(--font-heading); font-size: 21px;">{{ r.name }}</span>
+                  <span style="font-size: 14px; line-height: 1.55; color: var(--muted); text-wrap: pretty;">{{ r.desc
+                    }}</span>
+                  <span style="font-size: 13px; color: var(--ink-accent); white-space: nowrap;">{{ r.kind }} ↗</span>
+                </a>
+              </sc-for>
+            </div>
+          </div>
+
+          <div data-reveal="0">
+            <h3 style="font-size: 24px; font-weight: 400; margin-bottom: var(--space-3);">The Qeloma suite</h3>
+            <div style="border-top: 1px solid var(--color-divider);">
+              <sc-for list="{{ qeloma }}" as="q" hint-placeholder-count="7">
+                <a href="{{ q.href }}" target="_blank" rel="noopener" data-glow=""
+                  style="background-image: radial-gradient(300px circle at var(--gx, -50%) var(--gy, -50%), color-mix(in srgb, var(--color-accent) 11%, transparent), transparent 70%); display: grid; grid-template-columns: minmax(150px, 220px) minmax(0, 1fr) auto; gap: var(--space-2) var(--space-6); align-items: baseline; padding: var(--space-4) var(--space-2); border-bottom: 1px solid var(--color-divider); color: var(--color-text); text-decoration: none; transition: background-color .25s ease, padding .25s ease;"
+                  style-hover="background-color: color-mix(in srgb, var(--color-accent) 7%, transparent); padding-left: var(--space-4);">
+                  <span style="font-family: var(--font-heading); font-size: 21px;">{{ q.name }}</span>
+                  <span style="font-size: 14px; line-height: 1.55; color: var(--muted); text-wrap: pretty;">{{ q.desc
+                    }}</span>
+                  <span style="font-size: 13px; color: var(--ink-accent); white-space: nowrap;">{{ q.kind }} ↗</span>
+                </a>
+              </sc-for>
+            </div>
+          </div>
+        </section>
+
+        <section id="case-study"
+          style="padding: calc(var(--space-8) * 1.5) 0 var(--space-8); border-top: 1px solid var(--color-divider); scroll-margin-top: 72px;">
+          <div data-reveal="0"
+            style="display: flex; align-items: baseline; gap: var(--space-4); flex-wrap: wrap; margin-bottom: var(--space-8);">
+            <span
+              style="font-family: var(--font-heading); font-size: 18px; color: var(--color-accent); font-variant-numeric: tabular-nums;">05</span>
+            <h2 style="font-size: 44px; font-weight: 400; margin: 0; flex: 1;">Case study</h2>
+            <p style="font-size: 13px; font-style: italic; color: var(--muted); margin: 0; max-width: 44ch;">A full
+              write-up with architecture figures and a failure simulator.</p>
+          </div>
           <article data-reveal="0" data-glow=""
-            style="background-image: radial-gradient(420px circle at var(--gx, -50%) var(--gy, -50%), color-mix(in srgb, var(--color-accent) 10%, transparent), transparent 70%); border: 1px solid var(--color-divider); border-radius: var(--radius-md); padding: var(--space-8); margin-bottom: var(--space-8); transition: border-color .3s ease;"
+            style="background-image: radial-gradient(420px circle at var(--gx, -50%) var(--gy, -50%), color-mix(in srgb, var(--color-accent) 10%, transparent), transparent 70%); border: 1px solid var(--color-divider); border-radius: var(--radius-md); padding: var(--space-8); transition: border-color .3s ease;"
             style-hover="border-color: color-mix(in srgb, var(--color-accent) 55%, var(--color-divider));">
             <p
               style="font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-accent); margin-bottom: var(--space-2);">
-              Featured · Resilience pattern</p>
+              Case study · Resilience pattern</p>
             <h3 style="font-size: 34px; font-weight: 400; margin-bottom: var(--space-4);">Designing for AI failure</h3>
             <p style="font-size: 16px; line-height: 1.65; max-width: 70ch; text-align: justify; hyphens: auto;">One
               abstraction sits in front of OpenAI, Gemini and Anthropic. When a provider degrades, requests step down
-              through three tiers instead of surfacing an error. It became the team's standard failure-handling
-              architecture and cut AI integration complexity by 60%.</p>
+              through three tiers instead of surfacing an error. The pattern cut AI integration complexity by 60% and
+              kept users from seeing AI failures during live LLM outages.</p>
             <sc-if value="{{ showDiagram }}" hint-placeholder-val="{{ true }}">
               <div
                 style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); margin-top: var(--space-6); border-top: 1px solid var(--color-divider);">
@@ -234,192 +395,6 @@
             <a class="btn btn-ghost" href="/case-study" style="margin-top: var(--space-6);">Read the full case study
               →</a>
           </article>
-
-          <div
-            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: var(--space-8) calc(var(--space-8) * 1.2);">
-            <sc-for list="{{ work }}" as="w" hint-placeholder-count="4">
-              <article data-reveal="{{ w.delay }}"
-                style="border-top: 1px solid var(--color-divider); padding-top: var(--space-4);">
-                <p
-                  style="font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: var(--space-2);">
-                  {{ w.role }}</p>
-                <h3 style="font-size: 26px; font-weight: 400; margin-bottom: var(--space-3);">{{ w.title }}</h3>
-                <p
-                  style="font-size: 15px; line-height: 1.65; text-align: justify; hyphens: auto; margin-bottom: var(--space-3);">
-                  {{ w.desc }}</p>
-                <p style="font-size: 13px; font-style: italic; color: var(--muted); margin: 0;">{{ w.stack }}</p>
-              </article>
-            </sc-for>
-          </div>
-        </section>
-
-        <section id="projects"
-          style="padding: calc(var(--space-8) * 1.5) 0 var(--space-8); border-top: 1px solid var(--color-divider); scroll-margin-top: 72px;">
-          <div data-reveal="0"
-            style="display: flex; align-items: baseline; gap: var(--space-4); flex-wrap: wrap; margin-bottom: var(--space-8);">
-            <span
-              style="font-family: var(--font-heading); font-size: 18px; color: var(--color-accent); font-variant-numeric: tabular-nums;">02</span>
-            <h2 style="font-size: 44px; font-weight: 400; margin: 0; flex: 1;">Projects &amp; open source</h2>
-            <p style="font-size: 13px; font-style: italic; color: var(--muted); margin: 0; max-width: 44ch;">Personal
-              builds, public and verifiable.</p>
-          </div>
-
-          <div
-            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: var(--space-8) calc(var(--space-8) * 1.2); margin-bottom: calc(var(--space-8) * 1.4);">
-            <article data-reveal="0" style="border-top: 1px solid var(--color-accent); padding-top: var(--space-4);">
-              <p
-                style="font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-accent); margin-bottom: var(--space-2);">
-                Flagship · Browser extensions</p>
-              <h3 style="font-size: 28px; font-weight: 400; margin-bottom: var(--space-3);">Chrome extension pack</h3>
-              <p
-                style="font-size: 15px; line-height: 1.65; text-align: justify; hyphens: auto; margin-bottom: var(--space-3);">
-                Ten single-purpose Manifest V3 extensions built with WXT: one-click and full-page screenshots, a domain
-                blocker with Pomodoro timer, zero-flicker dark mode, Gemini-powered page clips, a per-tab volume
-                booster, time-boxing, private time tracking, an SEO inspector, reader mode and a colour palette tool.
-                Local-first, with a Chrome Web Store preflight gate.</p>
-              <p style="font-size: 13px; font-style: italic; color: var(--muted); margin: 0;">Manifest V3 · WXT ·
-                TypeScript · Gemini API · declarativeNetRequest · Web Audio</p>
-            </article>
-            <article data-reveal="120" style="border-top: 1px solid var(--color-divider); padding-top: var(--space-4);">
-              <p
-                style="font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: var(--space-2);">
-                Infrastructure</p>
-              <h3 style="font-size: 28px; font-weight: 400; margin-bottom: var(--space-3);">Idempotent queue spine</h3>
-              <p
-                style="font-size: 15px; line-height: 1.65; text-align: justify; hyphens: auto; margin-bottom: var(--space-3);">
-                A BullMQ and Redis backbone for OCR extraction, batch email and multi-tenant webhook dispatch, with HMAC
-                signature verification, dead-letter queues and exactly-once processing.</p>
-              <p style="font-size: 13px; font-style: italic; color: var(--muted); margin: 0;">BullMQ · Redis · NestJS ·
-                HMAC</p>
-            </article>
-          </div>
-
-          <div data-reveal="0" style="margin-bottom: calc(var(--space-8) * 1.4);">
-            <h3 style="font-size: 24px; font-weight: 400; margin-bottom: var(--space-3);">Public repositories</h3>
-            <div style="border-top: 1px solid var(--color-divider);">
-              <sc-for list="{{ repos }}" as="r" hint-placeholder-count="6">
-                <a href="{{ r.href }}" target="_blank" rel="noopener" data-glow=""
-                  style="background-image: radial-gradient(300px circle at var(--gx, -50%) var(--gy, -50%), color-mix(in srgb, var(--color-accent) 11%, transparent), transparent 70%); display: grid; grid-template-columns: minmax(150px, 220px) minmax(0, 1fr) auto; gap: var(--space-2) var(--space-6); align-items: baseline; padding: var(--space-4) var(--space-2); border-bottom: 1px solid var(--color-divider); color: var(--color-text); text-decoration: none; transition: background-color .25s ease, padding .25s ease;"
-                  style-hover="background-color: color-mix(in srgb, var(--color-accent) 7%, transparent); padding-left: var(--space-4);">
-                  <span style="font-family: var(--font-heading); font-size: 21px;">{{ r.name }}</span>
-                  <span style="font-size: 14px; line-height: 1.55; color: var(--muted); text-wrap: pretty;">{{ r.desc
-                    }}</span>
-                  <span style="font-size: 13px; color: var(--ink-accent); white-space: nowrap;">{{ r.kind }} ↗</span>
-                </a>
-              </sc-for>
-            </div>
-          </div>
-
-          <div data-reveal="0">
-            <h3 style="font-size: 24px; font-weight: 400; margin-bottom: var(--space-3);">The Qeloma suite</h3>
-            <div style="border-top: 1px solid var(--color-divider);">
-              <sc-for list="{{ qeloma }}" as="q" hint-placeholder-count="7">
-                <a href="{{ q.href }}" target="_blank" rel="noopener" data-glow=""
-                  style="background-image: radial-gradient(300px circle at var(--gx, -50%) var(--gy, -50%), color-mix(in srgb, var(--color-accent) 11%, transparent), transparent 70%); display: grid; grid-template-columns: minmax(150px, 220px) minmax(0, 1fr) auto; gap: var(--space-2) var(--space-6); align-items: baseline; padding: var(--space-4) var(--space-2); border-bottom: 1px solid var(--color-divider); color: var(--color-text); text-decoration: none; transition: background-color .25s ease, padding .25s ease;"
-                  style-hover="background-color: color-mix(in srgb, var(--color-accent) 7%, transparent); padding-left: var(--space-4);">
-                  <span style="font-family: var(--font-heading); font-size: 21px;">{{ q.name }}</span>
-                  <span style="font-size: 14px; line-height: 1.55; color: var(--muted); text-wrap: pretty;">{{ q.desc
-                    }}</span>
-                  <span style="font-size: 13px; color: var(--ink-accent); white-space: nowrap;">{{ q.kind }} ↗</span>
-                </a>
-              </sc-for>
-            </div>
-          </div>
-        </section>
-
-        <section id="experience"
-          style="padding: calc(var(--space-8) * 1.5) 0 var(--space-8); border-top: 1px solid var(--color-divider); scroll-margin-top: 72px;">
-          <div data-reveal="0"
-            style="display: flex; align-items: baseline; gap: var(--space-4); margin-bottom: var(--space-8);">
-            <span
-              style="font-family: var(--font-heading); font-size: 18px; color: var(--color-accent); font-variant-numeric: tabular-nums;">03</span>
-            <h2 style="font-size: 44px; font-weight: 400; margin: 0;">Experience</h2>
-          </div>
-          <sc-for list="{{ jobs }}" as="j" hint-placeholder-count="3">
-            <article data-reveal="0"
-              style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: var(--space-4) var(--space-8); padding: var(--space-6) 0; border-top: 1px solid var(--color-divider);">
-              <div>
-                <p
-                  style="font-size: 14px; font-variant-numeric: tabular-nums; color: var(--muted); margin-bottom: var(--space-1);">
-                  {{ j.dates }}</p>
-                <p style="font-size: 14px; font-style: italic; color: var(--muted); margin: 0;">{{ j.org }}</p>
-              </div>
-              <div style="grid-column: span 2; min-width: 0;">
-                <h3 style="font-size: 26px; font-weight: 400; margin-bottom: var(--space-3);">{{ j.role }}</h3>
-                <ul
-                  style="margin: 0; padding-left: 1.1em; display: grid; gap: var(--space-2); font-size: 15px; line-height: 1.6;">
-                  <sc-for list="{{ j.points }}" as="p" hint-placeholder-count="3">
-                    <li style="text-wrap: pretty;">{{ p }}</li>
-                  </sc-for>
-                </ul>
-              </div>
-            </article>
-          </sc-for>
-        </section>
-
-        <section id="credentials"
-          style="padding: calc(var(--space-8) * 1.5) 0 var(--space-8); border-top: 1px solid var(--color-divider); scroll-margin-top: 72px;">
-          <div data-reveal="0"
-            style="display: flex; align-items: baseline; gap: var(--space-4); margin-bottom: var(--space-6);">
-            <span
-              style="font-family: var(--font-heading); font-size: 18px; color: var(--color-accent); font-variant-numeric: tabular-nums;">04</span>
-            <h2 style="font-size: 44px; font-weight: 400; margin: 0;">Stack &amp; credentials</h2>
-          </div>
-          <div data-reveal="0"
-            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--space-6) var(--space-8);">
-            <sc-for list="{{ stack }}" as="s" hint-placeholder-count="4">
-              <div style="border-top: 1px solid var(--color-divider); padding-top: var(--space-3);">
-                <h4 style="font-size: 20px; margin-bottom: var(--space-2);">{{ s.group }}</h4>
-                <p style="font-size: 14px; line-height: 1.7; color: var(--muted); margin: 0;">{{ s.items }}</p>
-              </div>
-            </sc-for>
-          </div>
-          <p data-reveal="0" style="font-size: 15px; margin: calc(var(--space-8) * 1.2) 0 0;"><span
-              style="font-family: var(--font-heading); font-size: 20px; margin-right: var(--space-2);">Education</span>
-            B.S. Computer Science, Government College University, Faisalabad, 2018</p>
-
-          <div data-reveal="0"
-            style="margin-top: calc(var(--space-8) * 1.4); padding-top: var(--space-6); border-top: 1px solid var(--color-divider);">
-            <div
-              style="display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap; margin-bottom: var(--space-4);">
-              <h3 style="font-size: 30px; font-weight: 400; margin: 0;">Certifications</h3>
-              <p style="font-size: 13px; font-style: italic; color: var(--muted); margin: 0;">Each links to the issuer's
-                verification page.</p>
-            </div>
-            <div role="tablist" aria-label="Filter certifications"
-              style="display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-6);">
-              <sc-for list="{{ certFilters }}" as="f" hint-placeholder-count="7">
-                <button type="button" role="tab" aria-selected="{{ f.selected }}" onClick="{{ f.pick }}"
-                  style="font-family: var(--font-body); font-size: 13px; padding: 6px 13px; white-space: nowrap; flex: none; border-radius: 999px; cursor: pointer; border: 1px solid {{ f.border }}; color: {{ f.fg }}; background: {{ f.bg }}; transition: border-color .2s ease, color .2s ease, background-color .2s ease, transform .2s ease;"
-                  style-hover="border-color: var(--color-accent); transform: translateY(-1px);">{{ f.label }}</button>
-              </sc-for>
-            </div>
-            <div
-              style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); gap: var(--space-4);">
-              <sc-for list="{{ certs }}" as="c" hint-placeholder-count="12">
-                <a href="{{ c.href }}" target="_blank" rel="noopener" title="{{ c.title }}" data-glow=""
-                  style="background-image: radial-gradient(220px circle at var(--gx, -50%) var(--gy, -50%), color-mix(in srgb, var(--color-accent) 14%, transparent), transparent 70%); display: flex; flex-direction: column; gap: var(--space-2); min-height: 150px; padding: var(--space-4); border: 1px solid var(--color-divider); border-radius: var(--radius-md); color: var(--color-text); text-decoration: none; transition: border-color .25s ease, transform .25s ease, box-shadow .25s ease;"
-                  style-hover="border-color: var(--color-accent); transform: translateY(-2px); box-shadow: var(--shadow-sm);">
-                  <span
-                    style="font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-accent);">{{
-                    c.issuer }}</span>
-                  <span
-                    style="font-family: var(--font-heading); font-size: 19px; line-height: 1.22; flex: 1; text-wrap: pretty;">{{
-                    c.title }}</span>
-                  <span
-                    style="display: flex; justify-content: space-between; gap: var(--space-2); font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums;">
-                    <span>{{ c.date }}</span>
-                    <span style="color: var(--ink-accent);">{{ c.action }}</span>
-                  </span>
-                </a>
-              </sc-for>
-            </div>
-            <sc-if value="{{ canShowMore }}" hint-placeholder-val="{{ false }}">
-              <div style="display: flex; justify-content: center; margin-top: var(--space-6);">
-                <button type="button" class="btn btn-secondary" onClick="{{ showMore }}">{{ showMoreLabel }}</button>
-              </div>
-            </sc-if>
-          </div>
         </section>
 
         <section id="contact"
@@ -427,7 +402,7 @@
           <div data-reveal="0"
             style="display: flex; align-items: baseline; gap: var(--space-4); margin-bottom: var(--space-6);">
             <span
-              style="font-family: var(--font-heading); font-size: 18px; color: var(--color-accent); font-variant-numeric: tabular-nums;">05</span>
+              style="font-family: var(--font-heading); font-size: 18px; color: var(--color-accent); font-variant-numeric: tabular-nums;">06</span>
             <h2 style="font-size: 44px; font-weight: 400; margin: 0;">Services &amp; contact</h2>
           </div>
           <div
@@ -477,71 +452,8 @@
   </x-dc>
   <script type="text/x-dc" data-dc-script
     data-props="{&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;horizon&quot;,&quot;classical&quot;,&quot;mono&quot;],&quot;default&quot;:&quot;horizon&quot;,&quot;tsType&quot;:&quot;'horizon'|'classical'|'mono'&quot;},&quot;showPortrait&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;showDiagram&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;animations&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
-const CR = id => 'https://www.credly.com/badges/' + id + '/linked_in_profile';
-const LI = h => 'https://www.linkedin.com/learning/certificates/' + h;
-const CA = id => 'https://academy.claude.com/verify/' + id;
-const MS = c => 'https://learn.microsoft.com/api/achievements/share/en-us/JawadUlHadi-0198/' + c + '?sharingId=AFF773B6C8D61F92';
-// [topic, title, issuer, date, url, featured]
-const CERTS = [
-  ['C', 'Introduction to Model Context Protocol by Anthropic', 'LinkedIn Learning', 'Aug 2026', LI('7cc20704d76cef05f35241624338f0c3a88b522c69266e3b3536e7ecc43490f1'), 1],
-  ['C', 'Claude Code 4: Agentic Coding for Professional Developers', 'LinkedIn Learning', 'Aug 2026', LI('0d8eecc5082ca07af8f771083ea29d4c274033e6b3bdc7ef6e7512e35c1a8a85'), 1],
-  ['C', 'Claude Code in Action', 'Claude Academy · Anthropic', 'Aug 2026', CA('ff1b2c578e9794408a0ba9c5beedc928'), 1],
-  ['A', 'Agentic AI Architecture Foundations: Designing Autonomous AI Systems', 'LinkedIn Learning', 'Aug 2026', LI('a7eb686b16f072c55ca832682ca0467ed7235f364d272e8f937813cce050cdc6'), 1],
-  ['A', 'Agentic AI Solution Design Patterns', 'LinkedIn Learning', 'Aug 2026', LI('418db3170c778c6dd6faffc8aaa20934974fdde3790b23579f98e37f3dd464da'), 1],
-  ['A', 'AI Solution Design Patterns: Data, Model Training, and Application Architectures', 'LinkedIn Learning', 'Aug 2026', LI('5153e8eb222a84ac8db4d0b35df23426e222f370fc51d77124ca896e77178853'), 1],
-  ['A', 'Introduction to AI Orchestration with LangChain and LlamaIndex', 'LinkedIn Learning', 'Aug 2026', LI('b31067a6d48eff91faac35512ec9eafefafb76da400cc3355d28708d2ce24245'), 1],
-  ['A', 'Gen AI: Beyond the Chatbot', 'Google Skills Boost', 'Aug 2026', 'https://www.skills.google/public_profiles/e7e2ac08-758d-47f5-af65-589153c6b873/badges/26965991', 1],
-  ['M', 'Introduction to Generative AI and Agents', 'Microsoft Learn', 'Sep 2026', MS('FEGYP6TX'), 1],
-  ['D', 'Containers & Kubernetes Essentials', 'IBM', 'Sep 2026', 'https://www.credly.com/badges/13300660-220e-4a01-ad7e-c4be671babf4', 1],
-  ['D', 'Getting Started with Microservices with Istio and IBM Cloud Kubernetes Service', 'IBM', 'Sep 2026', 'https://www.credly.com/badges/ba36cf99-6006-4ad8-a43a-f5a479ae4024', 1],
-  ['F', 'Certified Django Developer', 'e-smartdata.org', 'Oct 2025', null, 1],
-  ['C', 'Build with AI: Leverage Claude Code Subagents in Software Projects', 'LinkedIn Learning', 'Aug 2026', LI('686155a8b791ce682068645f7623330b27ad95f43c049727ef9af7420d99a560')],
-  ['C', 'Introduction to Agent Skills by Anthropic', 'LinkedIn Learning', 'Aug 2026', LI('3d52b14114566e0fdb14d584c77ea28aebb8268c712a9e66165787f10cfb3207')],
-  ['C', 'Claude Platform 101', 'Claude Academy · Anthropic', 'Aug 2026', CA('a46195050c356de763f41c151bee30d1')],
-  ['C', 'Claude Code 101', 'Claude Academy · Anthropic', 'Aug 2026', CA('f0b999570f254c062dbba8fb880ab4fe')],
-  ['C', 'Claude 101', 'Claude Academy · Anthropic', 'Aug 2026', CA('172ea8fbee8244e56077f6eb5015b998')],
-  ['C', 'Introduction to Claude Cowork', 'Claude Academy · Anthropic', 'Aug 2026', CA('16e3962cbe28431a9e8bf03e4968ad60')],
-  ['C', 'AI Fluency: Framework & Foundations', 'Claude Academy · Anthropic', 'Aug 2026', CA('c89048831817ea71a606cafefec2b778')],
-  ['C', 'AI Capabilities and Limitations', 'Claude Academy · Anthropic', 'Aug 2026', CA('6599e678fb2dfe18b544458d8581d23c')],
-  ['A', 'Build AI Agents with GitHub Copilot by Microsoft Press', 'LinkedIn Learning', 'Aug 2026', LI('9f08ea367800cebf6c82e9487d7257f0bbc4016fc859559e84c86509fae19c91')],
-  ['A', 'Building a Personalized Chatbot with OpenAI and LangChain', 'LinkedIn Learning', 'Aug 2026', LI('d76ecea6a0c9ae6d9eac1143c0023d574aa648ee35d2d074c7d93eec8b18c00e')],
-  ['A', 'Advanced Quantization Techniques for Large Language Models', 'LinkedIn Learning', 'Aug 2026', LI('4d7d15d666e33fffc0484d434341dc4f8ad4bceddd8d6cdacdcdf278ebc7241c')],
-  ['A', 'Building AI Products: Implementing Responsible AI', 'LinkedIn Learning', 'Aug 2026', LI('24016fe8759c43e6b2997a9f0c0059fe524647f5a9c892de7b3a229323c35833')],
-  ['A', 'Introduction to Multimodal Prompting for Generative AI', 'LinkedIn Learning', 'Aug 2026', LI('d7bd1ec1c8e2eb1c1a1c2d103d0bf2c4c4a9bb23b080132b2b21a92d600f3ab8')],
-  ['A', 'Introduction to Prompt Engineering for Generative AI', 'LinkedIn Learning', 'Aug 2026', LI('b7156a3b1d734660c446d32481ca978a7c2c8b40bb319d16e9927a4891f5af41')],
-  ['A', 'Artificial Intelligence Foundations: Machine Learning', 'LinkedIn Learning', 'Aug 2026', LI('67a724f3ca88244c58ab3cc24e540138b817e0ef20ecbbb607dafb7c4bfa62bf')],
-  ['A', 'Artificial Intelligence Foundations: Neural Networks', 'LinkedIn Learning', 'Aug 2026', LI('c2bceee32e9f413d8546a2b3eab43d53902c487ffab8c8b3ce79e0650cd83632')],
-  ['A', 'Machine Learning with Python: Foundations', 'LinkedIn Learning', 'Aug 2026', LI('cbf2a10d5df1e56235b6176b95457be6d671de6cc09ff18d9548c0fcb88d0eb7')],
-  ['A', 'How to Build Your First AI Agent with ChatGPT', 'LinkedIn Learning', 'Aug 2026', LI('891cea008560a7a74abc4396055f64a5a4e96cb2f1a96bd064f32dff4e00f73a')],
-  ['A', 'Create Your First Gemini Enterprise Application', 'Gemini Gear', 'Aug 2026', CR('f158ced5-5067-46a0-9f9c-2479bf31cff6')],
-  ['A', 'Introduction to Generative AI', 'Coursera', 'Jan 2026', 'https://www.coursera.org/account/accomplishments/verify/G3A7L84CRV82'],
-  ['A', 'Artificial Intelligence Fundamentals', 'IBM SkillsBuild', 'Feb 2026', CR('37f8ca56-518e-4ffc-8b70-dd29db910bab')],
-  ['M', 'Introduction to AI Concepts', 'Microsoft Learn', 'Sep 2026', MS('WM5FRA6N')],
-  ['M', 'Introduction to Natural Language Processing Concepts', 'Microsoft Learn', 'Sep 2026', MS('8VSNEQTW')],
-  ['M', 'Introduction to AI Speech Concepts', 'Microsoft Learn', 'Sep 2026', MS('NQLXKEEF')],
-  ['M', "What Is Microsoft Copilot? An Overview of Microsoft's AI Tools", 'LinkedIn Learning', 'Aug 2026', LI('58904718f5d955ce64f2f56f0b6118b7eff6961d328e1a73e09bd7be08771c19')],
-  ['D', 'Introduction to Containers, Kubernetes, and OpenShift', 'Cognitive Class', 'Sep 2026', 'https://courses.cognitiveclass.ai/certificates/7e5838e4e64d4f96b129f7a79d5671a9'],
-  ['D', 'Big Data Foundations, Level 1', 'IBM', 'Aug 2026', CR('dcfadd4e-959b-4e1d-b17d-b2f9f0467a18')],
-  ['D', 'Data Science Foundations, Level 1', 'IBM', 'Sep 2026', CR('c010bf5b-e655-4a5a-b203-25ccf1db87aa')],
-  ['D', 'Python for Data Science', 'IBM', 'Aug 2026', CR('96c841b8-592c-4d0e-9756-ac37bbaa431d')],
-  ['D', 'Cloud Computing Fundamentals', 'IBM SkillsBuild', 'Feb 2026', CR('1da9246d-550e-4463-8926-4dd9b0661602')],
-  ['D', 'Data Fundamentals', 'IBM SkillsBuild', 'Mar 2026', CR('dc86df62-aa4b-4aba-96b0-eb15d734e6d0')],
-  ['F', 'AI for Senior Leaders: Driving Strategy, Innovation, and Business Transformation', 'LinkedIn Learning', 'Aug 2026', LI('795b0f97dc40ba040309f80025937a970ff3e33eb9183052d362ee7061bab974')],
-  ['F', 'Cybersecurity Fundamentals', 'IBM SkillsBuild', 'Feb 2026', CR('50af0df4-e762-4d0e-8e0a-71eb809c9588')],
-  ['F', 'Web Development Fundamentals', 'IBM SkillsBuild', 'Feb 2026', CR('8200cfe4-fd0b-4f9f-b31d-06569ab8f445')],
-  ['F', 'Information Technology Fundamentals', 'IBM SkillsBuild', 'Feb 2026', CR('fb520a68-f279-4351-b67e-5dddea39b21e')],
-  ['F', 'Explore Emerging Tech', 'IBM SkillsBuild', 'Mar 2026', CR('6ed16143-e785-413f-8b7e-77b7466b3c09')],
-  ['F', 'A Standalone Project: Create a Website for Online Burger Orders Using React.js', 'LinkedIn Learning', 'Aug 2026', LI('c64dce7dfd4e3428b7076230c539848725efbfbb27caae97e7918bc7a4932d56')],
-  ['F', 'Be the Problem-Solver No Team Can Afford to Lose', 'LinkedIn Learning', 'Aug 2026', LI('b34b223c9bb5f875173f923d94f0c20c979b8562783b16cf67e5435024dd82a8')],
-  ['F', 'Working in a Digital World: Professional Skills', 'IBM SkillsBuild', 'Feb 2026', CR('056c5fb0-f12b-4d81-ba66-68eba97b211b')],
-  ['F', 'Open to Work: Building Key Career Skills in the Age of AI', 'LinkedIn Learning', 'Aug 2026', LI('760b77c72122181307e3333fe28bcaf5af9aa4c99d874730252860020e79583e')],
-  ['F', 'Job Application Essentials', 'IBM SkillsBuild', 'Mar 2026', CR('a074c7cf-3c79-434f-bacb-4d3473525a31')]
-];
-const FILTERS = [['featured', 'Featured'], ['C', 'Anthropic & Claude'], ['A', 'Agentic AI & LLMs'], ['D', 'Cloud & data'], ['M', 'Microsoft'], ['F', 'Foundations'], ['all', 'All']];
-const PAGE = 12;
-
 class Component extends DCLogic {
-  state = { theme: 'horizon', filter: 'featured', expanded: false };
+  state = { theme: 'horizon', certsReady: false };
 
   componentDidMount() {
     const init = () => {
@@ -554,8 +466,12 @@ class Component extends DCLogic {
     window.addEventListener('juh-theme', this.onTheme);
     if (window.JUHTheme) init();
     else { const iv = setInterval(() => { if (window.JUHTheme) { clearInterval(iv); init(); } }, 30); }
+    // certs.js is shared with /credentials; re-render once it has loaded.
+    if (!window.JUH_CERTS) {
+      this.certTimer = setInterval(() => { if (window.JUH_CERTS) { clearInterval(this.certTimer); this.setState({ certsReady: true }); } }, 30);
+    }
   }
-  componentWillUnmount() { window.removeEventListener('juh-theme', this.onTheme); }
+  componentWillUnmount() { window.removeEventListener('juh-theme', this.onTheme); clearInterval(this.certTimer); }
   componentDidUpdate(prev) {
     if (window.JUHTheme && prev.theme !== this.props.theme && !window.JUHTheme.saved() && window.JUHTheme.THEMES[this.props.theme]) window.JUHTheme.apply(this.props.theme);
   }
@@ -563,9 +479,8 @@ class Component extends DCLogic {
   renderVals() {
     const cur = this.state.theme;
     const T = (typeof window !== 'undefined' && window.JUHTheme) ? window.JUHTheme.THEMES : { horizon: { label: 'Horizon' }, classical: { label: 'Paper' }, mono: { label: 'Mono' } };
-    const f = this.state.filter;
-    const list = CERTS.filter(c => f === 'all' || (f === 'featured' ? c[5] : c[0] === f));
-    const shown = f === 'all' && !this.state.expanded ? list.slice(0, PAGE) : list;
+    const all = (typeof window !== 'undefined' && window.JUH_CERTS) || [];
+    const picks = ((typeof window !== 'undefined' && window.JUH_CERT_HIGHLIGHTS) || []).map(t => all.find(c => c[1] === t)).filter(Boolean);
     return {
       showPortrait: this.props.showPortrait ?? true,
       showDiagram: this.props.showDiagram ?? true,
@@ -577,8 +492,9 @@ class Component extends DCLogic {
         { delay: 240, n: '04', t: 'Technical leadership', d: 'Leading backend teams through design review, code review and mentoring.' }
       ],
       nav: [
-        { label: 'Work', href: '#work' }, { label: 'Projects', href: '#projects' }, { label: 'Experience', href: '#experience' },
-        { label: 'Credentials', href: '#credentials' }, { label: 'Case study', href: '/case-study' }, { label: 'Services & contact', href: '#contact' }
+        { label: 'Experience', href: '#experience' }, { label: 'Work', href: '#work' }, { label: 'Stack', href: '#stack' },
+        { label: 'Projects', href: '#projects' }, { label: 'Case study', href: '/case-study' },
+        { label: 'Credentials', href: '/credentials' }, { label: 'Contact', href: '#contact' }
       ],
       themeOpts: Object.keys(T).map(k => ({
         label: T[k].label, desc: T[k].desc, checked: k === cur ? 'true' : 'false',
@@ -586,17 +502,7 @@ class Component extends DCLogic {
         fg: k === cur ? 'var(--color-accent)' : 'var(--color-text)',
         pick: () => window.JUHTheme && window.JUHTheme.set(k)
       })),
-      certFilters: FILTERS.map(([k, label]) => ({
-        label, selected: k === f ? 'true' : 'false',
-        border: k === f ? 'var(--color-accent)' : 'var(--color-divider)',
-        fg: k === f ? 'var(--color-accent)' : 'var(--color-text)',
-        bg: k === f ? 'color-mix(in srgb, var(--color-accent) 10%, transparent)' : 'transparent',
-        pick: () => this.setState({ filter: k, expanded: false })
-      })),
-      certs: shown.map(c => ({ title: c[1], issuer: c[2], date: c[3], href: c[4] || undefined, action: c[4] ? 'Verify ↗' : 'ID ESD-037/10/2025' })),
-      canShowMore: f === 'all' && list.length > PAGE,
-      showMoreLabel: this.state.expanded ? 'Show fewer' : 'Show every certification',
-      showMore: () => this.setState(s => ({ expanded: !s.expanded })),
+      certs: picks.map(c => ({ title: c[1], issuer: c[2], date: c[3], href: c[4] || undefined, action: c[4] ? 'Verify ↗' : 'ID ESD-037/10/2025' })),
       repos: [
         { name: 'Omni.io', desc: 'Multi-tenant RAG support engine with a three-tier resilience ladder, Postgres row-level-security isolation, an embeddable widget and an MCP server. 81 unit and 16 end-to-end tests.', href: 'https://github.com/JawadulHadi/omni-io', kind: 'Source' },
         { name: 'TalntFlow AI', desc: 'Lightweight ATS with a Kanban pipeline, STAR scorecards, hiring analytics and an approval-based recruiting agent that runs on Claude with a rules fallback.', href: 'https://talntflow-ai.vercel.app', kind: 'Live' },
@@ -615,38 +521,52 @@ class Component extends DCLogic {
         { name: 'Cover Studio', desc: 'Browser-based LinkedIn banner designer with an AI copywriting assistant, safe-zone guides and one-click high-resolution export. Renders client-side.', href: 'https://github.com/Qeloma/qeloma-cover-studio', kind: 'Source' },
         { name: 'Qeloma Studio', desc: 'In-browser photo and video editor on WebGPU, WebGL2 and WebAssembly, with local ONNX background removal and a non-destructive edit graph. No server calls.', href: 'https://github.com/Qeloma/Qeloma-Studio', kind: 'Source' },
         { name: 'Room Booking', desc: 'Multi-tenant meeting-room booking on NestJS 11 and React 18, with conflict detection, calendar integration, notifications and English, Chinese and Japanese UI.', href: 'https://github.com/Qeloma/qeloma_meeting_room_booking_app', kind: 'Source' },
-        { name: 'Extension suite', desc: 'Ten single-purpose Manifest V3 extensions, built with WXT: screenshots, focus blocker, dark mode, AI page clips, volume booster, time-boxing, time tracking, SEO inspector, reader mode and a colour palette tool. Includes a Chrome Web Store preflight gate.', href: 'https://github.com/JawadulHadi/qeloma-extension-suite', kind: 'Source' }
+        { name: 'Extension suite', desc: 'Ten single-purpose Manifest V3 extensions built with WXT: one-click and full-page screenshots, a domain blocker with Pomodoro timer, zero-flicker dark mode, Gemini-powered page clips, a per-tab volume booster, time-boxing, private time tracking, an SEO inspector, reader mode and a colour palette tool. Local-first, with a Chrome Web Store preflight gate.', href: 'https://github.com/JawadulHadi/qeloma-extension-suite', kind: 'Source' }
       ],
       work: [
-        { delay: 0, role: 'Backend Lead & Architect', title: 'Multi-tenant AI recruitment ATS', desc: 'Three-level ROOT → PARENT → CHILD tenancy enforced from verified JWT scopes across the whole query layer. Resume ingestion runs on idempotent BullMQ workers with rule-based fallbacks; search is tenant-scoped MeiliSearch.', stack: 'NestJS · MongoDB · Gemini · MeiliSearch · BullMQ · Postal SMTP' },
-        { delay: 120, role: 'Backend Engineer', title: 'APAC HRMS', desc: 'Employee lifecycle platform with an RBAC engine of 9 roles and 31 permissions, leave banking with Excel import and export, multi-level request approvals, and GCS signed-URL documents behind a Redis cache.', stack: 'NestJS 11 · MongoDB · Redis · GCS' },
-        { delay: 0, role: 'Backend Engineer', title: 'Enterprise agile collaboration suite', desc: 'Project management with capacity modeling and real-time WebSocket collaboration. Refactoring its REST and GraphQL services improved data retrieval by about 40%.', stack: 'NestJS · GraphQL · WebSocket · PostgreSQL · Docker' },
-        { delay: 0, role: 'Backend Engineer', title: 'AgileBrains consultant marketplace', desc: 'Microservices for Admin, Client, Consultant and Job behind a Main App gateway and a custom service registry, each split into presentation, business and data layers.', stack: 'TypeScript · Node.js · Express · Mongoose' },
-        { delay: 120, role: 'Software Engineer', title: 'Serverless gateway & CRM layer', desc: 'AWS Lambda and API Gateway services connecting client SaaS platforms to payment processors and CRMs over OAuth 2.0, replacing always-on servers.', stack: 'AWS Lambda · API Gateway · FastAPI · Django REST' }
+        { delay: 0, role: 'Backend Lead', title: 'Talentnix: AI gateway & resilience', desc: 'Multi-tenant SaaS platform. One routing layer in front of OpenAI, Gemini and Anthropic with automatic failover, backed by a three-tier fallback (retry → RAG fallback → rule-based floor). Tenant isolation is enforced across its REST and GraphQL APIs with OAuth 2.0 and JWT.', stack: 'OpenAI · Gemini · Anthropic · REST · GraphQL · OAuth 2.0 / JWT' },
+        { delay: 120, role: 'Backend Lead & Architect', title: 'Multi-tenant AI recruitment ATS', desc: 'Internal ATS built with Claude Code and Gemini 2.5 Flash. Three-level ROOT → PARENT → CHILD tenancy is enforced from verified JWT scopes across the whole query layer. Resume ingestion runs on idempotent BullMQ workers with rule-based fallbacks; search is tenant-scoped MeiliSearch.', stack: 'NestJS · MongoDB · Gemini 2.5 Flash · MeiliSearch · BullMQ · Postal SMTP' },
+        { delay: 0, role: 'Backend Lead', title: 'APAC Management System (HRMS)', desc: 'MicroAgility’s HRMS, combining payroll, HR and attendance with complete employee records. It has an RBAC engine of 9 roles and 31 permissions, leave banking with Excel import and export, multi-level request approvals, and GCS signed-URL documents behind a Redis cache.', stack: 'NestJS 11 · MongoDB · Redis · GCS' },
+        { delay: 120, role: 'Backend Engineer', title: 'iAgility', desc: 'A large product built around the hiring and consultancy workflow, on a MEAN microservices stack. I owned the backend: Express.js microservices and GraphQL APIs for the hiring flow with MongoDB as the main data store, Postal for transactional email, Google Cloud Storage for files and WebSocket for real-time notifications.', stack: 'MongoDB · Express.js · Angular · Node.js · GraphQL · WebSocket · Postal' },
+        { delay: 0, role: 'Backend Engineer', title: 'AgileBrains', desc: 'A single consultant and client hiring platform on the same MEAN microservices stack: Admin, Client, Consultant and Job services behind a Main App gateway and a custom service registry, each split into presentation, business and data layers.', stack: 'MongoDB · Express.js · Angular · Node.js · TypeScript · Mongoose' },
+        { delay: 120, role: 'Software Engineer', title: 'Serverless gateway & CRM layer', desc: 'Serverless AWS Lambda and API Gateway services on an event-driven design, replacing always-on servers, plus Express.js, FastAPI and Django REST Framework APIs for secure CRM and payment integrations.', stack: 'AWS Lambda · API Gateway · Express.js · FastAPI · Django REST' }
       ],
       jobs: [
-        { dates: 'Jan 2024 — Present', org: 'MicroAgility Services, Islamabad', role: 'Backend Lead / Senior Software Engineer', points: [
-          'Unified OpenAI, Gemini and Anthropic behind one provider-agnostic layer with automatic failover, cutting AI integration complexity by 60%.',
-          'Designed the three-tier resilience pattern (retry → RAG → rule-based floor); zero user-facing AI failures across all provider outages.',
-          'Took dashboards from 12s to under 2s through PostgreSQL and MongoDB query work, indexing and a MeiliSearch rollout.',
-          'Kept API responses sub-second under thousands of concurrent jobs with an event-driven BullMQ and Redis architecture.',
-          'Zero cross-tenant data exposure, with tenant isolation enforced in every REST and GraphQL API. Mentor the backend team through design and code review.'
+        { dates: 'Jan 2024 — Present', org: 'MicroAgility Services (Pvt) Ltd., Islamabad', role: 'Backend Lead Engineer', points: [
+          'Built the AI gateway for Talentnix, a multi-tenant SaaS platform: one routing layer in front of OpenAI, Gemini and Anthropic with automatic failover, which cut AI integration complexity by 60%.',
+          'Designed Talentnix’s three-tier resilience pattern (retry → RAG fallback → rule-based floor). Users have seen zero AI failures during live LLM outages; the design is written up in the “Designing for AI Failure” case study.',
+          'Enforced tenant isolation across Talentnix’s REST and GraphQL APIs with OAuth 2.0/JWT, with no cross-tenant data exposure incidents to date.',
+          'Lead backend development for the APAC Management System, MicroAgility’s HRMS that combines payroll, HR and attendance with complete employee records, and for client projects.',
+          'Brought dashboard response times down from 12s to under 2s (83%) through PostgreSQL and MongoDB query tuning, new indexes and a MeiliSearch rollout.',
+          'Built an event-driven BullMQ and Redis job pipeline that keeps APIs under a second while thousands of async jobs run concurrently.',
+          'Delivered full Jest unit-test coverage with GitHub Copilot, and built an internal ATS with Claude Code and Gemini 2.5 Flash.',
+          'Set up GitHub Actions CI/CD pipelines with automated test gates, shortening release cycles.',
+          'Mentor three associate backend developers through the company’s Learning & Development program.'
         ] },
-        { dates: 'Mar 2022 — Jan 2024', org: 'MicroAgility Services, Islamabad', role: 'Backend Software Engineer', points: [
-          'Held 99.9% uptime with zero-downtime schema migrations on live multi-tenant databases.',
-          'Improved data retrieval by about 40% by refactoring REST and GraphQL services.',
-          'Automated tenant deployment and migration, removing manual onboarding for enterprise clients.'
+        { dates: 'Mar 2022 — Jan 2024', org: 'MicroAgility Services (Pvt) Ltd., Islamabad', role: 'Backend Software Engineer', points: [
+          'Owned backend development for iAgility and AgileBrains, two large products built around the hiring and consultancy workflow, on a MEAN (MongoDB, Express.js, Angular and Node.js) microservices architecture.',
+          'Built Express.js microservices and GraphQL APIs that handle each product’s hiring flow, with MongoDB as the main data store.',
+          'Wired up Postal mail for transactional email and Google Cloud Storage for files, with WebSocket for real-time notifications.',
+          'Ran zero-downtime schema migrations on live multi-tenant production databases while maintaining 99.9% uptime.',
+          'Refactored the REST and GraphQL services that serve thousands of users across multiple tenants, improving data retrieval speed by about 40%.',
+          'Automated the deployment and migration pipeline for new enterprise tenants, cutting manual onboarding effort.'
         ] },
-        { dates: 'Jan 2018 — Mar 2022', org: 'Market Icon, Rawalpindi', role: 'Software Engineer', points: [
-          'Replaced always-on servers with event-driven AWS Lambda and API Gateway systems.',
-          'Built CRM and payment integrations across Express.js, FastAPI and Django REST Framework.'
+        { dates: 'Aug 2018 — Mar 2022', org: 'Market Icon, Rawalpindi', role: 'Software Engineer', points: [
+          'Worked as the primary full-stack developer on a large-scale MEAN (MongoDB, Express.js, Angular and Node.js) system, with ownership of backend design and delivery.',
+          'Designed the distributed server and database architecture on an OpenStack cloud platform.',
+          'Modeled the databases for continuously growing real-time data, so reads and writes stayed fast as volume rose.',
+          'Built serverless AWS Lambda and API Gateway services on an event-driven design, removing the idle cost of always-on servers.',
+          'Built Express.js, FastAPI and Django REST Framework APIs for secure CRM and payment integrations.',
+          'Hardened backend services against peak load and power outages, and introduced code documentation and change tracking.'
         ] }
       ],
       stack: [
-        { group: 'Architecture', items: 'Multi-tenant SaaS, microservices, event-driven design, GraphQL API design, reliability trade-offs' },
-        { group: 'Backend', items: 'Node.js, NestJS, TypeScript, Python, FastAPI, PostgreSQL, MongoDB, MySQL, Redis' },
-        { group: 'AI systems', items: 'RAG pipelines, MCP servers, OpenAI, Gemini and Anthropic integration, Claude Code, Copilot' },
-        { group: 'Delivery', items: 'GitHub Actions, Jest, OAuth 2.0 / JWT, AWS, GCP, Docker, Kubernetes' }
+        { group: 'Architecture & systems design', items: 'Distributed systems, system design, microservices, event-driven architecture, multi-tenant SaaS, REST and GraphQL API design, scalability and reliability trade-offs' },
+        { group: 'Backend engineering', items: 'Node.js, NestJS, TypeScript, Express.js, Python, FastAPI, Django REST Framework, PostgreSQL, MySQL, MongoDB, Redis, BullMQ, MeiliSearch' },
+        { group: 'AI-first engineering', items: 'LLM integration (OpenAI, Gemini, Anthropic), RAG pipelines, MCP servers, AI agent workflows, Claude Code, GitHub Copilot, Gemini 2.5 Flash' },
+        { group: 'Cloud & delivery', items: 'AWS (Lambda, API Gateway), GCP, OpenStack, Docker, Kubernetes, CI/CD (GitHub Actions), Jest, OAuth 2.0 / JWT' },
+        { group: 'Product domains', items: 'Multi-tenant SaaS, HRMS, CRM, recruitment and consultancy platforms' },
+        { group: 'Leadership', items: 'Technical leadership, mentoring and onboarding, architecture and code review, technical direction, architecture decision records (ADRs)' }
       ]
     };
   }

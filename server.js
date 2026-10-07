@@ -1,5 +1,5 @@
 // Local dev / Render / any Node host: static site + /api/agent.
-// Mirrors vercel.json: clean URLs (/, /case-study), legacy redirects, same headers.
+// Mirrors vercel.json: clean URLs (/, /case-study, /credentials), legacy redirects, same headers.
 const express = require('express');
 const path = require('path');
 const { handleAgentRequest, health } = require('./api/_agent');
