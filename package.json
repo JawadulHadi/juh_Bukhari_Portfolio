@@ -23,7 +23,8 @@
   ],
   "scripts": {
     "dev": "node server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "prerender": "node scripts/prerender.js"
   },
   "engines": {
     "node": ">=20"

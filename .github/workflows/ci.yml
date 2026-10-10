@@ -26,9 +26,12 @@ jobs:
 
       - name: Syntax check
         run: |
-          for f in server.js api/*.js theme.js certs.js; do
+          for f in server.js api/*.js theme.js certs.js scripts/prerender.js; do
             node --check "$f"
           done
+
+      - name: Pre-rendered HTML is up to date
+        run: node scripts/prerender.js --check
 
       - name: Start server
         run: |

@@ -7,6 +7,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Added
 
+- Pre-rendered HTML (`scripts/prerender.js`, `npm run prerender`): the nav, experience, work, stack, projects and every credential are written into the served HTML, so crawlers, link previews and ATS parsers see real roles, dates and credentials. CI checks it is up to date.
+- Home: a "Designing for AI Failure" case-study callout straight after the headline metrics.
+- `/credentials` and `#stack` show "75 verified credentials" with the issuer breakdown.
+
 - `/credentials`: a separate, filterable certifications page (`credentials.html`). Certification data moved to `certs.js`, shared with the main page, which now shows only the certifications on the résumé.
 - "Ask Jawad": more general quick-prompt chips (who, services, achievements, relocation, timezone, AI workflow, leadership, education, résumé) with a *More / Fewer* toggle, and matching offline answers.
 - Project documentation: README, LICENSE (MIT), NOTICE, CONTRIBUTING, CODE_OF_CONDUCT, SECURITY, CHANGELOG.
@@ -15,6 +19,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - `.gitignore`, `.env.example`, `.editorconfig`, `.nvmrc`.
 
 ### Changed
+
+- Credentials now come from the 10 Oct 2026 register: 75 unique (was 53), adding 20 Google Cloud Skills Boost badges and the full IBM and Microsoft Learning sets.
+- Metric copy matches the résumé exactly: "from 12s to under 2s (83%)", "cut AI integration complexity by 60%", "zero AI failures during live LLM outages", "no cross-tenant data exposure incidents to date". "99.9% uptime" is shown only with the Backend Software Engineer role; the home metric tile now shows the 60% gateway result instead.
+- Headline reads "Backend Lead / Architect"; role dates use en dashes ("Jan 2024 – Present"); British spelling (programme, modelled, centre).
+- Removed figures that aren't on the résumé from Selected work (tenancy levels, role and permission counts).
+- `resume.pdf` replaced with the 10 Oct 2026 revision.
 
 - Main page order: intro, experience, selected work, stack & credentials, projects & open source, case study, services & contact. The case study is a teaser at the end, linking to `/case-study`.
 - Selected work now covers the projects named on the résumé (Talentnix, internal ATS, APAC Management System, iAgility, AgileBrains, serverless gateway). iAgility and AgileBrains are described from the résumé, and AgileBrains is a single product.
