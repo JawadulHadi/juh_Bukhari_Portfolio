@@ -25,6 +25,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Headline reads "Backend Lead / Architect"; role dates use en dashes ("Jan 2024 – Present"); British spelling (programme, modelled, centre).
 - Removed figures that aren't on the résumé from Selected work (tenancy levels, role and permission counts).
 - `resume.pdf` replaced with the 10 Oct 2026 revision.
+- Case study metrics match the résumé: "60% cut in AI integration complexity" over OpenAI, Gemini and Anthropic replaces "~60% less AI code surface" across five providers; the unconfirmed "5 production AI workflows" and "0 new infrastructure" tiles are removed.
+
+### Fixed
+
+- Pre-rendered copy is removed only once React has actually rendered into `#dc-root`. A failed render now falls back to it after five seconds instead of leaving a blank page, and a runtime that mounts late replaces it instead of showing both.
+- Pre-rendered credentials without a verification URL show their ID (Django: `ID ESD-037/10/2025`).
+- Pre-rendered home page has `#experience`, `#work`, `#stack`, `#projects` and `#contact` anchors, and a contact line with the Gravatar link, so the fallback nav links land somewhere.
 
 - Main page order: intro, experience, selected work, stack & credentials, projects & open source, case study, services & contact. The case study is a teaser at the end, linking to `/case-study`.
 - Selected work now covers the projects named on the résumé (Talentnix, internal ATS, APAC Management System, iAgility, AgileBrains, serverless gateway). iAgility and AgileBrains are described from the résumé, and AgileBrains is a single product.
