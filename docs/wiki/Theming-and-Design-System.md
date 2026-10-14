@@ -12,6 +12,7 @@
 | --- | --- | --- | --- |
 | `horizon` | Horizon | dark | Night grid, ember accent `#e8784a` (default) |
 | `classical` | Paper | light | Paper, ink and gold. Uses the Classical tokens as-is |
+| `glass` | Glass | dark | Frosted panels, gold accent `#e5b376`, animated aurora and service-graph backdrop (static under reduced motion) |
 | `mono` | Mono | dark | Black, white, editorial |
 
 Variables that themes override: `--color-bg`, `--color-surface`, `--color-text`, `--color-accent`, `--color-divider`, `--ink-accent`, `--muted`, `--page-grid`.

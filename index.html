@@ -322,6 +322,25 @@
               <a class="btn btn-secondary" href="/credentials">View all 75 credentials →</a>
             </div>
           </div>
+
+          <sc-if value="{{ showGraph }}" hint-placeholder-val="{{ true }}">
+            <div data-reveal="0"
+              style="margin-top: calc(var(--space-8) * 1.4); padding-top: var(--space-6); border-top: 1px solid var(--color-divider);">
+              <div
+                style="display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap; margin-bottom: var(--space-4);">
+                <h3 style="font-size: 30px; font-weight: 400; margin: 0;">GitHub activity</h3>
+                <p style="font-size: 13px; font-style: italic; color: var(--muted); margin: 0;">My contribution calendar in
+                  3D, regenerated daily from GitHub.</p>
+              </div>
+              <a href="https://github.com/JawadulHadi" target="_blank" rel="noopener" data-glow=""
+                style="display: block; padding: var(--space-4); border: 1px solid var(--color-divider); border-radius: var(--radius-md); background-image: radial-gradient(420px circle at var(--gx, -50%) var(--gy, -50%), color-mix(in srgb, var(--color-accent) 10%, transparent), transparent 70%); transition: border-color .25s ease;"
+                style-hover="border-color: var(--color-accent);">
+                <img src="{{ graphSrc }}" alt="3D GitHub contribution calendar for JawadulHadi, with yearly contribution, star and fork counts"
+                  loading="lazy" decoding="async" onError="{{ hideGraph }}"
+                  style="display: block; width: 100%; height: auto; aspect-ratio: 1280 / 850;">
+              </a>
+            </div>
+          </sc-if>
         </section>
 
         <section id="projects"
@@ -486,7 +505,7 @@
     </div>
   </x-dc>
   <script type="text/x-dc" data-dc-script
-    data-props="{&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;horizon&quot;,&quot;classical&quot;,&quot;mono&quot;],&quot;default&quot;:&quot;horizon&quot;,&quot;tsType&quot;:&quot;'horizon'|'classical'|'mono'&quot;},&quot;showPortrait&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;showDiagram&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;animations&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+    data-props="{&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;horizon&quot;,&quot;classical&quot;,&quot;glass&quot;,&quot;mono&quot;],&quot;default&quot;:&quot;horizon&quot;,&quot;tsType&quot;:&quot;'horizon'|'classical'|'glass'|'mono'&quot;},&quot;showPortrait&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;showDiagram&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;animations&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
 class Component extends DCLogic {
   state = { theme: 'horizon', certsReady: false };
 
@@ -513,12 +532,16 @@ class Component extends DCLogic {
 
   renderVals() {
     const cur = this.state.theme;
-    const T = (typeof window !== 'undefined' && window.JUHTheme) ? window.JUHTheme.THEMES : { horizon: { label: 'Horizon' }, classical: { label: 'Paper' }, mono: { label: 'Mono' } };
+    const T = (typeof window !== 'undefined' && window.JUHTheme) ? window.JUHTheme.THEMES : { horizon: { label: 'Horizon' }, classical: { label: 'Paper' }, glass: { label: 'Glass' }, mono: { label: 'Mono' } };
     const all = (typeof window !== 'undefined' && window.JUH_CERTS) || [];
     const picks = ((typeof window !== 'undefined' && window.JUH_CERT_HIGHLIGHTS) || []).map(t => all.find(c => c[1] === t)).filter(Boolean);
     return {
       showPortrait: this.props.showPortrait ?? true,
       showDiagram: this.props.showDiagram ?? true,
+      // Rendered daily by the profile repo's GitHub-Profile-3D-Contrib workflow; hidden if not generated yet.
+      showGraph: !this.state.graphFailed,
+      graphSrc: 'https://raw.githubusercontent.com/JawadulHadi/JawadulHadi/main/profile-3d-contrib/' + (cur === 'classical' ? 'profile-season-animate.svg' : 'profile-night-rainbow.svg'),
+      hideGraph: () => this.setState({ graphFailed: true }),
       openAgent: () => window.dispatchEvent(new CustomEvent('juh-agent-open')),
       services: [
         { delay: 0, n: '01', t: 'Backend architecture', d: 'Multi-tenant SaaS design with tenant isolation, schema strategy and REST or GraphQL API contracts.' },

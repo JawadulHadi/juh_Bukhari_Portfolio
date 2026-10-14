@@ -578,7 +578,7 @@ class Component extends DCLogic {
   }
   renderVals() {
     const cur = this.state.theme;
-    const T = (typeof window !== 'undefined' && window.JUHTheme) ? window.JUHTheme.THEMES : { horizon: { label: 'Horizon' }, classical: { label: 'Paper' }, mono: { label: 'Mono' } };
+    const T = (typeof window !== 'undefined' && window.JUHTheme) ? window.JUHTheme.THEMES : { horizon: { label: 'Horizon' }, classical: { label: 'Paper' }, glass: { label: 'Glass' }, mono: { label: 'Mono' } };
     const sc = SCEN[this.state.scen];
     const done = this.state.shown >= sc.logs.length;
     const colors = { INFO: 'var(--muted)', OK: 'var(--color-accent)', WARN: 'var(--ink-accent)', DONE: 'var(--color-text)' };
