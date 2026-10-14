@@ -7,6 +7,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Added
 
+- Glass is now the default theme for new visitors, with two more glass variants: Frost (light) and Nebula (violet and teal). Glass variants share one animated backdrop whose colours come from the theme's `--g-*` tokens.
 - Glass theme: frosted, translucent panels with a light sheen over an animated backdrop (drifting aurora, service nodes and traffic flowing along their edges). Motion stops under `prefers-reduced-motion`.
 - `#stack`: a "GitHub activity" block with the 3D contribution calendar generated daily by the profile repo; it follows the theme and hides itself until the image exists.
 - Pre-rendered HTML (`scripts/prerender.js`, `npm run prerender`): the nav, experience, work, stack, projects and every credential are written into the served HTML, so crawlers, link previews and ATS parsers see real roles, dates and credentials. CI checks it is up to date.

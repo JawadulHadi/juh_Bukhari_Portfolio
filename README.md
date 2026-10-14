@@ -38,7 +38,7 @@ Static portfolio pages plus one serverless endpoint that powers **"Ask Jawad"**,
 - **Credentials page** (`/credentials`): every certification with topic filters and issuer verification links. The main page shows only the ones on the résumé.
 - **Case study: *Designing for AI Failure***: the Retry → RAG Fallback → Rule-Based Floor pattern, with architecture figures and an interactive failure simulator.
 - **"Ask Jawad" agent**: a floating chat on every page, backed by Claude on the server. It supports voice input and read-aloud, can navigate the site ("take me to projects"), and falls back to built-in answers when the API isn't configured.
-- **Four themes**: Horizon (dark, ember glow), Paper (light, classical), Glass (frosted panels over an animated system-design backdrop) and Mono. The choice is saved in `localStorage` and synced across tabs.
+- **Six themes**, Glass by default: three glass variants over an animated system-design backdrop (Glass: gold on night, Frost: light, Nebula: violet and teal), plus Horizon (dark, ember glow), Paper (light, classical) and Mono. The choice is saved in `localStorage` and synced across tabs.
 - **Accessibility**: honours `prefers-reduced-motion`, uses ARIA-labelled controls and semantic sections.
 - **Hardened by default**: the API key never reaches the browser, input is validated, requests are rate-limited, and security headers are set.
 
@@ -93,7 +93,7 @@ Agent tuning lives in [`api/_agent.js`](api/_agent.js):
 ├── credentials.html        # Full, filterable certification list, served at /credentials
 ├── certs.js                # Certification data, shared by index.html and credentials.html
 ├── Agent.dc.html           # Floating "Ask Jawad" agent, imported by both pages
-├── theme.js                # Horizon / Paper / Glass / Mono themes, scroll reveals, cursor effects
+├── theme.js                # Glass / Frost / Nebula / Horizon / Paper / Mono themes, scroll reveals, cursor effects
 ├── support.js              # GENERATED dc-runtime, do not edit
 ├── _ds/                    # GENERATED Classical design-system tokens + bundle
 ├── api/

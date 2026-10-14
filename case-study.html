@@ -106,10 +106,10 @@
                 style-hover="background-size: 100% 1px; color: var(--color-accent);">{{ n.label }}</a>
             </sc-for>
           </nav>
-          <div style="display: flex; align-items: center; gap: var(--space-3);">
+          <div style="display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-3); max-width: 100%;">
             <div role="radiogroup" aria-label="Theme"
-              style="display: flex; border: 1px solid var(--color-divider); border-radius: var(--radius-md); overflow: hidden;">
-              <sc-for list="{{ themeOpts }}" as="t" hint-placeholder-count="3">
+              style="display: flex; max-width: 100%; border: 1px solid var(--color-divider); border-radius: var(--radius-md); overflow-x: auto; scrollbar-width: none;">
+              <sc-for list="{{ themeOpts }}" as="t" hint-placeholder-count="6">
                 <button type="button" role="radio" aria-checked="{{ t.checked }}" onClick="{{ t.pick }}"
                   title="{{ t.desc }}"
                   style="font-family: var(--font-heading); font-size: 13px; padding: 5px 11px; background: {{ t.bg }}; color: {{ t.fg }}; border: 0; cursor: pointer; transition: background-color .25s ease, color .25s ease;">{{
@@ -560,7 +560,7 @@ const LADDER = [
 ];
 
 class Component extends DCLogic {
-  state = { theme: 'horizon', fig: 1, scen: 'normal', shown: 6 };
+  state = { theme: 'glass', fig: 1, scen: 'normal', shown: 6 };
   componentDidMount() {
     const init = () => { this.setState({ theme: window.JUHTheme.get() }); window.JUHTheme.reveal(); };
     this.onTheme = e => this.setState({ theme: e.detail });
@@ -578,7 +578,7 @@ class Component extends DCLogic {
   }
   renderVals() {
     const cur = this.state.theme;
-    const T = (typeof window !== 'undefined' && window.JUHTheme) ? window.JUHTheme.THEMES : { horizon: { label: 'Horizon' }, classical: { label: 'Paper' }, glass: { label: 'Glass' }, mono: { label: 'Mono' } };
+    const T = (typeof window !== 'undefined' && window.JUHTheme) ? window.JUHTheme.THEMES : { glass: { label: 'Glass' }, frost: { label: 'Frost' }, nebula: { label: 'Nebula' }, horizon: { label: 'Horizon' }, classical: { label: 'Paper' }, mono: { label: 'Mono' } };
     const sc = SCEN[this.state.scen];
     const done = this.state.shown >= sc.logs.length;
     const colors = { INFO: 'var(--muted)', OK: 'var(--color-accent)', WARN: 'var(--ink-accent)', DONE: 'var(--color-text)' };
