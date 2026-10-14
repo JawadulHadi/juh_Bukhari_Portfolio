@@ -11,6 +11,11 @@
     classical: { label: 'Paper', desc: 'Classical: paper, ink & gold', scheme: 'light', vars: {
       '--ink-accent': 'var(--color-accent-700)', '--muted': 'color-mix(in srgb, var(--color-text) 62%, transparent)', '--page-grid': 'none'
     } },
+    glass: { label: 'Glass', desc: 'Glass: frosted panels over a live system-design backdrop', scheme: 'dark', vars: {
+      '--color-bg': '#060a13', '--color-surface': 'rgba(255,255,255,.055)', '--color-text': '#eef2f8',
+      '--color-accent': '#e5b376', '--ink-accent': '#f0c58c', '--muted': '#9aa6b8',
+      '--color-divider': 'rgba(255,255,255,.12)', '--page-grid': 'none'
+    } },
     mono: { label: 'Mono', desc: 'Monochrome: black, white & editorial', scheme: 'dark', vars: {
       '--color-bg': '#070707', '--color-surface': '#141414', '--color-text': '#ededed',
       '--color-accent': '#f2f2f2', '--ink-accent': '#ffffff', '--muted': '#8f8f8f',
@@ -29,7 +34,70 @@
     Object.keys(t.vars).forEach(function (v) { s.setProperty(v, t.vars[v]); });
     s.colorScheme = t.scheme;
     document.documentElement.setAttribute('data-theme', k);
+    glassFx(k === 'glass');
     window.dispatchEvent(new CustomEvent('juh-theme', { detail: k }));
+  }
+  // Glass theme: frosted panels plus a fixed, animated backdrop drawn like the
+  // profile's system-design SVGs (aurora glow, service nodes, traffic flowing
+  // along the edges). Built on first use and removed when another theme is picked.
+  var GLASS_CSS = [
+    'html[data-theme=glass] body{background:radial-gradient(1200px 800px at 15% -10%,#14233f 0%,transparent 60%),radial-gradient(900px 700px at 110% 30%,#2a1c10 0%,transparent 55%),#060a13}',
+    'html[data-theme=glass] header{background:rgba(10,16,28,.55)!important;backdrop-filter:blur(18px) saturate(160%)!important;-webkit-backdrop-filter:blur(18px) saturate(160%)!important;border-bottom-color:rgba(255,255,255,.1)!important}',
+    'html[data-theme=glass] [data-glow],html[data-theme=glass] #stack [data-reveal] > div > div,html[data-theme=glass] #experience article{position:relative;background-color:rgba(255,255,255,.045);backdrop-filter:blur(14px) saturate(150%);-webkit-backdrop-filter:blur(14px) saturate(150%);border-color:rgba(255,255,255,.13)!important;border-radius:var(--radius-md);box-shadow:inset 0 1px 0 rgba(255,255,255,.09),0 12px 32px rgba(0,0,0,.28)}',
+    'html[data-theme=glass] [data-glow]{overflow:hidden}',
+    'html[data-theme=glass] [data-glow]::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.09) 48%,rgba(229,179,118,.08) 52%,transparent 65%);background-size:250% 100%;background-position:120% 0;animation:juh-glass-sheen 7s ease-in-out infinite}',
+    'html[data-theme=glass] [data-glow]:hover::after{animation-duration:2.2s}',
+    'html[data-theme=glass] .plate{box-shadow:0 0 0 1px rgba(255,255,255,.14),0 20px 60px rgba(229,179,118,.18)}',
+    'html[data-theme=glass] .btn-primary{box-shadow:0 0 0 1px rgba(229,179,118,.35),0 8px 24px rgba(229,179,118,.22);animation:juh-glass-pulse 3.6s ease-in-out infinite}',
+    '@keyframes juh-glass-sheen{0%,55%{background-position:120% 0}100%{background-position:-120% 0}}',
+    '@keyframes juh-glass-pulse{0%,100%{box-shadow:0 0 0 1px rgba(229,179,118,.35),0 8px 24px rgba(229,179,118,.18)}50%{box-shadow:0 0 0 1px rgba(229,179,118,.6),0 8px 30px rgba(229,179,118,.34)}}',
+    '@keyframes juh-glass-drift{0%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(6vw,-4vh,0) scale(1.15)}100%{transform:translate3d(0,0,0) scale(1)}}',
+    '@keyframes juh-glass-flow{to{stroke-dashoffset:-48}}',
+    '@keyframes juh-glass-node{0%,100%{opacity:.55}50%{opacity:1}}',
+    '#juh-glass-bg{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}',
+    '#juh-glass-bg .blob{position:absolute;width:46vmax;height:46vmax;border-radius:50%;filter:blur(70px);opacity:.38;animation:juh-glass-drift 26s ease-in-out infinite}',
+    '#juh-glass-bg .b1{left:-12vmax;top:-14vmax;background:#2b5fd9}',
+    '#juh-glass-bg .b2{right:-14vmax;top:18vh;background:#e5b376;opacity:.22;animation-duration:32s;animation-delay:-8s}',
+    '#juh-glass-bg .b3{left:22vw;bottom:-22vmax;background:#7c3aed;opacity:.26;animation-duration:38s;animation-delay:-15s}',
+    '#juh-glass-bg svg{position:absolute;inset:0;width:100%;height:100%;opacity:.5}',
+    '#juh-glass-bg .edge{fill:none;stroke:rgba(150,180,230,.22);stroke-width:1.2}',
+    '#juh-glass-bg .flow{fill:none;stroke:#e5b376;stroke-width:1.6;stroke-linecap:round;stroke-dasharray:6 42;opacity:.75;animation:juh-glass-flow 2.4s linear infinite}',
+    '#juh-glass-bg .node{fill:rgba(255,255,255,.05);stroke:rgba(190,210,245,.35);stroke-width:1.2;animation:juh-glass-node 4s ease-in-out infinite}',
+    '#juh-glass-bg .core{fill:#e5b376}',
+    '@media (prefers-reduced-motion: reduce){#juh-glass-bg *,html[data-theme=glass] [data-glow]::after,html[data-theme=glass] .btn-primary{animation:none!important}#juh-glass-bg .pkt{display:none}}'
+  ].join('\n');
+  // A small service graph: gateway, queue, workers, stores and LLM providers.
+  var GLASS_NODES = [[180, 200], [430, 140], [430, 330], [700, 230], [960, 120], [960, 360], [1220, 220], [300, 620], [620, 560], [900, 700], [1200, 580], [1340, 820], [120, 820]];
+  var GLASS_EDGES = [[0, 1], [0, 2], [1, 3], [2, 3], [3, 4], [3, 5], [4, 6], [5, 6], [2, 7], [7, 8], [8, 3], [8, 9], [9, 10], [10, 6], [10, 11], [7, 12], [5, 10]];
+  function glassSvg() {
+    var ns = 'http://www.w3.org/2000/svg', edges = '', flows = '', pkts = '', nodes = '';
+    GLASS_EDGES.forEach(function (e, i) {
+      var a = GLASS_NODES[e[0]], b = GLASS_NODES[e[1]];
+      var mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2 - 40;
+      var d = 'M' + a[0] + ' ' + a[1] + ' Q' + mx + ' ' + my + ' ' + b[0] + ' ' + b[1];
+      edges += '<path class="edge" d="' + d + '"/>';
+      flows += '<path class="flow" d="' + d + '" style="animation-delay:-' + (i * 0.37).toFixed(2) + 's"/>';
+      if (i % 2 === 0) pkts += '<circle class="pkt" r="3" fill="#f0c58c"><animateMotion dur="' + (3 + (i % 5) * 0.7) + 's" repeatCount="indefinite" begin="-' + (i * 0.5) + 's" path="' + d + '"/></circle>';
+    });
+    GLASS_NODES.forEach(function (n, i) {
+      nodes += '<g style="animation-delay:-' + (i * 0.6) + 's"><rect class="node" x="' + (n[0] - 34) + '" y="' + (n[1] - 18) + '" width="68" height="36" rx="10" style="animation-delay:-' + (i * 0.6) + 's"/><circle class="core" cx="' + n[0] + '" cy="' + n[1] + '" r="3.5"/></g>';
+    });
+    return '<svg xmlns="' + ns + '" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' + edges + flows + pkts + nodes + '</svg>';
+  }
+  function glassFx(on) {
+    var st = document.getElementById('juh-glass-css'), bg = document.getElementById('juh-glass-bg');
+    if (!on) { if (bg) bg.remove(); return; }
+    if (!st) {
+      st = document.createElement('style'); st.id = 'juh-glass-css'; st.textContent = GLASS_CSS;
+      document.head.appendChild(st);
+    }
+    if (bg) return;
+    bg = document.createElement('div'); bg.id = 'juh-glass-bg'; bg.setAttribute('aria-hidden', 'true');
+    bg.innerHTML = '<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>' + glassSvg();
+    (function mount() {
+      if (document.body) document.body.insertBefore(bg, document.body.firstChild);
+      else document.addEventListener('DOMContentLoaded', mount, { once: true });
+    })();
   }
   function set(k) { try { localStorage.setItem(KEY, k); } catch (e) {} apply(k); }
   function get() { return current; }

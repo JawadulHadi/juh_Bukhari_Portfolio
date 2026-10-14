@@ -7,6 +7,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Added
 
+- Glass theme: frosted, translucent panels with a light sheen over an animated backdrop (drifting aurora, service nodes and traffic flowing along their edges). Motion stops under `prefers-reduced-motion`.
+- `#stack`: a "GitHub activity" block with the 3D contribution calendar generated daily by the profile repo; it follows the theme and hides itself until the image exists.
 - Pre-rendered HTML (`scripts/prerender.js`, `npm run prerender`): the nav, experience, work, stack, projects and every credential are written into the served HTML, so crawlers, link previews and ATS parsers see real roles, dates and credentials. CI checks it is up to date.
 - Home: a "Designing for AI Failure" case-study callout straight after the headline metrics.
 - `/credentials` and `#stack` show "75 verified credentials" with the issuer breakdown.
