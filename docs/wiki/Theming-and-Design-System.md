@@ -10,9 +10,11 @@
 
 | Key | Label | Scheme | Character |
 | --- | --- | --- | --- |
-| `horizon` | Horizon | dark | Night grid, ember accent `#e8784a` (default) |
+| `horizon` | Horizon | dark | Night grid, ember accent `#e8784a` |
 | `classical` | Paper | light | Paper, ink and gold. Uses the Classical tokens as-is |
-| `glass` | Glass | dark | Frosted panels, gold accent `#e5b376`, animated aurora and service-graph backdrop (static under reduced motion) |
+| `glass` | Glass | dark | Default. Frosted panels, gold accent `#e5b376`, animated aurora and service-graph backdrop (static under reduced motion) |
+| `frost` | Frost | light | Light frosted glass, bronze accent `#a8691f`, pastel aurora and the same animated backdrop |
+| `nebula` | Nebula | dark | Violet and teal glass, teal accent `#5eead4`, the same animated backdrop |
 | `mono` | Mono | dark | Black, white, editorial |
 
 Variables that themes override: `--color-bg`, `--color-surface`, `--color-text`, `--color-accent`, `--color-divider`, `--ink-accent`, `--muted`, `--page-grid`.
@@ -31,7 +33,7 @@ Variables that themes override: `--color-bg`, `--color-surface`, `--color-text`,
 | `KEY` | Storage key (`juh-dc-theme`) |
 | `get()` | The current theme key |
 | `set(key)` | Save and apply a theme |
-| `apply(key)` | Apply without saving. Unknown keys fall back to `horizon` |
+| `apply(key)` | Apply without saving. Unknown keys fall back to `glass` (`JUHTheme.DEFAULT`) |
 | `saved()` | The saved key, or `null` |
 | `reveal()` | (Re)bind scroll-reveal for `[data-reveal]` elements. A no-op under reduced motion |
 

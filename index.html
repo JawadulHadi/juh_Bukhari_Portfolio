@@ -115,10 +115,10 @@
                 style-hover="background-size: 100% 1px; color: var(--color-accent);">{{ n.label }}</a>
             </sc-for>
           </nav>
-          <div style="display: flex; align-items: center; gap: var(--space-3);">
+          <div style="display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-3); max-width: 100%;">
             <div role="radiogroup" aria-label="Theme"
-              style="display: flex; border: 1px solid var(--color-divider); border-radius: var(--radius-md); overflow: hidden;">
-              <sc-for list="{{ themeOpts }}" as="t" hint-placeholder-count="3">
+              style="display: flex; max-width: 100%; border: 1px solid var(--color-divider); border-radius: var(--radius-md); overflow-x: auto; scrollbar-width: none;">
+              <sc-for list="{{ themeOpts }}" as="t" hint-placeholder-count="6">
                 <button type="button" role="radio" aria-checked="{{ t.checked }}" onClick="{{ t.pick }}"
                   title="{{ t.desc }}"
                   style="font-family: var(--font-heading); font-size: 13px; padding: 5px 11px; background: {{ t.bg }}; color: {{ t.fg }}; border: 0; cursor: pointer; transition: background-color .25s ease, color .25s ease;">{{
@@ -505,9 +505,9 @@
     </div>
   </x-dc>
   <script type="text/x-dc" data-dc-script
-    data-props="{&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;horizon&quot;,&quot;classical&quot;,&quot;glass&quot;,&quot;mono&quot;],&quot;default&quot;:&quot;horizon&quot;,&quot;tsType&quot;:&quot;'horizon'|'classical'|'glass'|'mono'&quot;},&quot;showPortrait&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;showDiagram&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;animations&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+    data-props="{&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;glass&quot;,&quot;frost&quot;,&quot;nebula&quot;,&quot;horizon&quot;,&quot;classical&quot;,&quot;mono&quot;],&quot;default&quot;:&quot;glass&quot;,&quot;tsType&quot;:&quot;'glass'|'frost'|'nebula'|'horizon'|'classical'|'mono'&quot;},&quot;showPortrait&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;showDiagram&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;animations&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
 class Component extends DCLogic {
-  state = { theme: 'horizon', certsReady: false };
+  state = { theme: 'glass', certsReady: false };
 
   componentDidMount() {
     const init = () => {
@@ -532,7 +532,7 @@ class Component extends DCLogic {
 
   renderVals() {
     const cur = this.state.theme;
-    const T = (typeof window !== 'undefined' && window.JUHTheme) ? window.JUHTheme.THEMES : { horizon: { label: 'Horizon' }, classical: { label: 'Paper' }, glass: { label: 'Glass' }, mono: { label: 'Mono' } };
+    const T = (typeof window !== 'undefined' && window.JUHTheme) ? window.JUHTheme.THEMES : { glass: { label: 'Glass' }, frost: { label: 'Frost' }, nebula: { label: 'Nebula' }, horizon: { label: 'Horizon' }, classical: { label: 'Paper' }, mono: { label: 'Mono' } };
     const all = (typeof window !== 'undefined' && window.JUH_CERTS) || [];
     const picks = ((typeof window !== 'undefined' && window.JUH_CERT_HIGHLIGHTS) || []).map(t => all.find(c => c[1] === t)).filter(Boolean);
     return {
@@ -540,7 +540,7 @@ class Component extends DCLogic {
       showDiagram: this.props.showDiagram ?? true,
       // Rendered daily by the profile repo's GitHub-Profile-3D-Contrib workflow; hidden if not generated yet.
       showGraph: !this.state.graphFailed,
-      graphSrc: 'https://raw.githubusercontent.com/JawadulHadi/JawadulHadi/main/profile-3d-contrib/' + (cur === 'classical' ? 'profile-season-animate.svg' : 'profile-night-rainbow.svg'),
+      graphSrc: 'https://raw.githubusercontent.com/JawadulHadi/JawadulHadi/main/profile-3d-contrib/' + (cur === 'classical' || cur === 'frost' ? 'profile-season-animate.svg' : 'profile-night-rainbow.svg'),
       hideGraph: () => this.setState({ graphFailed: true }),
       openAgent: () => window.dispatchEvent(new CustomEvent('juh-agent-open')),
       services: [
