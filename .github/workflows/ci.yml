@@ -61,9 +61,14 @@ jobs:
         run: |
           code=$(curl -s -o /dev/null -w '%{http_code}' -X POST http://localhost:3000/api/agent \
             -H 'Content-Type: application/json' \
-            -d '{"messages":[{"role":"user","content":"hi"}]}')
+            -d '{"messages":[{"role":"user","content":"hi"}]}' )
           echo "POST /api/agent -> $code"
           [ "$code" = "503" ]
+
+      - name: 'notify vercel'
+        uses: 'vercel/repository-dispatch/actions/status@v1'
+        with:
+          name: "Vercel - ${{ github.repository }}: lint"
 
       - name: Server log
         if: always()
