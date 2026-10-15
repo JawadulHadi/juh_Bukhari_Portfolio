@@ -4,29 +4,41 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
-  statuses: write
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   smoke:
     name: Syntax check & smoke test
     runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@v7
+    timeout-minutes: 12
+    env:
+      PORT: 3000
+      NODE_ENV: test
 
-      - uses: actions/setup-node@v7
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
           cache: npm
 
-      - name: Install
-        run: npm ci
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
 
       - name: Syntax check
+        shell: bash
         run: |
+          set -euo pipefail
           for f in server.js api/*.js theme.js certs.js scripts/prerender.js; do
             node --check "$f"
           done
@@ -35,43 +47,56 @@ jobs:
         run: node scripts/prerender.js --check
 
       - name: Start server
+        shell: bash
         run: |
-          PORT=3000 node server.js > server.log 2>&1 &
-          for i in $(seq 1 20); do
-            curl -sf http://localhost:3000/ > /dev/null && break
+          set -euo pipefail
+          PORT="$PORT" node server.js > server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" || true' EXIT
+
+          for _ in $(seq 1 40); do
+            curl -fsS "http://localhost:$PORT/" >/dev/null && break
             sleep 0.5
           done
-          curl -sf http://localhost:3000/ > /dev/null || { echo "Server failed to start:"; cat server.log; exit 1; }
+
+          curl -fsS "http://localhost:$PORT/" >/dev/null || {
+            echo "Server failed to start"
+            cat server.log || true
+            exit 1
+          }
 
       - name: Pages are served
+        shell: bash
         run: |
+          set -euo pipefail
           for p in / /case-study /credentials /Agent.dc.html /resume.pdf /theme.js /certs.js /JUH-LOGO.svg; do
-            code=$(curl -s -o /dev/null -w '%{http_code}' "http://localhost:3000$p")
+            code=$(curl -sS -o /tmp/response.out -w '%{http_code}' "http://localhost:$PORT$p")
             echo "$p -> $code"
-            [ "$code" = "200" ] || exit 1
+            [ "$code" = "200" ]
           done
 
       - name: Security headers present
+        shell: bash
         run: |
-          headers=$(curl -sI http://localhost:3000/)
+          set -euo pipefail
+          headers=$(curl -fsSLI "http://localhost:$PORT/" | tr '[:upper:]' '[:lower:]')
           echo "$headers"
-          echo "$headers" | grep -qi 'permissions-policy: .*microphone=(self)'
-          echo "$headers" | grep -qi 'x-content-type-options: nosniff'
+          echo "$headers" | grep -Eq 'permissions-policy: .*microphone=(self)'
+          echo "$headers" | grep -Eq 'x-content-type-options: nosniff'
 
       - name: Agent returns 503 without an API key
+        shell: bash
         run: |
-          code=$(curl -s -o /dev/null -w '%{http_code}' -X POST http://localhost:3000/api/agent \
+          set -euo pipefail
+          code=$(curl -sS -o /tmp/agent.out -w '%{http_code}' -X POST "http://localhost:$PORT/api/agent" \
             -H 'Content-Type: application/json' \
-            -d '{"messages":[{"role":"user","content":"hi"}]}' )
+            -d '{"messages":[{"role":"user","content":"hi"}]}')
           echo "POST /api/agent -> $code"
           [ "$code" = "503" ]
 
-      - name: 'notify vercel'
-        uses: 'vercel/repository-dispatch/actions/status@v1'
-        with:
-          name: "Vercel - ${{ github.repository }}: lint"
-          github_token: ${{ secrets.VERCEL_GITHUB_TOKEN }}
-
       - name: Server log
         if: always()
-        run: cat server.log || true
+        shell: bash
+        run: |
+          echo "---- server.log ----"
+          cat server.log || true
