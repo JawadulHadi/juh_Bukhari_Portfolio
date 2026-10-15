@@ -70,6 +70,10 @@ body {
   background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-body);
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.55;
+  font-weight: 400;
 }
 
 h1,
@@ -78,6 +82,9 @@ h3,
 h4 {
   font-family: var(--font-heading);
   font-weight: var(--font-heading-weight);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  margin: 0 0 var(--space-2);
 }
 
 .plate {
@@ -99,25 +106,6 @@ h4 {
   box-sizing: border-box;
 }
 
-body {
-  margin: 0;
-  font-size: 15px;
-  line-height: 1.55;
-  font-weight: 400;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-heading);
-  font-weight: var(--font-heading-weight);
-  line-height: 1.12;
-  letter-spacing: -0.015em;
-  margin: 0 0 var(--space-2);
-}
 
 h1 {
   font-size: 42px;
@@ -141,9 +129,6 @@ h5 {
 
 h6 {
   font-size: 13px;
-}
-
-h6 {
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
