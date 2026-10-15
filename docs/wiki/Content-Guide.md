@@ -2,22 +2,22 @@
 
 Where each piece of content lives, and what else to update when it changes.
 
-| Content | File | Anchor / location | Also update |
-| --- | --- | --- | --- |
-| Name, headline, intro | `index.html` | hero `<h1>` | `<title>` and meta description in the same file |
-| Experience | `index.html` | `#experience` | `SYSTEM_PROMPT` "Role" and "Experience" lines, `resume.pdf` |
-| Selected work (projects named on the résumé) | `index.html` | `#work` | `SYSTEM_PROMPT` "At MicroAgility" line. Keep it consistent with the résumé: iAgility and AgileBrains are two products, and AgileBrains is one product |
-| Stack & credential highlights | `index.html` | `#stack` | `SYSTEM_PROMPT` "Stack" and "Credentials" lines |
-| Projects & open source | `index.html` | `#projects` | `SYSTEM_PROMPT` "Projects" line |
-| Case study teaser | `index.html` | `#case-study` | Links to `case-study.html` |
-| Services & contact | `index.html` | `#contact` | `SYSTEM_PROMPT` "Services" line |
-| Case study | `case-study.html` | whole page | Agent fallback answer for "fallback / resilience" |
-| Certifications | `certs.js` | `JUH_CERTS` | The résumé ones are listed in `JUH_CERT_HIGHLIGHTS`. Shown on `/credentials` and as highlights in `#stack` |
-| Agent facts & rules | `api/_agent.js` | `SYSTEM_PROMPT` | Fallback table in `Agent.dc.html` |
-| Offline agent answers | `Agent.dc.html` | regex → answer table | |
-| Portrait | `assets/portrait.jpg` | | Keep it under ~200 KB, and square or 4:5 |
-| Résumé | `resume.pdf` | | Links on the portfolio page |
-| JUH-LOGO | `JUH-LOGO.svg` | | |
+| Content                                      | File                  | Anchor / location    | Also update                                                                                                                                           |
+| -------------------------------------------- | --------------------- | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Name, headline, intro                        | `index.html`          | hero `<h1>`          | `<title>` and meta description in the same file                                                                                                       |
+| Experience                                   | `index.html`          | `#experience`        | `SYSTEM_PROMPT` "Role" and "Experience" lines, `resume.pdf`                                                                                           |
+| Selected work (projects named on the résumé) | `index.html`          | `#work`              | `SYSTEM_PROMPT` "At MicroAgility" line. Keep it consistent with the résumé: iAgility and AgileBrains are two products, and AgileBrains is one product |
+| Stack & credential highlights                | `index.html`          | `#stack`             | `SYSTEM_PROMPT` "Stack" and "Credentials" lines                                                                                                       |
+| Projects & open source                       | `index.html`          | `#projects`          | `SYSTEM_PROMPT` "Projects" line                                                                                                                       |
+| Case study teaser                            | `index.html`          | `#case-study`        | Links to `case-study.html`                                                                                                                            |
+| Services & contact                           | `index.html`          | `#contact`           | `SYSTEM_PROMPT` "Services" line                                                                                                                       |
+| Case study                                   | `case-study.html`     | whole page           | Agent fallback answer for "fallback / resilience"                                                                                                     |
+| Certifications                               | `certs.js`            | `JUH_CERTS`          | The résumé ones are listed in `JUH_CERT_HIGHLIGHTS`. Shown on `/credentials` and as highlights in `#stack`                                            |
+| Agent facts & rules                          | `api/_agent.js`       | `SYSTEM_PROMPT`      | Fallback table in `Agent.dc.html`                                                                                                                     |
+| Offline agent answers                        | `Agent.dc.html`       | regex → answer table |                                                                                                                                                       |
+| Portrait                                     | `assets/portrait.jpg` |                      | Keep it under ~200 KB, and square or 4:5                                                                                                              |
+| Résumé                                       | `resume.pdf`          |                      | Links on the portfolio page                                                                                                                           |
+| favicon                                      | `favicon.svg`         |                      |                                                                                                                                                       |
 
 ## Rules of thumb
 

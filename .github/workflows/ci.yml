@@ -94,6 +94,14 @@ jobs:
           echo "POST /api/agent -> $code"
           [ "$code" = "503" ]
 
+      - name: Agent health endpoint
+        shell: bash
+        run: |
+          set -euo pipefail
+          code=$(curl -sS -o /tmp/agent-health.out -w '%{http_code}' "http://localhost:$PORT/api/agent")
+          echo "GET /api/agent -> $code"
+          [ "$code" = "503" ]
+
       - name: Server log
         if: always()
         shell: bash

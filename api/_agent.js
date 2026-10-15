@@ -5,12 +5,12 @@
 // The Anthropic key never reaches the browser: the page POSTs the chat history
 // here and this module calls Claude server-side. When no key is configured the
 // endpoint answers 503 and agent.html falls back to its built-in answers.
-const Anthropic = require('@anthropic-ai/sdk').default;
+const Anthropic = require("@anthropic-ai/sdk").default;
 
 // Primary model is overridable per deployment (AGENT_MODEL) without a code change.
-const MODEL = process.env.AGENT_MODEL || 'claude-opus-5';
+const MODEL = process.env.AGENT_MODEL || "claude-sonnet-4.6";
 // Last-resort model if the primary is unavailable (retired, not enabled for the key, overloaded).
-const BACKUP_MODEL = process.env.AGENT_BACKUP_MODEL || 'claude-sonnet-5';
+const BACKUP_MODEL = process.env.AGENT_BACKUP_MODEL || "claude-standard-2.0";
 const MAX_TURNS = 20;
 const MAX_CHARS = 2000;
 
@@ -50,7 +50,9 @@ function getClient() {
 }
 
 function isConfigured() {
-  return Boolean(process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_AUTH_TOKEN);
+  return Boolean(
+    process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_AUTH_TOKEN,
+  );
 }
 
 // Best-effort per-instance rate limit so a public page can't run up the bill.
@@ -67,51 +69,71 @@ function rateLimited(ip) {
 
 function validate(body) {
   const messages = body && body.messages;
-  if (!Array.isArray(messages) || messages.length === 0 || messages.length > MAX_TURNS) {
+  if (
+    !Array.isArray(messages) ||
+    messages.length === 0 ||
+    messages.length > MAX_TURNS
+  ) {
     return null;
   }
   const clean = [];
   for (const m of messages) {
-    if (!m || (m.role !== 'user' && m.role !== 'assistant')) return null;
-    if (typeof m.content !== 'string') return null;
+    if (!m || (m.role !== "user" && m.role !== "assistant")) return null;
+    if (typeof m.content !== "string") return null;
     const content = m.content.trim().slice(0, MAX_CHARS);
     if (!content) return null;
     const last = clean[clean.length - 1];
     // Collapse consecutive same-role turns instead of rejecting the whole chat.
     if (last && last.role === m.role) {
-      if (last.content !== content) last.content = (last.content + '\n' + content).slice(0, MAX_CHARS);
+      if (last.content !== content)
+        last.content = (last.content + "\n" + content).slice(0, MAX_CHARS);
     } else {
       clean.push({ role: m.role, content });
     }
   }
-  while (clean.length && clean[0].role !== 'user') clean.shift();
-  if (!clean.length || clean[clean.length - 1].role !== 'user') return null;
+  while (clean.length && clean[0].role !== "user") clean.shift();
+  if (!clean.length || clean[clean.length - 1].role !== "user") return null;
   return clean;
 }
 
 // Public, secret-free status so a deploy can be checked in a browser: GET /api/agent
 function health() {
-  return { status: 200, body: { ok: true, configured: isConfigured(), model: MODEL, backup: BACKUP_MODEL } };
+  return {
+    status: 200,
+    body: {
+      ok: true,
+      configured: isConfigured(),
+      model: MODEL,
+      backup: BACKUP_MODEL,
+    },
+  };
 }
 
 // Returns { status, body } so both Express and the Vercel handler can send it.
 async function handleAgentRequest(body, ip) {
   if (!isConfigured()) {
-    return { status: 503, body: { error: 'not_configured' } };
+    return { status: 503, body: { error: "not_configured" } };
   }
-  if (rateLimited(ip || 'unknown')) {
-    return { status: 429, body: { error: 'rate_limited' } };
+  if (rateLimited(ip || "unknown")) {
+    return { status: 429, body: { error: "rate_limited" } };
   }
   const messages = validate(body);
   if (!messages) {
-    return { status: 400, body: { error: 'invalid_request' } };
+    return { status: 400, body: { error: "invalid_request" } };
   }
 
   // Attempt ladder, mirroring the site's own case study: (1) primary model with server-side
   // refusal fallback, (2) primary model plain, (3) backup model plain. Only errors that a
   // different request could fix (400/404/5xx/overloaded) move down; auth and rate limits don't.
   const attempts = [
-    { model: MODEL, extra: { output_config: { effort: 'low' }, betas: ['server-side-fallback-2026-07-01'], fallbacks: 'default' } },
+    {
+      model: MODEL,
+      extra: {
+        output_config: { effort: "low" },
+        betas: ["server-side-fallback-2026-07-01"],
+        fallbacks: "default",
+      },
+    },
     { model: MODEL, extra: {} },
     { model: BACKUP_MODEL, extra: {} },
   ];
@@ -121,39 +143,63 @@ async function handleAgentRequest(body, ip) {
       const response = await getClient().beta.messages.create({
         model: attempt.model,
         max_tokens: 1024, // replies are deliberately short chat answers
-        system: [{ type: 'text', text: SYSTEM_PROMPT, cache_control: { type: 'ephemeral' } }],
+        system: [
+          {
+            type: "text",
+            text: SYSTEM_PROMPT,
+            cache_control: { type: "ephemeral" },
+          },
+        ],
         messages,
         ...attempt.extra,
       });
 
-      if (response.stop_reason === 'refusal') {
+      if (response.stop_reason === "refusal") {
         return {
           status: 200,
-          body: { reply: "I can't help with that one. Ask me about Jawad's work, stack or projects instead." },
+          body: {
+            reply:
+              "I can't help with that one. Ask me about Jawad's work, stack or projects instead.",
+          },
         };
       }
 
       const reply = response.content
-        .filter((block) => block.type === 'text')
+        .filter((block) => block.type === "text")
         .map((block) => block.text)
-        .join('\n')
+        .join("\n")
         .trim();
 
-      return { status: 200, body: { reply: reply || 'Sorry, I hit a snag. Try again.' } };
+      return {
+        status: 200,
+        body: { reply: reply || "Sorry, I hit a snag. Try again." },
+      };
     } catch (error) {
       lastError = error;
       const status = error && error.status;
       if (status === 401 || status === 403) {
-        console.error('[agent] Claude API rejected the key (' + status + '). Check ANTHROPIC_API_KEY.');
-        return { status: 502, body: { error: 'auth_error' } };
+        console.error(
+          "[agent] Claude API rejected the key (" +
+            status +
+            "). Check ANTHROPIC_API_KEY.",
+        );
+        return { status: 502, body: { error: "auth_error" } };
       }
-      if (status === 429) return { status: 429, body: { error: 'upstream_rate_limited' } };
-      console.error('[agent] attempt failed (' + attempt.model + ', ' + (attempt.extra.fallbacks ? 'with fallback beta' : 'plain') + '):',
-        status || '', error && error.message);
+      if (status === 429)
+        return { status: 429, body: { error: "upstream_rate_limited" } };
+      console.error(
+        "[agent] attempt failed (" +
+          attempt.model +
+          ", " +
+          (attempt.extra.fallbacks ? "with fallback beta" : "plain") +
+          "):",
+        status || "",
+        error && error.message,
+      );
     }
   }
-  console.error('[agent] all attempts failed:', lastError && lastError.message);
-  return { status: 502, body: { error: 'upstream_error' } };
+  console.error("[agent] all attempts failed:", lastError && lastError.message);
+  return { status: 502, body: { error: "upstream_error" } };
 }
 
-module.exports = { handleAgentRequest, health };
+export default { handleAgentRequest, health };

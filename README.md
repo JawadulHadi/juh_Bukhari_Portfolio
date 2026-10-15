@@ -105,7 +105,7 @@ Agent tuning lives in [`api/_agent.js`](api/_agent.js):
 ├── server.js               # Express server for local dev / any Node host
 ├── assets/portrait.jpg
 ├── assets/og-1200x630.png  # Open Graph / Twitter card image
-├── JUH-LOGO.svg
+├── favicon.svg
 ├── resume.pdf
 ├── vercel.json             # Rewrites + security headers
 └── docs/wiki/              # Project wiki (GitHub-wiki compatible)
