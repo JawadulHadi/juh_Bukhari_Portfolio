@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: read
+  statuses: write
 
 jobs:
   smoke:
@@ -69,6 +70,7 @@ jobs:
         uses: 'vercel/repository-dispatch/actions/status@v1'
         with:
           name: "Vercel - ${{ github.repository }}: lint"
+          github_token: ${{ secrets.VERCEL_GITHUB_TOKEN }}
 
       - name: Server log
         if: always()
