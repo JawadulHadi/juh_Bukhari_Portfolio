@@ -2,7 +2,7 @@
   "name": "juh-portfolio",
   "version": "2.0.0",
   "private": true,
-  "description": "Jawad Ul Hadi portfolio: static pages + Claude-backed portfolio agent",
+  "description": "Static portfolio pages plus one serverless endpoint that powers **Ask Jawad**, a Claude-backed portfolio agent you can chat with by text or voice.",
   "author": "Jawad Ul Hadi (https://gravatar.com/juhbukhari)",
   "license": "MIT",
   "homepage": "https://juh-bukhari.vercel.app",

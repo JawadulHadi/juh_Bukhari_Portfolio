@@ -29,6 +29,12 @@
       display: none
     }
   </style>
+  <script>(function (d) { var h = d.documentElement, o; h.classList.add('js'); function m() { var r = d.getElementById('dc-root'); if (!r || !r.firstElementChild) return 0; var p = d.getElementById('prerendered'); if (p) p.remove(); h.classList.remove('js'); o.disconnect(); return 1 } o = new MutationObserver(m); o.observe(h, { childList: true, subtree: true }); setTimeout(function () { if (!m()) h.classList.remove('js') }, 5000) })(document)</script>
+  <style>
+    .js #prerendered {
+      display: none
+    }
+  </style>
 </head>
 
 <body>
@@ -600,7 +606,7 @@ class Component extends DCLogic {
   }
   renderVals() {
     const cur = this.state.theme;
-    const T = (typeof window !== 'undefined' && window.JUHTheme) ? window.JUHTheme.THEMES : { glass: { label: 'Glass' }, frost: { label: 'Frost' }, nebula: { label: 'Nebula' }, horizon: { label: 'Horizon' }, classical: { label: 'Paper' }, mono: { label: 'Mono' } };
+    const T = (typeof window !== 'undefined' && window.JUHTheme) ? window.JUHTheme.THEMES : { glass: { label: 'Glass' }, frost: { label: 'Frost' }, nebula: { label: 'Nebula' },  mono: { label: 'Mono' } };
     const sc = SCEN[this.state.scen];
     const done = this.state.shown >= sc.logs.length;
     const colors = { INFO: 'var(--muted)', OK: 'var(--color-accent)', WARN: 'var(--ink-accent)', DONE: 'var(--color-text)' };
