@@ -1,106 +1,40 @@
 <!DOCTYPE html>
 <html>
 
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Designing for AI Failure · Jawad Ul Hadi</title>
-    <meta
-      name="description"
-      content="Case study: a Retry → RAG Fallback → Rule-Based Floor ladder that kept user-facing AI failures at zero during provider outages."
-    >
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Designing for AI Failure · Jawad Ul Hadi">
-    <meta
-      property="og:description"
-      content="Backend Lead / Architect building multi-tenant SaaS and AI-first systems that fail predictably."
-    >
-    <meta property="og:url" content="https://juh-bukhari.vercel.app/case-study">
-    <meta property="og:image" content="https://juh-bukhari.vercel.app/assets/og-1200x630.png">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content="https://juh-bukhari.vercel.app/assets/og-1200x630.png">
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <script src="./support.js"></script>
-    <script>
-      (function (d) {
-        var h = d.documentElement,
-          o;
-        h.classList.add("js");
-        function m() {
-          var r = d.getElementById("dc-root");
-          if (!r || !r.firstElementChild) return 0;
-          var p = d.getElementById("prerendered");
-          if (p) p.remove();
-          h.classList.remove("js");
-          o.disconnect();
-          return 1;
-        }
-        o = new MutationObserver(m);
-        o.observe(h, { childList: true, subtree: true });
-        setTimeout(function () {
-          if (!m()) h.classList.remove("js");
-        }, 5000);
-      })(document);
-    </script>
-    <style>
-      .js #prerendered {
-        display: none;
-      }
-    </style>
-    <script>
-      (function (d) {
-        var h = d.documentElement,
-          o;
-        h.classList.add("js");
-        function m() {
-          var r = d.getElementById("dc-root");
-          if (!r || !r.firstElementChild) return 0;
-          var p = d.getElementById("prerendered");
-          if (p) p.remove();
-          h.classList.remove("js");
-          o.disconnect();
-          return 1;
-        }
-        o = new MutationObserver(m);
-        o.observe(h, { childList: true, subtree: true });
-        setTimeout(function () {
-          if (!m()) h.classList.remove("js");
-        }, 5000);
-      })(document);
-    </script>
-    <style>
-      .js #prerendered {
-        display: none;
-      }
-    </style>
-    <script>
-      (function (d) {
-        var h = d.documentElement,
-          o;
-        h.classList.add("js");
-        function m() {
-          var r = d.getElementById("dc-root");
-          if (!r || !r.firstElementChild) return 0;
-          var p = d.getElementById("prerendered");
-          if (p) p.remove();
-          h.classList.remove("js");
-          o.disconnect();
-          return 1;
-        }
-        o = new MutationObserver(m);
-        o.observe(h, { childList: true, subtree: true });
-        setTimeout(function () {
-          if (!m()) h.classList.remove("js");
-        }, 5000);
-      })(document);
-    </script><style>
-      .js #prerendered {
-        display: none;
-      }
-    </style>
-    <script>(function(d){var h=d.documentElement,o;h.classList.add('js');function m(){var r=d.getElementById('dc-root');if(!r||!r.firstElementChild)return 0;var p=d.getElementById('prerendered');if(p)p.remove();h.classList.remove('js');o.disconnect();return 1}o=new MutationObserver(m);o.observe(h,{childList:true,subtree:true});setTimeout(function(){if(!m())h.classList.remove('js')},5000)})(document)</script><style>.js #prerendered{display:none}</style>
-  <script>(function(d){var h=d.documentElement,o;h.classList.add('js');function m(){var r=d.getElementById('dc-root');if(!r||!r.firstElementChild)return 0;var p=d.getElementById('prerendered');if(p)p.remove();h.classList.remove('js');o.disconnect();return 1}o=new MutationObserver(m);o.observe(h,{childList:true,subtree:true});setTimeout(function(){if(!m())h.classList.remove('js')},5000)})(document)</script><style>.js #prerendered{display:none}</style>
-  <script>(function(d){var h=d.documentElement,o;h.classList.add('js');function m(){var r=d.getElementById('dc-root');if(!r||!r.firstElementChild)return 0;var p=d.getElementById('prerendered');if(p)p.remove();h.classList.remove('js');o.disconnect();return 1}o=new MutationObserver(m);o.observe(h,{childList:true,subtree:true});setTimeout(function(){if(!m())h.classList.remove('js')},5000)})(document)</script><style>.js #prerendered{display:none}</style>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Designing for AI Failure · Jawad Ul Hadi</title>
+  <meta name="description"
+    content="Case study: a Retry → RAG Fallback → Rule-Based Floor ladder that kept user-facing AI failures at zero during provider outages.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Designing for AI Failure · Jawad Ul Hadi">
+  <meta property="og:description"
+    content="Backend Lead / Architect building multi-tenant SaaS and AI-first systems that fail predictably.">
+  <meta property="og:url" content="https://juh-bukhari.vercel.app/case-study">
+  <meta property="og:image" content="https://juh-bukhari.vercel.app/assets/og-1200x630.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://juh-bukhari.vercel.app/assets/og-1200x630.png">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <script src="./support.js"></script>
+  <script>(function (d) { var h = d.documentElement, o; h.classList.add('js'); function m() { var r = d.getElementById('dc-root'); if (!r || !r.firstElementChild) return 0; var p = d.getElementById('prerendered'); if (p) p.remove(); h.classList.remove('js'); o.disconnect(); return 1 } o = new MutationObserver(m); o.observe(h, { childList: true, subtree: true }); setTimeout(function () { if (!m()) h.classList.remove('js') }, 5000) })(document)</script>
+  <style>
+    .js #prerendered {
+      display: none
+    }
+  </style>
+  <script>(function (d) { var h = d.documentElement, o; h.classList.add('js'); function m() { var r = d.getElementById('dc-root'); if (!r || !r.firstElementChild) return 0; var p = d.getElementById('prerendered'); if (p) p.remove(); h.classList.remove('js'); o.disconnect(); return 1 } o = new MutationObserver(m); o.observe(h, { childList: true, subtree: true }); setTimeout(function () { if (!m()) h.classList.remove('js') }, 5000) })(document)</script>
+  <style>
+    .js #prerendered {
+      display: none
+    }
+  </style>
+  <script>(function (d) { var h = d.documentElement, o; h.classList.add('js'); function m() { var r = d.getElementById('dc-root'); if (!r || !r.firstElementChild) return 0; var p = d.getElementById('prerendered'); if (p) p.remove(); h.classList.remove('js'); o.disconnect(); return 1 } o = new MutationObserver(m); o.observe(h, { childList: true, subtree: true }); setTimeout(function () { if (!m()) h.classList.remove('js') }, 5000) })(document)</script>
+  <style>
+    .js #prerendered {
+      display: none
+    }
+  </style>
 </head>
 
   <body>

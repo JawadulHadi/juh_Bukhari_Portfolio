@@ -35,9 +35,6 @@ jobs:
       - name: Install dependencies
         run: npm ci --no-audit --no-fund
 
-      - name: Install wait-on
-        run: npm install --no-save wait-on
-
       - name: Syntax check
         shell: bash
         run: |
@@ -57,42 +54,26 @@ jobs:
           SERVER_PID=$!
           trap 'kill "$SERVER_PID" || true' EXIT
 
-          echo "Waiting for server on http://localhost:$PORT ..."
-          npx wait-on "http://localhost:$PORT/" --timeout 60000 || {
-            echo "Server failed to start within 60s"
-            echo "---- server.log ----"
-            sed -n '1,200p' server.log || true
+          for _ in $(seq 1 40); do
+            curl -fsS "http://localhost:$PORT/" >/dev/null && break
+            sleep 0.5
+          done
+
+          curl -fsS "http://localhost:$PORT/" >/dev/null || {
+            echo "Server failed to start"
+            cat server.log || true
             exit 1
           }
-
-      - name: Root endpoint responds
-        shell: bash
-        run: |
-          set -euo pipefail
-          code=$(curl -sS -o /tmp/root.out -w '%{http_code}' "http://localhost:$PORT/")
-          echo "GET / -> $code"
-          [ "$code" = "200" ]
 
       - name: Pages are served
         shell: bash
         run: |
           set -euo pipefail
-          check() {
-            local path="$1"
-            local expected="$2"
-            local code
-            code=$(curl -sS -o /tmp/response.out -w '%{http_code}' "http://localhost:$PORT$path")
-            echo "$path -> $code"
-            [ "$code" = "$expected" ]
-          }
-
-          check "/" 200
-          check "/case-study" 200
-          check "/credentials" 200
-          check "/resume.pdf" 200
-          check "/theme.js" 200
-          check "/certs.js" 200
-          check "/favicon.svg" 200
+          for p in / /case-study /credentials /Agent.dc.html /resume.pdf /theme.js /certs.js /JUH-LOGO.svg; do
+            code=$(curl -sS -o /tmp/response.out -w '%{http_code}' "http://localhost:$PORT$p")
+            echo "$p -> $code"
+            [ "$code" = "200" ]
+          done
 
       - name: Security headers present
         shell: bash
@@ -126,4 +107,4 @@ jobs:
         shell: bash
         run: |
           echo "---- server.log ----"
-          sed -n '1,200p' server.log || true
+          cat server.log || true
