@@ -6,6 +6,11 @@ const { handleAgentRequest } = require("./api/_agent");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const LEGACY_HTML_REDIRECTS = {
+  index: "/",
+  "case-study": "/case-study",
+  resume: "/resume",
+};
 
 app.use((req, res, next) => {
   res.setHeader(
@@ -30,9 +35,11 @@ app.get("/resume", (req, res) => res.redirect(307, "/resume.pdf"));
 app.get(/^\/(index)?(\.html)?$/, (req, res, next) =>
   req.path === "/" ? next() : res.redirect(301, "/"),
 );
-app.get(/^\/([\w-]+)\.html$/, (req, res) =>
-  res.redirect(301, "/" + req.params[0]),
-);
+app.get(/^\/([\w-]+)\.html$/, (req, res) => {
+  const page = req.params[0];
+  const target = LEGACY_HTML_REDIRECTS[page] || "/";
+  res.redirect(301, target);
+});
 
 app.use(
   express.static(__dirname, { index: "index.html", extensions: ["html"] }),
