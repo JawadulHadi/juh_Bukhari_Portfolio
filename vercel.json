@@ -53,7 +53,7 @@
       ]
     },
     {
-      "source": "/JUH-LOGO.svg",
+      "source": "/favicon.svg",
       "headers": [
         {
           "key": "Cache-Control",

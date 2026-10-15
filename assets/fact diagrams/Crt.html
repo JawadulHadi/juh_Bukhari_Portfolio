@@ -21,6 +21,9 @@
       --c-magenta: #cc2f86;
       --c-violet: #6b47ee;
       --c-lime: #4b9a1c;
+      --c-rose: #db2777;
+      --c-green: #16a34a;
+      --c-sand: #92400e;
       --ok: #148a4d;
       --bad: #d7363c;
       --on-tone: #fff;
@@ -46,6 +49,9 @@
         --c-magenta: #f168b3;
         --c-violet: #a08bff;
         --c-lime: #8ad15a;
+        --c-rose: #f472b6;
+        --c-green: #4ade80;
+        --c-sand: #d97706;
         --ok: #3dd68c;
         --bad: #ff6369;
         --on-tone: #0a0f1e
@@ -256,19 +262,22 @@
       <span class="figure"><span id="fig" aria-hidden="true">0</span><span class="sr-only">75</span></span>
       <span class="dim">verified credentials, one square each</span>
     </div>
-    <div class="waffle" id="waffle" role="img" aria-label="75 squares coloured by issuer"></div>
+    <div class="waffle" id="waffle" role="img" aria-label="75 squares coloured by issuer, one per verified credential"></div>
     <ul class="legend" id="legend"></ul>
   </div>
   <script>
     (() => {
       const R = [
-        { name: "LinkedIn Learning", count: 23, color: "var(--c-blue)" },
-        { name: "Google Cloud ", count: 21, color: "var(--c-lime)" },
-        { name: "IBM", count: 15, color: "var(--c-teal)" },
-        { name: "Anthropic", count: 7, color: "var(--c-coral)" },
-        { name: "Microsoft", count: 6, color: "var(--c-amber)" },
-        { name: "Coursera ", count: 1, color: "var(--c-magenta)" },
-        { name: "Udemy", count: 1, color: "var(--c-violet)" },
+        { name: "LinkedIn Learning",        count: 23, color: "var(--c-blue)" },
+        { name: "Google Cloud Skills Boost", short: "Google Cloud", count: 20, color: "var(--c-lime)" },
+        { name: "IBM",                       count: 14, color: "var(--c-teal)" },
+        { name: "Anthropic",                 count:  7, color: "var(--c-coral)" },
+        { name: "Microsoft Learning",        short: "Microsoft", count: 6, color: "var(--c-amber)" },
+        { name: "Cognitive Class",           count:  1, color: "var(--c-violet)" },
+        { name: "Coursera",                  count:  1, color: "var(--c-magenta)" },
+        { name: "Gemini Gear",               count:  1, color: "var(--c-rose)" },
+        { name: "Google",                    count:  1, color: "var(--c-green)" },
+        { name: "Udemy",                     count:  1, color: "var(--c-sand)" },
       ];
       const TOTAL = R.reduce((a, b) => a + b.count, 0);
       const cells = R.flatMap(r => Array.from({ length: r.count }, () => r));
@@ -322,6 +331,7 @@
       });
     })();
   </script>
+  <script>if(window.self!==window.top)document.body.style.minHeight='auto'</script>
 </body>
 
 </html>
