@@ -1,9 +1,10 @@
 // Vercel serverless entry for /api/agent (file-based route, no rewrite needed).
 // GET  -> secret-free health check (is the key configured? which model?)
 // POST -> chat
-const { handleAgentRequest, health } = require('./_agent');
+import agent from './_agent.js';
+const { handleAgentRequest, health } = agent;
 
-module.exports = async (req, res) => {
+export default async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.setHeader('Cache-Control', 'no-store');
   if (req.method === 'OPTIONS') { res.status(204).end(); return; }

@@ -1,8 +1,12 @@
 import "dotenv/config";
+import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
+import agent from "./api/_agent.js";
+const { handleAgentRequest } = agent;
 
-const express = require("express");
-const path = require("path");
-const { handleAgentRequest } = require("./api/_agent");
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;

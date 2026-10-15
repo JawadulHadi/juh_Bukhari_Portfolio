@@ -5,7 +5,8 @@
 // The Anthropic key never reaches the browser: the page POSTs the chat history
 // here and this module calls Claude server-side. When no key is configured the
 // endpoint answers 503 and agent.html falls back to its built-in answers.
-const Anthropic = require("@anthropic-ai/sdk").default;
+import AnthropicModule from "@anthropic-ai/sdk";
+const Anthropic = AnthropicModule.default ?? AnthropicModule;
 
 // Primary model is overridable per deployment (AGENT_MODEL) without a code change.
 const MODEL = process.env.AGENT_MODEL || "claude-sonnet-4.6";
