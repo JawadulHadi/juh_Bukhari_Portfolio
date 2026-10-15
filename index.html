@@ -29,6 +29,24 @@
       display: none
     }
   </style>
+  <script>(function (d) { var h = d.documentElement, o; h.classList.add('js'); function m() { var r = d.getElementById('dc-root'); if (!r || !r.firstElementChild) return 0; var p = d.getElementById('prerendered'); if (p) p.remove(); h.classList.remove('js'); o.disconnect(); return 1 } o = new MutationObserver(m); o.observe(h, { childList: true, subtree: true }); setTimeout(function () { if (!m()) h.classList.remove('js') }, 5000) })(document)</script>
+  <style>
+    .js #prerendered {
+      display: none
+    }
+  </style>
+  <script>(function (d) { var h = d.documentElement, o; h.classList.add('js'); function m() { var r = d.getElementById('dc-root'); if (!r || !r.firstElementChild) return 0; var p = d.getElementById('prerendered'); if (p) p.remove(); h.classList.remove('js'); o.disconnect(); return 1 } o = new MutationObserver(m); o.observe(h, { childList: true, subtree: true }); setTimeout(function () { if (!m()) h.classList.remove('js') }, 5000) })(document)</script>
+  <style>
+    .js #prerendered {
+      display: none
+    }
+  </style>
+  <script>(function (d) { var h = d.documentElement, o; h.classList.add('js'); function m() { var r = d.getElementById('dc-root'); if (!r || !r.firstElementChild) return 0; var p = d.getElementById('prerendered'); if (p) p.remove(); h.classList.remove('js'); o.disconnect(); return 1 } o = new MutationObserver(m); o.observe(h, { childList: true, subtree: true }); setTimeout(function () { if (!m()) h.classList.remove('js') }, 5000) })(document)</script>
+  <style>
+    .js #prerendered {
+      display: none
+    }
+  </style>
 </head>
 
 <body>
@@ -699,7 +717,7 @@
     </div>
   </x-dc>
   <script type="text/x-dc" data-dc-script
-    data-props="{&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;glass&quot;,&quot;frost&quot;,&quot;nebula&quot;,&quot;horizon&quot;,&quot;classical&quot;,&quot;mono&quot;],&quot;default&quot;:&quot;glass&quot;,&quot;tsType&quot;:&quot;'glass'|'frost'|'nebula'|'horizon'|'classical'|'mono'&quot;},&quot;showPortrait&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;showDiagram&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;animations&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+    data-props="{&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;glass&quot;,&quot;frost&quot;,&quot;nebula&quot;,&quot;mono&quot;],&quot;default&quot;:&quot;frost&quot;,&quot;tsType&quot;:&quot;'glass'|'frost'|'nebula'|'mono'&quot;},&quot;showPortrait&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;showDiagram&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;animations&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
 class Component extends DCLogic {
   state = { theme: 'glass', certsReady: false };
 
@@ -726,7 +744,7 @@ class Component extends DCLogic {
 
   renderVals() {
     const cur = this.state.theme;
-    const T = (typeof window !== 'undefined' && window.JUHTheme) ? window.JUHTheme.THEMES : { glass: { label: 'Glass' }, frost: { label: 'Frost' }, nebula: { label: 'Nebula' }, horizon: { label: 'Horizon' }, classical: { label: 'Paper' }, mono: { label: 'Mono' } };
+    const T = (typeof window !== 'undefined' && window.JUHTheme) ? window.JUHTheme.THEMES : { glass: { label: 'Glass' }, frost: { label: 'Frost' }, nebula: { label: 'Nebula' }, mono: { label: 'Mono' } };
     const all = (typeof window !== 'undefined' && window.JUH_CERTS) || [];
     const picks = ((typeof window !== 'undefined' && window.JUH_CERT_HIGHLIGHTS) || []).map(t => all.find(c => c[1] === t)).filter(Boolean);
     return {

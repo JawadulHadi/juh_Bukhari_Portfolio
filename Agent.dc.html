@@ -224,7 +224,7 @@ const KB = [
   [/(experience|years|career|role|job|lead|microagility|market icon)/, "8+ years. Backend Lead Engineer at MicroAgility Services since Jan 2024, Backend Software Engineer there from Mar 2022, and Software Engineer at Market Icon from Aug 2018. Say \"show experience\" for the details."],
   [/\b(hello|hi|hey|salam|assalam)\b/, "Hi. Ask about my stack, the AI fallback design, experience or projects, or tell me where to go."]
 ];
-const HELP = 'Commands (type or say them):\n• go to experience · work · stack · projects · case study · credentials · contact\n• switch to horizon · paper · mono\n• resume  ·  contact\n• /clear to reset the chat';
+const HELP = 'Commands (type or say them):\n• go to experience · work · stack · projects · case study · credentials · contact\n• switch to glass · frost · mono\n• resume  ·  contact\n• /clear to reset the chat';
 
 // [label, question]. The first CHIPS_SHOWN are visible; "More" reveals the rest.
 const CHIPS_SHOWN = 6;
@@ -323,10 +323,10 @@ class Component extends DCLogic {
     const t = raw.toLowerCase().replace(/[.!?]+$/, '').trim();
     if (t === '/help' || t === 'help' || /what can you do/.test(t)) return { text: HELP };
     if (t === '/clear' || t === 'clear' || t === 'clear chat') { this.greet(); return { silent: true }; }
-    const theme = t.match(/\b(switch|change|set|use|make it|go)\b.*\b(horizon|neon|paper|classical|light|mono|monochrome|dark)\b/) || t.match(/^\/theme\s+(\w+)/);
+    const theme = t.match(/\b(switch|change|set|use|make it|go)\b.*\b(glass|frost|mono)\b/) || t.match(/^\/theme\s+(\w+)/);
     if (theme) {
       const w = theme[theme.length - 1];
-      const key = /horizon|neon|dark/.test(w) ? 'horizon' : /paper|classical|light/.test(w) ? 'classical' : 'mono';
+      const key = /glass/.test(w) ? 'glass' : /frost/.test(w) ? 'frost' : 'mono';
       if (window.JUHTheme) window.JUHTheme.set(key);
       return { text: `Switched to ${window.JUHTheme ? window.JUHTheme.THEMES[key].label : key}. The theme applies on every page.` };
     }
@@ -463,7 +463,7 @@ class Component extends DCLogic {
         ...CHIPS.slice(0, s.moreChips ? CHIPS.length : CHIPS_SHOWN).map(([label, q]) => ({
           label,
           run: q === '__theme__'
-            ? () => { const k = ['horizon', 'classical', 'mono']; const T = window.JUHTheme; const n = k[(k.indexOf(T ? T.get() : 'horizon') + 1) % 3]; this.submit('Switch to ' + (n === 'classical' ? 'paper' : n)); }
+            ? () => { const k = ['glass', 'frost', 'mono']; const T = window.JUHTheme; const n = k[(k.indexOf(T ? T.get() : 'glass') + 1) % 3]; this.submit('Switch to ' + n); }
             : () => this.submit(q)
         }))
       ]
