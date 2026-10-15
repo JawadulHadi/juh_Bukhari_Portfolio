@@ -17,7 +17,18 @@
   <meta name="twitter:image" content="https://juh-bukhari.vercel.app/assets/og-1200x630.png">
   <link rel="icon" href="/JUH-LOGO.svg" type="image/svg+xml">
   <script src="./support.js"></script>
-  <script>(function(d){var h=d.documentElement,o;h.classList.add('js');function m(){var r=d.getElementById('dc-root');if(!r||!r.firstElementChild)return 0;var p=d.getElementById('prerendered');if(p)p.remove();h.classList.remove('js');o.disconnect();return 1}o=new MutationObserver(m);o.observe(h,{childList:true,subtree:true});setTimeout(function(){if(!m())h.classList.remove('js')},5000)})(document)</script><style>.js #prerendered{display:none}</style>
+  <script>(function (d) { var h = d.documentElement, o; h.classList.add('js'); function m() { var r = d.getElementById('dc-root'); if (!r || !r.firstElementChild) return 0; var p = d.getElementById('prerendered'); if (p) p.remove(); h.classList.remove('js'); o.disconnect(); return 1 } o = new MutationObserver(m); o.observe(h, { childList: true, subtree: true }); setTimeout(function () { if (!m()) h.classList.remove('js') }, 5000) })(document)</script>
+  <style>
+    .js #prerendered {
+      display: none
+    }
+  </style>
+  <script>(function (d) { var h = d.documentElement, o; h.classList.add('js'); function m() { var r = d.getElementById('dc-root'); if (!r || !r.firstElementChild) return 0; var p = d.getElementById('prerendered'); if (p) p.remove(); h.classList.remove('js'); o.disconnect(); return 1 } o = new MutationObserver(m); o.observe(h, { childList: true, subtree: true }); setTimeout(function () { if (!m()) h.classList.remove('js') }, 5000) })(document)</script>
+  <style>
+    .js #prerendered {
+      display: none
+    }
+  </style>
   <script>(function(d){var h=d.documentElement,o;h.classList.add('js');function m(){var r=d.getElementById('dc-root');if(!r||!r.firstElementChild)return 0;var p=d.getElementById('prerendered');if(p)p.remove();h.classList.remove('js');o.disconnect();return 1}o=new MutationObserver(m);o.observe(h,{childList:true,subtree:true});setTimeout(function(){if(!m())h.classList.remove('js')},5000)})(document)</script><style>.js #prerendered{display:none}</style>
 </head>
 
@@ -343,13 +354,15 @@
                 <p
                   style="font-size: 14px; line-height: 1.6; margin: var(--space-3) 0 0; padding: var(--space-3) var(--space-4); border: 1px dashed var(--color-accent); border-radius: var(--radius-md);">
                   <span style="color: var(--ink-accent);">If the model provider is down:</span> the read path returns
-                  ranked snippets instead. No generation is needed, and answers stay grounded and cited.</p>
+                  ranked snippets instead. No generation is needed, and answers stay grounded and cited.
+                </p>
               </div>
               <p
                 style="font-size: 14px; line-height: 1.6; margin: 0; padding-top: var(--space-4); border-top: 1px solid var(--color-divider);">
                 <span style="font-family: var(--font-heading); font-size: 18px;">Right to erasure.</span> Deleting a
                 candidate or tenant triggers an atomic cascade that purges the relational record, the MeiliSearch entry,
-                raw S3/GCS payloads and every derived 768-dimension embedding.</p>
+                raw S3/GCS payloads and every derived 768-dimension embedding.
+              </p>
               <figcaption style="font-size: 14px; font-style: italic; color: var(--muted); text-align: center;">Figure 2
                 · The read path degrades to grounded snippets, never an error.</figcaption>
             </figure>
@@ -578,7 +591,7 @@ class Component extends DCLogic {
   }
   renderVals() {
     const cur = this.state.theme;
-    const T = (typeof window !== 'undefined' && window.JUHTheme) ? window.JUHTheme.THEMES : { glass: { label: 'Glass' }, frost: { label: 'Frost' }, nebula: { label: 'Nebula' }, horizon: { label: 'Horizon' }, classical: { label: 'Paper' }, mono: { label: 'Mono' } };
+    const T = (typeof window !== 'undefined' && window.JUHTheme) ? window.JUHTheme.THEMES : { glass: { label: 'Glass' }, frost: { label: 'Frost' }, nebula: { label: 'Nebula' },  mono: { label: 'Mono' } };
     const sc = SCEN[this.state.scen];
     const done = this.state.shown >= sc.logs.length;
     const colors = { INFO: 'var(--muted)', OK: 'var(--color-accent)', WARN: 'var(--ink-accent)', DONE: 'var(--color-text)' };
