@@ -24,14 +24,13 @@
   "scripts": {
     "dev": "node server.js",
     "start": "node server.js",
-    "prerender": "node scripts/prerender.js"
-  },
-  "engines": {
-    "node": ">=20"
+        "prerender": "node scripts/prerender.js",
+    "check": "node scripts/prerender.js --check",
+    "syntax": "node --check server.js && node --check api/_agent.js && node --check theme.js && node --check certs.js && node --check scripts/prerender.js"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.132.1",
-    "@vercel/analytics": "^2.0.1",
-    "express": "^5.2.1"
-  }
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {}
 }
