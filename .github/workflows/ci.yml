@@ -31,6 +31,7 @@ jobs:
         with:
           node-version-file: .nvmrc
           cache: npm
+          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
         run: npm ci --no-audit --no-fund
@@ -52,6 +53,7 @@ jobs:
           set -euo pipefail
           PORT="$PORT" node server.js > server.log 2>&1 &
           SERVER_PID=$!
+          echo "$SERVER_PID" > server.pid
           trap 'kill "$SERVER_PID" || true' EXIT
 
           for _ in $(seq 1 40); do
@@ -72,7 +74,7 @@ jobs:
           for p in / /case-study /credentials /Agent.dc.html /resume.pdf /theme.js /certs.js /JUH-LOGO.svg; do
             code=$(curl -sS -o /tmp/response.out -w '%{http_code}' "http://localhost:$PORT$p")
             echo "$p -> $code"
-            [ "$code" = "200" ]
+            [ "$code" = "200" ] || { echo "FAILED: $p returned $code"; exit 1; }
           done
 
       - name: Security headers present
@@ -92,6 +94,7 @@ jobs:
             -H 'Content-Type: application/json' \
             -d '{"messages":[{"role":"user","content":"hi"}]}')
           echo "POST /api/agent -> $code"
+          cat /tmp/agent.out || true
           [ "$code" = "503" ]
 
       - name: Agent health endpoint
@@ -100,7 +103,17 @@ jobs:
           set -euo pipefail
           code=$(curl -sS -o /tmp/agent-health.out -w '%{http_code}' "http://localhost:$PORT/api/agent")
           echo "GET /api/agent -> $code"
+          cat /tmp/agent-health.out || true
           [ "$code" = "503" ]
+
+      - name: Stop server
+        if: always()
+        shell: bash
+        run: |
+          if [ -f server.pid ]; then
+            kill "$(cat server.pid)" 2>/dev/null || true
+            rm -f server.pid
+          fi
 
       - name: Server log
         if: always()
