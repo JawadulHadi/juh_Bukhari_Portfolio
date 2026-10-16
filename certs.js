@@ -1,10 +1,4 @@
-// Single source of truth for certifications. Loaded by index.html (highlights)
-// and credentials.html (full filterable list). Every entry links to the issuer's
-// verification page. Generated from the Jawad-Ul-Hadi - Certifications.xlsx register
-// (Certifications sheet, deduplicated). Total = 79 unique certifications.
 (function () {
-  // [topic, title, issuer, date, url, featured]
-  // topics: C Anthropic & Claude · A Agentic AI & LLMs · D Cloud & data · M Microsoft · F Foundations
   window.JUH_CERTS = [
     [
       "C",
@@ -537,27 +531,42 @@
       "https://www.credly.com/badges/056c5fb0-f12b-4d81-ba66-68eba97b211b/linked_in_profile",
     ],
   ];
+
   window.JUH_CERT_FILTERS = [
     ["featured", "Featured"],
-    ["C", "Anthropic & Claude"],
     ["A", "Agentic AI & LLMs"],
-    ["D", "Cloud & data"],
-    ["M", "Microsoft"],
     ["F", "Foundations"],
+    ["M", "Microsoft"],
+    ["C", "Anthropic & Claude"],
+    ["D", "Cloud & data"],
     ["all", "All"],
   ];
-  // Issuer breakdown, largest first. Total = JUH_CERTS.length (79).
-  window.JUH_CERT_ISSUERS = [
-    ["LinkedIn Learning", 23],
-    ["Google Cloud Skills Boost", 21],
-    ["IBM", 14],
-    ["Anthropic", 7],
-    ["Microsoft Learning", 6],
-    ["Udemy", 1],
-    ["Coursera", 1],
-    ["Cognitive Class", 1],
-  ];
-  // The certifications listed on the résumé, shown as highlights on the main page.
+
+  // Derived from JUH_CERTS — never edit by hand, always matches the array above.
+  window.JUH_CERT_ISSUERS = (function () {
+    var tally = new Map();
+    window.JUH_CERTS.forEach(function (c) {
+      tally.set(c[2], (tally.get(c[2]) || 0) + 1);
+    });
+    return Array.from(tally.entries()).sort(function (a, b) {
+      return b[1] - a[1];
+    });
+  })();
+
+  window.JUH_CERT_TOTAL = window.JUH_CERTS.length;
+
+  // Stable colour per issuer, used by the waffle on both pages.
+  window.JUH_ISSUER_COLORS = {
+    "LinkedIn Learning": "var(--c-blue, #2d5bef)",
+    "Google Cloud Skills Boost": "var(--c-lime, #4b9a1c)",
+    IBM: "var(--c-teal, #00a7f5)",
+    Anthropic: "var(--c-coral, #d86b06)",
+    "Microsoft Learning": "var(--c-amber, #2bff00)",
+    Coursera: "var(--c-magenta, #012c7c)",
+    "Cognitive Class": "var(--c-rose, #690231)",
+    Udemy: "var(--c-sand, #d0ff00)",
+  };
+
   window.JUH_CERT_HIGHLIGHTS = [
     "Agent Fundamentals",
     "Claude Code in Action",

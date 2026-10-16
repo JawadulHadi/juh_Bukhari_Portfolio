@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Credentials Waffle</title>
+        <style>
+            :root {
+                --bg: #f2f4fa;
+                --surface: #fff;
+                --surface-2: #e8ecf6;
+                --ink: #10162a;
+                --dim: #535d77;
+                --line: #d6dcea;
+                --c-blue: #2d5bef;
+                --c-teal: #0a9a8c;
+                --c-amber: #c47600;
+                --c-coral: #e5482e;
+                --c-magenta: #cc2f86;
+                --c-violet: #6b47ee;
+                --c-lime: #4b9a1c;
+                --c-rose: #db2777;
+                --c-sand: #92400e;
+                --font-body:
+                    "Instrument Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+                --font-mono: "Martian Mono", ui-monospace, Consolas, monospace;
+            }
+            @media (prefers-color-scheme: dark) {
+                :root {
+                    --bg: #0a0f1e;
+                    --surface: #111930;
+                    --surface-2: #1a2440;
+                    --ink: #e9edf8;
+                    --dim: #9aa5c0;
+                    --line: #26314f;
+                    --c-blue: #7090ff;
+                    --c-teal: #2ccdbb;
+                    --c-amber: #f5b83d;
+                    --c-coral: #ff7a62;
+                    --c-magenta: #f168b3;
+                    --c-violet: #a08bff;
+                    --c-lime: #8ad15a;
+                    --c-rose: #f472b6;
+                    --c-sand: #d97706;
+                }
+            }
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+            }
+            body {
+                margin: 0;
+                background: var(--bg);
+                color: var(--ink);
+                font-family: var(--font-body);
+                font-size: 15px;
+                line-height: 1.55;
+                -webkit-font-smoothing: antialiased;
+                padding: 24px;
+                display: grid;
+                place-items: center;
+                min-height: 100vh;
+            }
+            .waffle-wrap {
+                display: grid;
+                gap: 16px;
+                width: min(720px, 100%);
+            }
+            .waffle-head {
+                display: flex;
+                align-items: baseline;
+                gap: 4px 14px;
+                flex-wrap: wrap;
+            }
+            .figure {
+                font-variant-numeric: tabular-nums;
+                color: var(--c-blue);
+                font-size: clamp(2.3rem, 1.9rem + 1.4vw, 3.1rem);
+                font-weight: 800;
+                line-height: 1;
+            }
+            .dim {
+                color: var(--dim);
+            }
+            .waffle {
+                display: grid;
+                grid-template-columns: repeat(18, minmax(0, 1fr));
+                gap: 4px;
+            }
+            .cell {
+                aspect-ratio: 1;
+                background: var(--tone);
+                border-radius: 4px;
+                max-width: 100%;
+                transition:
+                    opacity 0.2s,
+                    transform 0.2s;
+                animation: pop 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.3) backwards;
+                animation-delay: calc(var(--i) * 16ms);
+            }
+            .waffle.focused .cell:not(.hit) {
+                opacity: 0.15;
+            }
+            .waffle.focused .cell.hit {
+                transform: scale(1.08);
+            }
+            @keyframes pop {
+                0% {
+                    transform: translateY(6px) scale(0.7);
+                }
+                to {
+                    transform: none;
+                }
+            }
+            .legend {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+                gap: 6px;
+                margin: 0;
+                padding: 0;
+                list-style: none;
+            }
+            .legend button {
+                border: 1px solid var(--line);
+                background: var(--surface);
+                width: 100%;
+                color: var(--ink);
+                font: inherit;
+                text-align: left;
+                cursor: pointer;
+                border-radius: 10px;
+                display: grid;
+                grid-template-columns: 12px minmax(0, 1fr) auto;
+                align-items: center;
+                column-gap: 9px;
+                padding: 8px 10px;
+                font-size: 13px;
+                transition:
+                    border-color 0.2s,
+                    background 0.2s;
+            }
+            .legend button:hover,
+            .legend button:focus-visible {
+                border-color: var(--tone);
+                background: color-mix(in srgb, var(--tone) 9%, var(--surface));
+            }
+            .legend i {
+                background: var(--tone);
+                border-radius: 3px;
+                width: 12px;
+                height: 12px;
+            }
+            .legend-name {
+                font-weight: 600;
+            }
+            .legend-count {
+                font-family: var(--font-mono);
+                font-variant-numeric: tabular-nums;
+                font-size: 12px;
+            }
+            .sr-only {
+                position: absolute;
+                width: 1px;
+                height: 1px;
+                padding: 0;
+                margin: -1px;
+                overflow: hidden;
+                clip: rect(0, 0, 0, 0);
+                white-space: nowrap;
+                border: 0;
+            }
+            @media (prefers-reduced-motion: reduce) {
+                * {
+                    animation: none !important;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="waffle-wrap">
+            <div class="waffle-head">
+                <span class="figure">
+                    <span id="fig" aria-hidden="true">0</span>
+                    <span class="sr-only" id="fig-sr">0</span>
+                </span>
+                <span class="dim">verified credentials, one square each</span>
+            </div>
+            <div class="waffle" id="waffle" role="img" aria-label="Loading credentials"></div>
+            <ul class="legend" id="legend"></ul>
+        </div>
+
+        <script src="certs.js"></script>
+        <script>
+            (function () {
+                var certs = window.JUH_CERTS || [];
+                var colors = window.JUH_ISSUER_COLORS || {};
+                var fallback = [
+                    "var(--c-blue)",
+                    "var(--c-teal)",
+                    "var(--c-amber)",
+                    "var(--c-coral)",
+                    "var(--c-magenta)",
+                    "var(--c-violet)",
+                    "var(--c-lime)",
+                    "var(--c-rose)",
+                    "var(--c-sand)",
+                ];
+
+                // Group certs by issuer, preserving first-seen order.
+                var groups = [],
+                    index = new Map();
+                certs.forEach(function (c) {
+                    var issuer = c[2];
+                    if (!index.has(issuer)) {
+                        index.set(issuer, groups.length);
+                        groups.push({
+                            name: issuer,
+                            count: 0,
+                            color:
+                                colors[issuer] || fallback[groups.length % fallback.length],
+                        });
+                    }
+                    groups[index.get(issuer)].count++;
+                });
+                var TOTAL = certs.length;
+
+                var waffle = document.getElementById("waffle");
+                var legend = document.getElementById("legend");
+                var fig = document.getElementById("fig");
+                var sr = document.getElementById("fig-sr");
+
+                sr.textContent = String(TOTAL);
+                waffle.setAttribute(
+                    "aria-label",
+                    TOTAL + " squares coloured by issuer, one per verified credential",
+                );
+
+                // Squares
+                var i = 0;
+                groups.forEach(function (g) {
+                    for (var n = 0; n < g.count; n++) {
+                        var s = document.createElement("span");
+                        s.className = "cell";
+                        s.style.setProperty("--tone", g.color);
+                        s.style.setProperty("--i", i++);
+                        s.dataset.issuer = g.name;
+                        waffle.appendChild(s);
+                    }
+                });
+
+                // Count-up
+                var t0 = performance.now();
+                (function anim(now) {
+                    var k = Math.min(1, (now - t0) / 1200);
+                    fig.textContent = Math.round(TOTAL * (1 - Math.pow(1 - k, 3)));
+                    if (k < 1) requestAnimationFrame(anim);
+                })(performance.now());
+
+                // Legend + hover focus
+                var focus = null;
+                groups.forEach(function (g) {
+                    var li = document.createElement("li");
+                    var btn = document.createElement("button");
+                    btn.type = "button";
+                    btn.style.setProperty("--tone", g.color);
+                    btn.setAttribute("aria-label", "Highlight " + g.name + ", " + g.count);
+                    btn.innerHTML =
+                        '<i aria-hidden="true"></i><span class="legend-name">' +
+                        g.name +
+                        '</span><span class="legend-count">' +
+                        g.count +
+                        "</span>";
+                    var on = function () {
+                        if (focus === g.name) return;
+                        focus = g.name;
+                        waffle.classList.add("focused");
+                        waffle.querySelectorAll(".cell").forEach(function (c) {
+                            c.classList.toggle("hit", c.dataset.issuer === g.name);
+                        });
+                    };
+                    var off = function () {
+                        if (focus !== g.name) return;
+                        focus = null;
+                        waffle.classList.remove("focused");
+                        waffle.querySelectorAll(".cell").forEach(function (c) {
+                            c.classList.remove("hit");
+                        });
+                    };
+                    btn.addEventListener("mouseenter", on);
+                    btn.addEventListener("mouseleave", off);
+                    btn.addEventListener("focus", on);
+                    btn.addEventListener("blur", off);
+                    li.appendChild(btn);
+                    legend.appendChild(li);
+                });
+            })();
+        </script>
+        <script>
+            if (window.self !== window.top) document.body.style.minHeight = "auto";
+        </script>
+    </body>
+</html>

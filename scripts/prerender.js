@@ -1,14 +1,3 @@
-// Writes a static, JavaScript-free copy of each page's data-driven content
-// (nav, experience, work, stack, projects, certifications) into the HTML, so
-// crawlers, link previews and ATS parsers that don't run JavaScript still see
-// real roles, dates and credentials instead of {{ … }} templates.
-//
-// The data comes from each page's own renderVals() and from certs.js, so there
-// is one source of truth. The block sits between the prerender markers and is
-// removed once the dc runtime has rendered the live page.
-//
-//   node scripts/prerender.js          rewrite the pages
-//   node scripts/prerender.js --check  exit 1 if any page is out of date (CI)
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -92,9 +81,9 @@ const pages = {
       `<ul>${v.work.map((x) => `<li><strong>${esc(x.title)}</strong> (${esc(x.role)}): ${esc(x.desc)} ${esc(x.stack)}</li>`).join("")}</ul>`,
       '<h2 id="stack">Stack</h2>',
       `<ul>${v.stack.map((x) => `<li><strong>${esc(x.group)}:</strong> ${esc(x.items)}</li>`).join("")}</ul>`,
-      "<h2>Certifications & Badges</h2>",
+      "<h2>Certifications & Credentials</h2>",
       `<ul>${v.certs.map(certItem).join("")}</ul>`,
-      `<p>${issuerLine(w)}. ${link("/credentials", "View all credentials")}</p>`,
+      `<p>${issuerLine(w)}. ${link("/credentials.html", "View all")}</p>`,
       '<h2 id="projects">Projects</h2>',
       `<ul>${[...v.repos, ...v.qeloma].map((r) => `<li>${link(r.href, r.name)}: ${esc(r.desc)}</li>`).join("")}</ul>`,
       '<h2 id="contact">Services &amp; Contact</h2>',
