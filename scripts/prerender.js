@@ -12,8 +12,11 @@ const END = "<!-- prerender:end -->";
 // falls back to it after five seconds and a late mount still replaces it.
 const HEAD_HOOK =
   "<script>(function(d){var h=d.documentElement,o;h.classList.add('js');function m(){var r=d.getElementById('dc-root');if(!r||!r.firstElementChild)return 0;var p=d.getElementById('prerendered');if(p)p.remove();h.classList.remove('js');o.disconnect();return 1}o=new MutationObserver(m);o.observe(h,{childList:true,subtree:true});setTimeout(function(){if(!m())h.classList.remove('js')},5000)})(document)</script><style>.js #prerendered{display:none}</style>";
+// Matches ALL head-hook instances: both compact single-line and formatted multi-line.
+// Uses \r?\n? to handle both CRLF (Windows) and LF line endings.
+// The g flag removes every copy so accumulation across prerender runs is impossible.
 const HEAD_HOOK_RE =
-  /^  <script>.*\.js #prerendered\{display:none\}<\/style>\n/m;
+  /[ \t]*<script>[^<]*h\.classList\.add\([^)]*\)[^<]*<\/script>[ \t]*\r?\n?[ \t]*<style>[^<]*#prerendered[^<]*<\/style>[ \t]*\r?\n?/g;
 
 function loadCerts() {
   const window = {};
