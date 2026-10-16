@@ -54,7 +54,10 @@ app.get(/^\/([\w-]+)\.html$/, (req, res) => {
 
 // Static assets (with html extension fallback for clean URLs)
 app.use(
-  express.static(__dirname, { index: "index.html", extensions: ["html"] }),
+  express.static(path.join(__dirname, "public"), {
+    index: "index.html",
+    extensions: ["html"],
+  }),
 );
 
 // SPA fallback — only for GET, and only for non-file, non-api routes.
@@ -64,7 +67,7 @@ app.get("*", (req, res, next) => {
   if (req.path.startsWith("/api/")) return next();
   // Don't return HTML for requests that look like file requests
   if (path.extname(req.path)) return next();
-  res.sendFile(path.join(__dirname, "index.html"));
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 // Final 404 for anything else
