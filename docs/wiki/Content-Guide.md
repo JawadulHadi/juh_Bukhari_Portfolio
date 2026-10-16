@@ -27,7 +27,7 @@ Where each piece of content lives, and what else to update when it changes.
   grep -rn "8+ years" --include=*.html --include=*.js .
   ```
 
-- **Credentials need verification links.** Add new ones to `certs.js` only, and update `JUH_CERT_ISSUERS` and the "75 verified credentials" line on `/credentials`, `#stack` and in the agent prompts.
+- **Credentials need verification links.** Add new ones to `certs.js` only, and update `JUH_CERT_ISSUERS` and the total shown on `/credentials`, `#stack` and in the agent prompts.
 - **Metric phrases are fixed.** Quote them exactly: "from 12s to under 2s (83%)", "cut AI integration complexity by 60%", "zero AI failures during live LLM outages", "no cross-tenant data exposure incidents to date". "99.9% uptime" belongs to the Backend Software Engineer role (2022–2024) only.
 - **Re-run `npm run prerender` after any content change.** It writes a static copy of the data-driven sections into each page for crawlers and link previews; CI fails if it is stale.
 - **British spelling:** optimisation, modelled, programme, centre.

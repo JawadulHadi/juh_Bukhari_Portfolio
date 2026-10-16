@@ -4,15 +4,19 @@
 
 **Backend Lead / Architect building multi-tenant SaaS and AI-first systems that fail predictably.**
 
-Static portfolio pages plus one serverless endpoint that powers **"Ask Jawad"**, a Claude-backed portfolio agent you can chat with by text or voice.
+> Static portfolio pages plus one serverless endpoint that powers **"Ask Jawad"**, a Claude-backed portfolio agent you can chat with by text or voice.
 
-[![License: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE)
-[![Node](https://img.shields.io/badge/node-%3E%3D20-339933?logo=node.js&logoColor=white)](.nvmrc)
-[![Deploy: Vercel](https://img.shields.io/badge/deploy-Vercel-000?logo=vercel)](https://vercel.com)
-[![Claude](https://img.shields.io/badge/agent-Claude-d97757)](https://docs.anthropic.com)
-[![CI](https://github.com/JawadulHadi/juh_Bukhari_Portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/JawadulHadi/juh_Bukhari_Portfolio/actions/workflows/ci.yml)
+<p align="center">
+  <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/code-MIT-blue?style=flat-square"></a>
+  <a href=".nvmrc"><img alt="Node" src="https://img.shields.io/badge/node-%3E%3D20-339933?style=flat-square&logo=node.js&logoColor=white"></a>
+  <a href="https://vercel.com"><img alt="Deploy: Vercel" src="https://img.shields.io/badge/deploy-Vercel-000000?style=flat-square&logo=vercel&logoColor=white"></a>
+  <a href="https://docs.anthropic.com"><img alt="Claude" src="https://img.shields.io/badge/agent-Claude-d97757?style=flat-square&logo=anthropic&logoColor=white"></a>
+  <a href="https://github.com/JawadulHadi/juh_Bukhari_Portfolio/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/JawadulHadi/juh_Bukhari_Portfolio/ci.yml?style=flat-square&label=CI&logo=githubactions&logoColor=white"></a>
+</p>
 
-[Live site](https://juh-bukhari.vercel.app) · [Wiki](docs/wiki/Home.md) · [Changelog](CHANGELOG.md) · [Contact](https://gravatar.com/juhbukhari)
+<p align="center">
+  <a href="https://juh-bukhari.vercel.app">Live site</a> · <a href="docs/wiki/Home.md">Wiki</a> · <a href="CHANGELOG.md">Changelog</a> · <a href="https://gravatar.com/juhbukhari">Contact</a>
+</p>
 
 </div>
 
@@ -36,13 +40,13 @@ Static portfolio pages plus one serverless endpoint that powers **"Ask Jawad"**,
 
 ## Features
 
-- **Portfolio page**: experience first, then selected work (the projects named on the résumé), stack & credentials, public repositories and the Qeloma suite, a case-study teaser, and services & contact. Includes Open Graph and Twitter card tags for link previews.
-- **Credentials page** (`/credentials`): every certification with topic filters and issuer verification links. The main page shows only the ones on the résumé.
-- **Case study: _Designing for AI Failure_**: the Retry → RAG Fallback → Rule-Based Floor pattern, with architecture figures and an interactive failure simulator.
-- **"Ask Jawad" agent**: a floating chat on every page, backed by Claude on the server. It supports voice input and read-aloud, can navigate the site ("take me to projects"), and falls back to built-in answers when the API isn't configured.
-- **Six themes**, Glass by default: three glass variants over an animated system-design backdrop (Glass: gold on night, Frost: light, Nebula: violet and teal), plus Horizon (dark, ember glow), Paper (light, classical) and Mono. The choice is saved in `localStorage` and synced across tabs.
-- **Accessibility**: honours `prefers-reduced-motion`, uses ARIA-labelled controls and semantic sections.
-- **Hardened by default**: the API key never reaches the browser, input is validated, requests are rate-limited, and security headers are set.
+- **Portfolio page** — experience first, then selected work (the projects named on the résumé), stack & credentials, public repositories and the Qeloma suite, a case-study teaser, and services & contact. Includes Open Graph and Twitter card tags for link previews.
+- **Credentials page** — every certification with topic filters and issuer verification links. The main page shows only the ones on the résumé.
+- **Case study** — the Retry → RAG Fallback → Rule-Based Floor pattern, with architecture figures and an interactive failure simulator.
+- **"Ask Jawad" agent** — a floating chat on every page, backed by Claude on the server. It supports voice input and read-aloud, and can navigate the site ("take me to projects").
+- **Six themes**, Glass by default — three glass variants over an animated system-design backdrop (Glass: gold on night, Frost: light, Nebula: violet and teal), plus Horizon (dark, ember glow), Paper (light, classical) and Mono. The choice is saved in `localStorage` and synced across tabs.
+- **Accessibility** — honours `prefers-reduced-motion`, uses ARIA-labelled controls and semantic sections.
+- **Hardened by default** — the API key never reaches the browser, input is validated, requests are rate-limited, and security headers are set.
 
 ## Tech stack
 
@@ -52,7 +56,7 @@ Static portfolio pages plus one serverless endpoint that powers **"Ask Jawad"**,
 | Styling           | Classical design system tokens (`_ds/`) + theme overrides (`theme.js`)                 |
 | Agent backend     | Node.js ≥ 20, [`@anthropic-ai/sdk`](https://www.npmjs.com/package/@anthropic-ai/sdk)   |
 | Local / Node host | Express 4 (`server.js`)                                                                |
-| Serverless        | Vercel function (`api/index.js`)                                                       |
+| Serverless        | Vercel function (`api/agent.js`)                                                       |
 | Voice             | Web Speech API (`SpeechRecognition` + `speechSynthesis`)                               |
 
 ## Quick start
@@ -79,36 +83,36 @@ Open [http://localhost:3000](http://localhost:3000). Without an API key, everyth
 
 Agent tuning lives in [`api/_agent.js`](api/_agent.js):
 
-| Constant                                | Value           | Meaning                                          |
-| --------------------------------------- | --------------- | ------------------------------------------------ |
-| `MODEL`                                 | `claude-opus-5` | Claude model used for replies                    |
-| `MAX_TURNS`                             | `20`            | Max messages per request                         |
-| `MAX_CHARS`                             | `2000`          | Per-message character cap (content is truncated) |
-| `MAX_REQUESTS_PER_WINDOW` / `WINDOW_MS` | `30` / 10 min   | Per-IP rate limit (per instance)                 |
+| Constant                                | Value                       | Meaning                                          |
+| --------------------------------------- | --------------------------- | ------------------------------------------------ |
+| `AGENT_MODEL`                           | `claude-sonnet-4-6`         | Primary Claude model used for replies            |
+| `AGENT_BACKUP_MODEL`                    | `claude-haiku-4-5-20251001` | Backup model used if the primary fails           |
+| `MAX_TURNS`                             | `20`                        | Max messages per request                         |
+| `MAX_CHARS`                             | `2000`                      | Per-message character cap (content is truncated) |
+| `MAX_REQUESTS_PER_WINDOW` / `WINDOW_MS` | `30` / 10 min               | Per-IP rate limit (per instance)                 |
 
 ## Project structure
 
-```text
+```markdown
 .
-├── index.html              # Main page, served at /
-├── case-study.html         # "Designing for AI Failure" + failure simulator, served at /case-study
-├── credentials.html        # Full, filterable certification list, served at /credentials
-├── certs.js                # Certification data, shared by index.html and credentials.html
-├── Agent.dc.html           # Floating "Ask Jawad" agent, imported by both pages
-├── theme.js                # Glass / Frost / Nebula / Mono themes, scroll reveals, cursor effects
-├── support.js              # GENERATED dc-runtime, do not edit
-├── _ds/                    # GENERATED Classical design-system tokens + bundle
+├── index.html # Main page, served at /
+├── case-study.html # "Designing for AI Failure" + failure simulator, served at /case-study
+├── credentials.html # Full, filterable certification list, served at /credentials
+├── certs.js # Certification data, shared by index.html and credentials.html
+├── Agent.dc.html # Floating "Ask Jawad" agent, imported by both pages
+├── theme.js # Glass / Frost / Nebula / Mono themes, scroll reveals, cursor effects
+├── support.js # GENERATED dc-runtime, do not edit
+├── \_ds/ # GENERATED Classical design-system tokens + bundle
 ├── api/
-│   ├── _agent.js           # Shared Claude handler (validation, rate limit, prompt)
-│   ├── agent.js            # Vercel serverless entry → /api/agent (GET = health check, POST = chat)
-│   └── index.js            # Re-exports agent.js for the legacy /api/* rewrite
-├── server.js               # Express server for local dev / any Node host
-├── assets/portrait.png
-├── assets/og-1200x630.png  # Open Graph / Twitter card image
+│ ├── \_agent.js # Shared Claude handler (validation, rate limit, prompt)
+│ ├── agent.js # Vercel serverless entry → /api/agent (GET = health check, POST = chat)
+│ └── index.js # Legacy serverless adapter at /api
+├── server.js # Express server for local dev / any Node host
+├── assets/portrait.png # Profile photo and social card image
 ├── favicon.svg
 ├── resume.pdf
-├── vercel.json             # Rewrites + security headers
-└── docs/wiki/              # Project wiki (GitHub-wiki compatible)
+├── vercel.json # Clean URLs + security headers
+└── docs/wiki/ # Project wiki (GitHub-wiki compatible)
 ```
 
 ## How it works
@@ -116,7 +120,7 @@ Agent tuning lives in [`api/_agent.js`](api/_agent.js):
 ```mermaid
 flowchart TB
     B["Browser<br>Agent.dc.html"] -- POST /api/agent<br>{ messages } --> H{"Host"}
-    H -- Vercel --> V["api/index.js"]
+    H -- Vercel --> V["api/agent.js"]
     H -- Node / local --> E["server.js"]
     V --> A["api/_agent.js<br>validate · rate-limit"]
     E --> A
@@ -139,29 +143,25 @@ See [Architecture](docs/wiki/Architecture.md) and [API Reference](docs/wiki/API-
 
 ## Deployment
 
-**Vercel (recommended).** Import the repo, set `ANTHROPIC_API_KEY` under _Project Settings → Environment Variables_, and deploy. `vercel.json` routes `/api/*` to the function and sets the security headers.
-
-**Any Node host (Render, Railway, Fly, VPS).** Build with `npm ci`, start with `npm start`, and set `ANTHROPIC_API_KEY` (plus `PORT` if the host needs it).
-
 Full guide: [Deployment](docs/wiki/Deployment.md).
 
 ## Contact policy
 
-The **only** public contact channel is **[gravatar.com/juhbukhari](https://gravatar.com/juhbukhari)**. The pages, the agent's fallback answers and the server prompt all point there. The agent is instructed never to share an email address or phone number. Keep it that way when you edit content.
+The **only** public contact channel is **[Let's Connect](https://gravatar.com/juhbukhari)**. The pages, the agent's fallback answers and the server prompt all point there. The agent is instructed never to share an email address or phone number. Keep it that way when you edit content.
 
 ## Documentation
 
-| Page                                                                  | What's inside                                |
-| --------------------------------------------------------------------- | -------------------------------------------- |
-| [Wiki home](docs/wiki/Home.md)                                        | Start here                                   |
-| [Architecture](docs/wiki/Architecture.md)                             | Components, request flow, design decisions   |
-| [Local Development](docs/wiki/Local-Development.md)                   | Setup, scripts, testing the agent            |
-| [Deployment](docs/wiki/Deployment.md)                                 | Vercel and Node hosts, headers, redirects    |
-| [Portfolio Agent](docs/wiki/Portfolio-Agent.md)                       | Prompt, fallbacks, voice, navigation         |
-| [API Reference](docs/wiki/API-Reference.md)                           | `POST /api/agent` contract and error codes   |
-| [Theming &amp; Design System](docs/wiki/Theming-and-Design-System.md) | Themes, tokens,`JUHTheme` API                |
-| [Content Guide](docs/wiki/Content-Guide.md)                           | How to update work, projects and credentials |
-| [Troubleshooting](docs/wiki/Troubleshooting.md)                       | Common problems and fixes                    |
+| Page                                                              | What's inside                                |
+| ----------------------------------------------------------------- | -------------------------------------------- |
+| [Wiki home](docs/wiki/Home.md)                                    | Start here                                   |
+| [Architecture](docs/wiki/Architecture.md)                         | Components, request flow, design decisions   |
+| [Local Development](docs/wiki/Local-Development.md)               | Setup, scripts, testing the agent            |
+| [Deployment](docs/wiki/Deployment.md)                             | Vercel and Node hosts, headers, redirects    |
+| [Portfolio Agent](docs/wiki/Portfolio-Agent.md)                   | Prompt, fallbacks, voice, navigation         |
+| [API Reference](docs/wiki/API-Reference.md)                       | `POST /api/agent` contract and error codes   |
+| [Theming & Design System](docs/wiki/Theming-and-Design-System.md) | Themes, tokens, `JUHTheme` API               |
+| [Content Guide](docs/wiki/Content-Guide.md)                       | How to update work, projects and credentials |
+| [Troubleshooting](docs/wiki/Troubleshooting.md)                   | Common problems and fixes                    |
 
 ## Contributing
 
@@ -171,4 +171,6 @@ Issues and PRs are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) and the [Cod
 
 The code is released under the [MIT License](LICENSE). Personal content (portrait, résumé, bio, case study text) is **not** covered. See [NOTICE.md](NOTICE.md).
 
-<div align="center">
+```
+
+```

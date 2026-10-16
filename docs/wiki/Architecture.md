@@ -19,7 +19,7 @@ flowchart TB
     AG -- POST /api/agent --> EP
     subgraph Server
         EP{Entry}
-        EP -->|Vercel| VI[api/index.js]
+        EP -->|Vercel| VI[api/agent.js]
         EP -->|Express| SJ[server.js]
         VI --> AH[api/_agent.js]
         SJ --> AH
@@ -36,7 +36,7 @@ flowchart TB
 | `_ds/classical-…/` | **Generated** Classical design system: CSS custom properties (colour ramps, spacing, fonts) and a namespace bundle |
 | `theme.js` | Theme switching (overrides CSS variables), scroll-reveal via `IntersectionObserver`, cursor effects |
 | `api/_agent.js` | The only backend logic: config check → rate limit → validation → Claude call → reply shaping |
-| `api/index.js` | Vercel function adapter. `vercel.json` rewrites `/api/*` here |
+| `api/agent.js` | Vercel function adapter for `/api/agent` (GET health, POST chat) |
 | `server.js` | Express adapter for local dev and non-Vercel hosts. Also serves the static files |
 
 ## Request lifecycle: `POST /api/agent`

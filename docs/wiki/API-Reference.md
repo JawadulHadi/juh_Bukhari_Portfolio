@@ -1,8 +1,16 @@
 # API Reference
 
-## `POST /api/agent`
+## `/api/agent`
 
-Sends a conversation to the portfolio agent and returns its next reply.
+GET returns a secret-free health check. POST sends a conversation to the portfolio agent and returns its next reply.
+
+### Health check
+
+```http
+GET /api/agent
+```
+
+Returns `200` with `ok`, `configured`, `model` and `backup` fields. It never returns credentials.
 
 ### Request
 
@@ -39,9 +47,11 @@ Any violation returns `400 invalid_request`.
 | --- | --- | --- |
 | `200` | `{ "reply": "..." }` | Success. The reply is plain text |
 | `200` | `{ "reply": "I can't help with that one — ..." }` | The model declined (`stop_reason: refusal`) |
+| `204` | No body | `OPTIONS` preflight |
 | `400` | `{ "error": "invalid_request" }` | Failed validation |
-| `404` | `{ "error": "not_found" }` | Unknown `/api/*` path (Vercel adapter) |
-| `405` | `{ "error": "method_not_allowed" }` | Method other than POST (Vercel adapter) |
+| `413` | `{ "error": "payload_too_large" }` | Request body exceeds the Express adapter's 64 KB limit |
+| `404` | `{ "error": "not_found" }` | Unknown API path (Express adapter; Vercel uses its normal 404 response) |
+| `405` | `{ "error": "method_not_allowed" }` | Unsupported method other than GET, POST or OPTIONS |
 | `429` | `{ "error": "rate_limited" }` | More than 30 requests from this IP in 10 minutes |
 | `429` | `{ "error": "upstream_rate_limited" }` | The Anthropic API rate-limited the request |
 | `502` | `{ "error": "upstream_error" }` | Any other Claude or network error (logged server-side) |
