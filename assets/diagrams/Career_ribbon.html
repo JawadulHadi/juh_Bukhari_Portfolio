@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Career ribbon</title>
+    <style>
+      :root {
+        --bg: #f2f4fa;
+        --surface: #fff;
+        --surface-2: #e8ecf6;
+        --ink: #10162a;
+        --dim: #535d77;
+        --line: #d6dcea;
+        --grid: #cdd4e6;
+        --c-blue: #2d5bef;
+        --c-teal: #0a9a8c;
+        --c-amber: #c47600;
+        --c-coral: #e5482e;
+        --c-magenta: #cc2f86;
+        --c-violet: #6b47ee;
+        --c-lime: #4b9a1c;
+        --ok: #148a4d;
+        --bad: #d7363c;
+        --on-tone: #fff;
+        --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+        --font-display:
+          "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+        --font-body:
+          "Instrument Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+        --font-mono:
+          "Martian Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0a0f1e;
+          --surface: #111930;
+          --surface-2: #1a2440;
+          --ink: #e9edf8;
+          --dim: #9aa5c0;
+          --line: #26314f;
+          --grid: #1c2643;
+          --c-blue: #7090ff;
+          --c-teal: #2ccdbb;
+          --c-amber: #f5b83d;
+          --c-coral: #ff7a62;
+          --c-magenta: #f168b3;
+          --c-violet: #a08bff;
+          --c-lime: #8ad15a;
+          --ok: #3dd68c;
+          --bad: #ff6369;
+          --on-tone: #0a0f1e;
+        }
+      }
+      *,
+      :before,
+      :after {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: var(--font-body);
+        font-size: 15px;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+        padding: 24px;
+        display: grid;
+        place-items: center;
+        min-height: 100vh;
+      }
+      .wrap {
+        width: min(560px, 100%);
+      }
+      .eyebrow {
+        font-family: var(--font-mono);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--dim);
+        margin: 0;
+        font-size: 10.5px;
+        font-weight: 500;
+      }
+      .ribbon-wrap {
+        gap: 8px;
+        display: grid;
+        margin-top: 12px;
+      }
+      .ribbon {
+        gap: 3px;
+        height: 10px;
+        display: flex;
+      }
+      .ribbon span {
+        transform-origin: 0;
+        border-radius: 3px;
+      }
+      .play .ribbon span,
+      .ribbon span {
+        animation: grow 0.8s var(--ease-out) backwards;
+        animation-delay: calc(var(--i) * 0.26s);
+      }
+      .ribbon-legend {
+        flex-wrap: wrap;
+        gap: 4px 16px;
+        margin: 0;
+        padding: 0;
+        font-size: 12.5px;
+        list-style: none;
+        display: flex;
+      }
+      .ribbon-legend li {
+        align-items: center;
+        gap: 6px;
+        display: inline-flex;
+      }
+      .ribbon-legend li:before {
+        content: "";
+        background: var(--role);
+        border-radius: 2px;
+        width: 8px;
+        height: 8px;
+      }
+      .ribbon-legend span {
+        font-family: var(--font-mono);
+        color: var(--dim);
+        font-size: 10.5px;
+      }
+      @keyframes grow {
+        0% {
+          transform: scaleX(0);
+        }
+        to {
+          transform: scaleX(1);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <p class="eyebrow">Career split by time in each role</p>
+      <div class="ribbon-wrap">
+        <div class="ribbon" id="ribbon" role="img" aria-label="Career split by time in each role"></div>
+        <ul class="ribbon-legend" id="legend"></ul>
+      </div>
+    </div>
+    <script>
+      (() => {
+        const x = {
+          lead: { short: "Backend Lead", color: "var(--c-blue)" },
+          bse: { short: "Backend SE", color: "var(--c-teal)" },
+          mi: { short: "Market Icon", color: "var(--c-amber)" },
+        };
+        const E = [
+          {
+            id: "lead",
+            title: "Backend Lead Engineer",
+            employer: "MicroAgility Services (Pvt) Ltd.",
+            start: [2024, 0],
+            end: null,
+          },
+          {
+            id: "bse",
+            title: "Backend Software Engineer",
+            employer: "MicroAgility Services (Pvt) Ltd.",
+            start: [2022, 2],
+            end: [2024, 0],
+          },
+          {
+            id: "mi",
+            title: "Software Engineer",
+            employer: "Market Icon",
+            start: [2018, 7],
+            end: [2022, 2],
+          },
+        ];
+        const O = ([y, m]) => (y - 2018) * 12 + m - 7;
+        function D(d = new Date()) {
+          return O([d.getFullYear(), d.getMonth()]);
+        }
+        function F(e, t = new Date()) {
+          const n = O(e.start),
+            r = e.end ? O(e.end) : D(t);
+          return { s: n, e: r, months: r - n };
+        }
+        function $(n) {
+          const y = Math.floor(n / 12),
+            m = n % 12;
+          return [y ? `${y} yr` : "", m ? `${m} mo` : ""].filter(Boolean).join(" ");
+        }
+        const rev = [...E].reverse();
+        const ribbon = document.getElementById("ribbon");
+        const legend = document.getElementById("legend");
+        rev.forEach((r, i) => {
+          const span = document.createElement("span");
+          span.style.flexGrow = F(r).months;
+          span.style.background = x[r.id].color;
+          span.style.setProperty("--i", i);
+          ribbon.appendChild(span);
+          const li = document.createElement("li");
+          li.style.setProperty("--role", x[r.id].color);
+          li.innerHTML = `${r.title}, ${r.employer === "Market Icon" ? "Market Icon" : "MicroAgility"} <span>${$(F(r).months)}</span>`;
+          legend.appendChild(li);
+        });
+      })();
+    </script>
+    <script>
+      if (window.self !== window.top) document.body.style.minHeight = "auto";
+    </script>
+  </body>
+</html>

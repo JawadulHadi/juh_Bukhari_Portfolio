@@ -41,15 +41,15 @@ Common types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `chore`, `ci`.
 
 ## Code guidelines
 
-| Area | Guideline |
-| --- | --- |
-| `support.js`, `_ds/` | Generated. **Don't edit by hand.** |
-| `.dc.html` pages | Use design tokens (`var(--color-*)`, `var(--space-*)`) instead of hard-coded colours so all three themes keep working |
-| `theme.js` | Plain ES5-style IIFE with no build step. Keep it dependency-free |
-| `api/` | CommonJS, Node ≥ 20. Shared logic goes in `_agent.js`. The underscore stops Vercel from deploying it as a separate function |
-| Secrets | Never commit keys. Use `.env` locally (git-ignored) and host env vars in production |
-| Motion | Respect `prefers-reduced-motion` for any new animation |
-| Formatting | Follow `.editorconfig`: 2 spaces, LF, UTF-8 |
+| Area                 | Guideline                                                                                                                   |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `support.js`, `_ds/` | Generated. **Don't edit by hand.**                                                                                          |
+| `.dc.html` pages     | Use design tokens (`var(--color-*)`, `var(--space-*)`) instead of hard-coded colours so all three themes keep working       |
+| `theme.js`           | Plain ES5-style IIFE with no build step. Keep it dependency-free                                                            |
+| `api/`               | CommonJS, Node ≥ 20. Shared logic goes in `_agent.js`. The underscore stops Vercel from deploying it as a separate function |
+| Secrets              | Never commit keys. Use `.env` locally (git-ignored) and host env vars in production                                         |
+| Motion               | Respect `prefers-reduced-motion` for any new animation                                                                      |
+| Formatting           | Follow `.editorconfig`: 2 spaces, LF, UTF-8                                                                                 |
 
 ## Before you open a PR
 
