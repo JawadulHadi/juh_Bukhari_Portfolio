@@ -11,7 +11,7 @@ What `vercel.json` does:
 
 | Setting | Effect |
 | --- | --- |
-| `rewrites: /api/(.*) → /api/index.js` | Every API path goes to the single function, which routes `/api/agent` and returns 404 otherwise |
+| `api/agent.js` | Serves the agent at `/api/agent`; unknown API paths keep Vercel's normal 404 response |
 | `cleanUrls: true`, `trailingSlash: false` | Serves `index.html` at `/`, `case-study.html` at `/case-study` and `credentials.html` at `/credentials`. `.html` URLs 308-redirect to the clean form |
 | `redirects` | `/Portfolio.dc*` → `/`, `/Case*Study.dc*` → `/case-study` (301), `/resume` → `/resume.pdf` |
 | `headers` | `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy: camera=(), microphone=(self), geolocation=(), payment=()` |
@@ -29,7 +29,7 @@ Works on Render, Railway, Fly.io, a VPS and similar.
 | Node version | 20+ |
 | Env vars | `ANTHROPIC_API_KEY`, and `PORT` if the platform doesn't inject it |
 
-`server.js` mirrors `vercel.json`: it binds `0.0.0.0`, sets the same security headers, serves the same clean URLs (`/`, `/case-study`) and redirects, and falls back to `index.html` for unknown paths.
+`server.js` binds `0.0.0.0`, sets the same security headers, serves the project-root site files at the clean URLs (`/`, `/case-study`) and redirects, and returns JSON 404s for unknown `/api/*` paths.
 
 ## After deploying
 

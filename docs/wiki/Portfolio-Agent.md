@@ -34,7 +34,8 @@ The persona and facts live in `SYSTEM_PROMPT` in [`api/_agent.js`](../../api/_ag
 
 | Setting | Value | Where |
 | --- | --- | --- |
-| Model | `claude-opus-5` | `MODEL` |
+| Primary model | `claude-sonnet-4-6` | `AGENT_MODEL` |
+| Backup model | `claude-haiku-4-5-20251001` | `AGENT_BACKUP_MODEL` |
 | Max output | 1024 tokens | `max_tokens` |
 | Effort | `low` | `output_config.effort` |
 | Prompt caching | system prompt, `ephemeral` | `cache_control` |

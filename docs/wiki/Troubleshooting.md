@@ -14,7 +14,7 @@
 | Theme resets on reload | `localStorage` blocked (private mode or strict settings) | Expected. The theme falls back to Horizon |
 | Old `/Portfolio.dc` link 404s | Redirects missing from `vercel.json` | Keep the `redirects` block: `/Portfolio.dc*` → `/`, `/Case*Study.dc*` → `/case-study` |
 | `/case-study` 404s locally | Old `server.js` without `extensions: ["html"]` | Pull the latest `server.js` |
-| Vercel: `/api/agent` → 404 | The rewrite is missing, or `api/index.js` was renamed | Check `vercel.json` `rewrites` |
+| Vercel: `/api/agent` → 404 | The serverless route is missing or failed to deploy | Check that `api/agent.js` is present and inspect the deployment logs |
 | `EADDRINUSE :3000` | Port already in use | `PORT=3001 npm run dev` |
 
 Still stuck? [Open an issue](https://github.com/JawadulHadi/juh_Bukhari_Portfolio/issues/new/choose).

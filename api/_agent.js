@@ -9,9 +9,9 @@ import AnthropicModule from "@anthropic-ai/sdk";
 const Anthropic = AnthropicModule.default ?? AnthropicModule;
 
 // Primary model is overridable per deployment (AGENT_MODEL) without a code change.
-const MODEL = process.env.AGENT_MODEL || "claude-sonnet-4.6";
+const MODEL = process.env.AGENT_MODEL || "claude-sonnet-4-6";
 // Last-resort model if the primary is unavailable (retired, not enabled for the key, overloaded).
-const BACKUP_MODEL = process.env.AGENT_BACKUP_MODEL || "claude-standard-2.0";
+const BACKUP_MODEL = process.env.AGENT_BACKUP_MODEL || "claude-haiku-4-5-20251001";
 const MAX_TURNS = 20;
 const MAX_CHARS = 2000;
 
@@ -27,7 +27,7 @@ Facts you can rely on:
 - Security: tenant isolation across REST and GraphQL APIs with OAuth 2.0/JWT — no cross-tenant data exposure incidents to date.
 - Earlier role (Backend Software Engineer, 2022–2024 only): zero-downtime schema migrations on live multi-tenant production databases while maintaining 99.9% uptime; REST and GraphQL refactor improving data retrieval speed by about 40%. Never attribute these two figures to the current role.
 - Writing: authored the case study "Designing for AI Failure" (on the Case Study page of this site).
-- Credentials: verified certifications from Anthropic Claude Academy, LinkedIn Learning (agentic AI, MCP, Claude Code), Google, Microsoft, IBM, and Certified Django Developer. All are on the Credentials page (juh-bukhari.vercel.app/credentials) with verification links; the main page shows the five on his résumé. The total is 75 verified credentials (LinkedIn Learning 23, Google Cloud Skills Boost 20, IBM 14, Anthropic 7, Microsoft Learning 6, five others 1 each).
+- Credentials: 74 verified certifications from Anthropic Claude Academy, LinkedIn Learning (agentic AI, MCP, Claude Code), Google, Microsoft, IBM, and Certified Django Developer. All are on the Credentials page (juh-bukhari.vercel.app/credentials) with verification links; the main page shows the five on his résumé. The issuer totals are LinkedIn Learning 23, Google Cloud Skills Boost 21, IBM 14, Anthropic 7, Microsoft Learning 6, and three others with 1 each.
 - Education: B.S. Computer Science, Government College University, Faisalabad.
 - Languages: English (professional working proficiency), Urdu (native).
 - Contact: the ONE contact channel is https://gravatar.com/juhbukhari, which links every professional profile. Never give out an email address, phone number or WhatsApp. Based in Islamabad (UTC+5) and fully flexible: working hours align to EST/PST, so US and Canada remote teams are a natural fit. Open to Backend Lead, Solutions Architecture and AI Platform roles.
