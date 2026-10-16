@@ -190,7 +190,7 @@
         }
         return d;
       }, [entry.propsMeta]);
-      return h(Root, { ...defaults, ...entry.propOverrides || {} });
+      return h(Root, { ...defaults, ...entry.propOverrides });
     }
     const ReactDOM = getReactDOM();
     if (ReactDOM.createRoot)
@@ -956,7 +956,7 @@
         }
         this.logic.__host = this;
         if (prevState)
-          this.logic.state = { ...this.logic.state || {}, ...prevState };
+          this.logic.state = { ...this.logic.state, ...prevState };
       }
       /** The props the author's logic + template see — internal __-prefixed
        *  wiring stripped. */
@@ -1030,7 +1030,7 @@
         const r = registry.get(this.__name);
         const cls = "sc-host" + (r.htmlStreaming ? " sc-streaming-html" : "") + (r.jsStreaming ? " sc-streaming-js" : "");
         const hintStyle = r.htmlStreaming ? hintToMin(this.props.__hintSize) : void 0;
-        const hostStyle = this.props.__hostStyle || hintStyle ? { ...hintStyle || {}, ...this.props.__hostStyle || {} } : void 0;
+        const hostStyle = this.props.__hostStyle || hintStyle ? { ...hintStyle, ...this.props.__hostStyle } : void 0;
         const hostBase = {
           className: cls,
           style: hostStyle,
@@ -1082,7 +1082,7 @@
         let vals = userProps;
         let renderErr = r.logicError || this.__ctorError;
         try {
-          vals = { ...userProps, ...this.logic.renderVals() || {} };
+          vals = { ...userProps, ...this.logic.renderVals() };
         } catch (e) {
           console.error(e);
           renderErr = this.__name + ".renderVals(): " + (e instanceof Error && e.message ? e.message : String(e));
