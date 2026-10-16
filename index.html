@@ -201,7 +201,58 @@
         display: none;
       }
     </style>
+    <script>
+      (function (d) {
+        var h = d.documentElement,
+          o;
+        h.classList.add("js");
+        function m() {
+          var r = d.getElementById("dc-root");
+          if (!r || !r.firstElementChild) return 0;
+          var p = d.getElementById("prerendered");
+          if (p) p.remove();
+          h.classList.remove("js");
+          o.disconnect();
+          return 1;
+        }
+        o = new MutationObserver(m);
+        o.observe(h, { childList: true, subtree: true });
+        setTimeout(function () {
+          if (!m()) h.classList.remove("js");
+        }, 5000);
+      })(document);
+    </script><style>
+      .js #prerendered {
+        display: none;
+      }
+    </style>
+    <script>
+      (function (d) {
+        var h = d.documentElement,
+          o;
+        h.classList.add("js");
+        function m() {
+          var r = d.getElementById("dc-root");
+          if (!r || !r.firstElementChild) return 0;
+          var p = d.getElementById("prerendered");
+          if (p) p.remove();
+          h.classList.remove("js");
+          o.disconnect();
+          return 1;
+        }
+        o = new MutationObserver(m);
+        o.observe(h, { childList: true, subtree: true });
+        setTimeout(function () {
+          if (!m()) h.classList.remove("js");
+        }, 5000);
+      })(document);
+    </script><style>
+      .js #prerendered {
+        display: none;
+      }
+    </style>
     <script>(function(d){var h=d.documentElement,o;h.classList.add('js');function m(){var r=d.getElementById('dc-root');if(!r||!r.firstElementChild)return 0;var p=d.getElementById('prerendered');if(p)p.remove();h.classList.remove('js');o.disconnect();return 1}o=new MutationObserver(m);o.observe(h,{childList:true,subtree:true});setTimeout(function(){if(!m())h.classList.remove('js')},5000)})(document)</script><style>.js #prerendered{display:none}</style>
+  <script>(function(d){var h=d.documentElement,o;h.classList.add('js');function m(){var r=d.getElementById('dc-root');if(!r||!r.firstElementChild)return 0;var p=d.getElementById('prerendered');if(p)p.remove();h.classList.remove('js');o.disconnect();return 1}o=new MutationObserver(m);o.observe(h,{childList:true,subtree:true});setTimeout(function(){if(!m())h.classList.remove('js')},5000)})(document)</script><style>.js #prerendered{display:none}</style>
 </head>
 
   <body>
@@ -216,14 +267,14 @@
 <ul><li><strong>Talentnix: AI gateway &amp; resilience</strong> (Backend Lead): Multi-tenant SaaS platform. One routing layer in front of OpenAI, Gemini and Anthropic with automatic failover, backed by a three-tier fallback (retry → RAG fallback → rule-based floor). Tenant isolation is enforced across its REST and GraphQL APIs with OAuth 2.0 and JWT. OpenAI · Gemini · Anthropic · REST · GraphQL · OAuth 2.0 / JWT</li><li><strong>Multi-tenant AI recruitment ATS</strong> (Backend Lead &amp; Architect): Internal ATS built with Claude Code and Gemini 2.5 Flash. Tenant scope comes from verified JWT claims across the query layer. Résumé ingestion runs on BullMQ workers with rule-based fallbacks; search is tenant-scoped MeiliSearch. NestJS · MongoDB · Gemini 2.5 Flash · MeiliSearch · BullMQ · Postal SMTP</li><li><strong>APAC Management System (HRMS)</strong> (Backend Lead): MicroAgility’s HRMS, combining payroll, HR and attendance with complete employee records. It has role-based access control, leave banking with Excel import and export, multi-level request approvals, and GCS signed-URL documents behind a Redis cache. NestJS 11 · MongoDB · Redis · GCS</li><li><strong>iAgility</strong> (Backend Engineer): A large product built around the hiring and consultancy workflow, on a MEAN microservices stack. I owned the backend: Express.js microservices and GraphQL APIs for the hiring flow with MongoDB as the main data store, Postal for transactional email, Google Cloud Storage for files and WebSocket for real-time notifications. MongoDB · Express.js · Angular · Node.js · GraphQL · WebSocket · Postal</li><li><strong>AgileBrains</strong> (Backend Engineer): A single consultant and client hiring platform on the same MEAN microservices stack: Admin, Client, Consultant and Job services behind a Main App gateway and a custom service registry, each split into presentation, business and data layers. MongoDB · Express.js · Angular · Node.js · TypeScript · Mongoose</li><li><strong>Serverless gateway &amp; CRM layer</strong> (Software Engineer): Serverless AWS Lambda and API Gateway services on an event-driven design, replacing always-on servers, plus Express.js, FastAPI and Django REST Framework APIs for secure CRM and payment integrations. AWS Lambda · API Gateway · Express.js · FastAPI · Django REST</li></ul>
 <h2 id="stack">Stack</h2>
 <ul><li><strong>Architecture &amp; systems design:</strong> Distributed systems, system design, microservices, event-driven architecture, multi-tenant SaaS, REST and GraphQL API design, scalability and reliability trade-offs</li><li><strong>Backend engineering:</strong> Node.js, NestJS, TypeScript, Express.js, Python, FastAPI, Django REST Framework, PostgreSQL, MySQL, MongoDB, Redis, BullMQ, MeiliSearch</li><li><strong>AI-first engineering:</strong> LLM integration (OpenAI, Gemini, Anthropic), RAG pipelines, MCP servers, AI agent workflows, Claude Code, GitHub Copilot, Gemini 2.5 Flash</li><li><strong>Cloud &amp; delivery:</strong> AWS (Lambda, API Gateway), GCP, OpenStack, Docker, Kubernetes, CI/CD (GitHub Actions), Jest, OAuth 2.0 / JWT</li><li><strong>Product domains:</strong> Multi-tenant SaaS, HRMS, CRM, recruitment and consultancy platforms</li><li><strong>Leadership:</strong> Technical leadership, mentoring and onboarding, architecture and code review, technical direction, architecture decision records (ADRs)</li></ul>
-<h2>Certifications on my résumé</h2>
+<h2>Certifications & Badges</h2>
 <ul><li><a href="https://partner.skills.google/public_profiles/e7e2ac08-758d-47f5-af65-589153c6b873/badges/27317550">Agent Fundamentals</a> · Google Cloud Skills Boost · Aug 2026</li><li><a href="https://academy.claude.com/verify/ff1b2c578e9794408a0ba9c5beedc928">Claude Code in Action</a> · Anthropic · Aug 2026</li><li><a href="https://www.credly.com/badges/13300660-220e-4a01-ad7e-c4be671babf4">Containers &amp; Kubernetes Essentials</a> · IBM · Sep 2026</li><li><a href="https://www.linkedin.com/learning/certificates/418db3170c778c6dd6faffc8aaa20934974fdde3790b23579f98e37f3dd464da">Agentic AI Solution Design Patterns</a> · LinkedIn Learning · Aug 2026</li><li><a href="https://www.skills.google/public_profiles/e7e2ac08-758d-47f5-af65-589153c6b873/badges/26965991">Gen AI: Beyond the Chatbot</a> · Google Cloud Skills Boost · Aug 2026</li><li><a href="https://partner.skills.google/public_profiles/e7e2ac08-758d-47f5-af65-589153c6b873/badges/28667368">Build Agent Skills with Google</a> · Google Cloud Skills Boost · Oct 2026</li></ul>
-<p>75 verified credentials: LinkedIn Learning 23 · Google Cloud Skills Boost 22 · IBM 14 · Anthropic 7 · Microsoft Learning 6 · Udemy 1 · Coursera 1 · Cognitive Class 1. <a href="/credentials">View all credentials</a></p>
+<p>74 Verified Credentials: LinkedIn Learning 23 · Google Cloud Skills Boost 21 · IBM 14 · Anthropic 7 · Microsoft Learning 6 · Udemy 1 · Coursera 1 · Cognitive Class 1. <a href="/credentials">View all credentials</a></p>
 <h2 id="projects">Projects</h2>
 <ul><li><a href="https://gravatar.com/juhbukhari">Omni.io</a>: Multi-tenant RAG support engine with a three-tier resilience ladder, Postgres row-level-security isolation, an embeddable widget and an MCP server. 81 unit and 16 end-to-end tests.</li><li><a href="https://talntflow-ai.vercel.app">TalntFlow AI</a>: Lightweight ATS with a Kanban pipeline, STAR scorecards, hiring analytics and an approval-based recruiting agent that runs on Claude with a rules fallback.</li><li><a href="https://scanwise-io.vercel.app">Scanwise</a>: Formerly Qeloma OCR. Turns scans, photos, PDFs, Office files and zips into one cited summary and a source-grounded chat, with on-device OCR and per-word confidence.</li><li><a href="https://catch-box.vercel.app">Catchbox</a>: Human-in-the-loop triage for failed web scrapes, with a no-code scraper builder, 30-day run history and Google Sheets sync. Rebuilt in plain language from Scrapefix.</li><li><a href="https://github.com/JawadulHadi/scrapio">Scrapefix</a>: The first build of the scraper-triage dashboard: fix queue, record review, clean-data warehouse and a personal ingest key for any scraper.</li><li><a href="https://github.com/JawadulHadi/llm-powered-ticket-automation">TRIA.GE</a>: Support-triage console where Gemini classifies intent, sentiment and urgency, extracts entities, then resolves tier-1 tickets or escalates to tier-2 with an audit log. Ticket sources and UiPath robot runs are simulated.</li><li><a href="https://github.com/JawadulHadi/sap-agi-procure">SAP-AGI Procure</a>: Procurement and accounts-payable control centre: quotation comparison, 3-way PO, goods-receipt and invoice matching, duplicate-payment flags and vendor scorecards. The SAP, UiPath and Document AI connections are simulated.</li><li><a href="https://repo-glow-io.lovable.app">GitHub Glow-Up</a>: Lovable-built workspace for repository documentation: drafts READMEs, builds code reports that keep verified public facts apart from the AI's interpretation, and publishes the README, docs, topics and a release to GitHub, then re-reads the repo to confirm.</li><li><a href="https://github.com/JawadulHadi/taskmaster-agent">Taskmaster Agent</a>: Hackathon entry: an event-driven HR operations agent on Google Genkit and Gemini, run through Pub/Sub on Cloud Run. It audits timesheets against policy, pauses for a manager's approval when it finds a violation such as overtime over 10 hours, and indexes every decision in Meilisearch.</li><li><a href="https://qeloma-verdict.vercel.app/">Verdict</a>: Tamper-evident decision engine that issues reasoning receipts, hash-chained and Ed25519-signed, built for EU AI Act Articles 12 to 14 record-keeping.</li><li><a href="https://qelomalens.vercel.app/">Lens Studio</a>: Capability-driven document understanding service: PDFs, DOCX and images become one canonical envelope, then seven capabilities (summarise, extract facts, verdict, compare, breakdown, next actions, generate) run on Gemini with deterministic fallbacks and API-key tenancy.</li><li><a href="https://qeloma-voice.vercel.app/">Voice Studio</a>: Real-time voice analyst on the Gemini Live API. It calls Lens capabilities as tools, so every spoken answer is grounded in your document and shown in an on-screen trail.</li><li><a href="https://qeloma-shift.vercel.app/">Shift</a>: Semantic diffing for contracts, policies and configs that aligns reworded clauses, ranks changes by materiality and explains business impact.</li><li><a href="https://cover-studiio.vercel.app/">Cover Studio</a>: Browser-based LinkedIn banner designer with an AI copywriting assistant, safe-zone guides and one-click high-resolution export. Renders client-side.</li><li><a href="https://github.com/Qeloma/Qeloma-Studio">Qeloma Studio</a>: In-browser photo and video editor on WebGPU, WebGL2 and WebAssembly, with local ONNX background removal and a non-destructive edit graph. No server calls.</li><li><a href="https://github.com/Qeloma/qeloma-recruitment-sandbox">Qeloma Recruit</a>: Angular 21 ATS sandbox on Gemini: job-description generator, 10-point STAR interview guides, scorecards, candidate matching, a five-stage pipeline, analytics and PDF export.</li><li><a href="https://github.com/Qeloma/qeloma_meeting_room_booking_app">Room Booking</a>: Multi-tenant meeting-room booking on NestJS 11 and React 18, with conflict detection, calendar integration, notifications and English, Chinese and Japanese UI.</li><li><a href="https://github.com/Qeloma/qeloma-extension-suite">Extension suite</a>: Ten single-purpose Manifest V3 extensions built with WXT: one-click and full-page screenshots, a domain blocker with Pomodoro timer, zero-flicker dark mode, Gemini-powered page clips, a per-tab volume booster, time-boxing, private time tracking, an SEO inspector, reader mode and a colour palette tool. Local-first, with a Chrome Web Store preflight gate.</li></ul>
-<h2 id="contact">Services &amp; contact</h2>
+<h2 id="contact">Services &amp; Contact</h2>
 <ul><li><strong>Backend architecture:</strong> Multi-tenant SaaS design with tenant isolation, schema strategy and REST or GraphQL API contracts.</li><li><strong>AI platform &amp; resilience:</strong> Provider-agnostic LLM layers, RAG pipelines and fallback ladders that keep AI features up through outages.</li><li><strong>Performance &amp; scale:</strong> Query and index work, search, and queue-based workloads that keep APIs sub-second under load.</li><li><strong>Technical leadership:</strong> Mentoring and onboarding, architecture and code review, and architecture decision records (ADRs).</li></ul>
-<p>Open to Backend Lead, Solutions Architecture and AI Platform roles. <a href="https://gravatar.com/juhbukhari">Contact me on Gravatar</a></p>
+<p>Open to Backend Lead, Solutions Architecture and AI Platform roles. <a href="https://gravatar.com/juhbukhari">Ready to build something resilient? Let’s connect ↗</a></p>
 </div>
 <!-- prerender:end -->
     <x-dc>
@@ -299,7 +350,7 @@
               <span
                 style="font-family: var(--font-heading); font-size: 15px; letter-spacing: .12em; color: var(--color-accent); border: 1px solid var(--color-accent); padding: 2px 7px; border-radius: var(--radius-sm);"
               >JUH</span>
-              </a>
+            </a>
             <nav
               aria-label="Primary"
               style="display: flex; gap: var(--space-2) var(--space-3); flex-wrap: wrap; font-family: var(--font-heading); font-size: 15px; flex: 1;"
@@ -368,7 +419,7 @@
                 style="display: flex; gap: var(--space-3); flex-wrap: wrap; align-items: center; margin-top: var(--space-6);"
               >
                 <a class="btn btn-primary" href="#contact" style="flex: none; white-space: nowrap;">Work with me</a>
-                <a class="btn btn-secondary" href="/case-study" style="flex: none; white-space: nowrap;">Read the case
+                <a class="btn btn-secondary" href="/case-study.html" style="flex: none; white-space: nowrap;">Read the case
                   study</a>
               </div>
             </div>
@@ -377,7 +428,7 @@
                 <img
                   class="plate"
                   data-tilt=""
-                  src="assets/portrait.jpg"
+                  src="assets/portrait.png"
                   alt="Jawad Ul Hadi"
                   style="transition: transform .5s cubic-bezier(.2,.7,.2,1); will-change: transform; width: 100%; aspect-ratio: 4 / 5; object-fit: cover;"
                 >
@@ -427,7 +478,7 @@
 
           <a
             data-reveal="0"
-            href="/case-study"
+            href="/case-study.html"
             data-glow=""
             style="display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2) var(--space-4); margin-top: var(--space-6); padding: var(--space-4) var(--space-6); border: 1px solid color-mix(in srgb, var(--color-accent) 45%, var(--color-divider)); border-radius: var(--radius-md); color: var(--color-text); text-decoration: none; background-image: radial-gradient(420px circle at var(--gx, -50%) var(--gy, -50%), color-mix(in srgb, var(--color-accent) 10%, transparent), transparent 70%); transition: border-color .25s ease;"
             style-hover="border-color: var(--color-accent);"
@@ -435,7 +486,7 @@
             <span
               style="font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-accent);"
             >Case
-              study</span>
+              Study</span>
             <span style="font-family: var(--font-heading); font-size: 22px;">Designing for AI Failure</span>
             <span style="font-size: 15px; color: var(--muted); flex: 1; min-width: 240px;">Retry → RAG Fallback →
               Rule-Based Floor: how Talentnix kept zero AI failures during live LLM outages.</span>
@@ -612,7 +663,7 @@
               </div>
 
               <div style="display: flex; justify-content: center; margin-top: var(--space-6);">
-                <a class="btn btn-secondary" href="/credentials">View all 75 credentials →</a>
+                <a class="btn btn-secondary" href="/credentials.html">View all 75 credentials →</a>
               </div>
             </div>
 
@@ -781,7 +832,7 @@
                   </div>
                 </div>
               </sc-if>
-              <a class="btn btn-ghost" href="/case-study" style="margin-top: var(--space-6);">Read the full case study
+              <a class="btn btn-ghost" href="/case-study.html" style="margin-top: var(--space-6);">Read the full case study
                 →</a>
             </article>
           </section>

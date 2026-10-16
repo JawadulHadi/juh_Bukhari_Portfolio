@@ -103,7 +103,7 @@ Agent tuning lives in [`api/_agent.js`](api/_agent.js):
 │   ├── agent.js            # Vercel serverless entry → /api/agent (GET = health check, POST = chat)
 │   └── index.js            # Re-exports agent.js for the legacy /api/* rewrite
 ├── server.js               # Express server for local dev / any Node host
-├── assets/portrait.jpg
+├── assets/portrait.png
 ├── assets/og-1200x630.png  # Open Graph / Twitter card image
 ├── favicon.svg
 ├── resume.pdf

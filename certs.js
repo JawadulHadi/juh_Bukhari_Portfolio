@@ -94,7 +94,14 @@
       "https://www.credly.com/badges/ba36cf99-6006-4ad8-a43a-f5a479ae4024",
       1,
     ],
-    ["F", "Certified Django Developer", "Udemy", "Oct 2025", null, 1],
+    [
+      "F",
+      "Certified Django Developer",
+      "Udemy",
+      "Oct 2025",
+      "/assets/certified_django_developer.png",
+      1,
+    ],
     [
       "C",
       "AI Capabilities and Limitations",
@@ -311,13 +318,6 @@
       "Google Cloud Skills Boost",
       "Aug 2026",
       "https://partner.skills.google/public_profiles/e7e2ac08-758d-47f5-af65-589153c6b873/badges/27318640",
-    ],
-    [
-      "A",
-      "Create Your First Gemini Enterprise Application",
-      "Google Cloud Skills Boost",
-      "Aug 2026",
-      "https://www.credly.com/badges/f158ced5-5067-46a0-9f9c-2479bf31cff6/linked_in_profile",
     ],
     [
       "A",
@@ -549,7 +549,7 @@
   // Issuer breakdown, largest first. Total = JUH_CERTS.length (79).
   window.JUH_CERT_ISSUERS = [
     ["LinkedIn Learning", 23],
-    ["Google Cloud Skills Boost", 22],
+    ["Google Cloud Skills Boost", 21],
     ["IBM", 14],
     ["Anthropic", 7],
     ["Microsoft Learning", 6],

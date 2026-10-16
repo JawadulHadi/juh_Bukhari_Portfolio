@@ -73,7 +73,7 @@ const certItem = (c) =>
 function issuerLine(w) {
   const list = w.JUH_CERT_ISSUERS || [];
   return (
-    `${w.JUH_CERTS.length} verified credentials: ` +
+    `${w.JUH_CERTS.length} Verified Credentials: ` +
     list.map(([i, n]) => `${esc(i)} ${n}`).join(" · ")
   );
 }
@@ -92,21 +92,21 @@ const pages = {
       `<ul>${v.work.map((x) => `<li><strong>${esc(x.title)}</strong> (${esc(x.role)}): ${esc(x.desc)} ${esc(x.stack)}</li>`).join("")}</ul>`,
       '<h2 id="stack">Stack</h2>',
       `<ul>${v.stack.map((x) => `<li><strong>${esc(x.group)}:</strong> ${esc(x.items)}</li>`).join("")}</ul>`,
-      "<h2>Certifications on my résumé</h2>",
+      "<h2>Certifications & Badges</h2>",
       `<ul>${v.certs.map(certItem).join("")}</ul>`,
       `<p>${issuerLine(w)}. ${link("/credentials", "View all credentials")}</p>`,
       '<h2 id="projects">Projects</h2>',
       `<ul>${[...v.repos, ...v.qeloma].map((r) => `<li>${link(r.href, r.name)}: ${esc(r.desc)}</li>`).join("")}</ul>`,
-      '<h2 id="contact">Services &amp; contact</h2>',
+      '<h2 id="contact">Services &amp; Contact</h2>',
       `<ul>${v.services.map((x) => `<li><strong>${esc(x.t)}:</strong> ${esc(x.d)}</li>`).join("")}</ul>`,
-      `<p>Open to Backend Lead, Solutions Architecture and AI Platform roles. ${link("https://gravatar.com/juhbukhari", "Contact me on Gravatar")}</p>`,
+      `<p>Open to Backend Lead, Solutions Architecture and AI Platform roles. ${link("https://gravatar.com/juhbukhari", "Ready to build something resilient? Let’s connect ↗")}</p>`,
     ].join("\n");
   },
   "credentials.html"(html, w) {
     const v = renderVals(html, w, { filter: "all", expanded: true });
     return [
       nav(v.nav),
-      "<h1>Certifications &amp; credentials</h1>",
+      "<h1>Certifications &amp; Credentials</h1>",
       `<p>${issuerLine(w)}</p>`,
       `<ul>${v.certs.map(certItem).join("")}</ul>`,
     ].join("\n");

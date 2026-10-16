@@ -10,7 +10,7 @@ The following is **personal content** and is © 2026 Jawad Ul Hadi, all rights r
 
 | Content                                                         | Where                             |
 | --------------------------------------------------------------- | --------------------------------- |
-| Portrait photograph                                             | `assets/portrait.jpg`             |
+| Portrait photograph                                             | `assets/portrait.png`             |
 | Résumé                                                          | `resume.pdf`                      |
 | Biography, work history, project write-ups and credentials text | `index.html`                      |
 | The case study "Designing for AI Failure" (text and figures)    | `case-study.html`                 |
