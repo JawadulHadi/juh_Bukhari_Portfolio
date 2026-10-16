@@ -1,186 +1,270 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="./support.js"></script>
-</head>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="./support.js"></script>
+  </head>
 
-<body>
-  <x-dc>
-    <helmet>
-      <link rel="stylesheet" href="_ds/classical-14580d76-6aa9-445c-a1a1-c9bb8d7a9f0e/styles.css">
-      <script src="_ds/classical-14580d76-6aa9-445c-a1a1-c9bb8d7a9f0e/_ds_bundle.js"></script>
-      <script src="theme.js"></script>
-      <style>
-        @keyframes juhAgentIn {
-          from {
-            opacity: 0;
-            transform: translateX(-14px) scale(.985);
+  <body>
+    <x-dc>
+      <helmet>
+        <link rel="stylesheet" href="_ds/classical-14580d76-6aa9-445c-a1a1-c9bb8d7a9f0e/styles.css">
+        <script src="_ds/classical-14580d76-6aa9-445c-a1a1-c9bb8d7a9f0e/_ds_bundle.js"></script>
+        <script src="theme.js"></script>
+        <style>
+          @keyframes juhAgentIn {
+            from {
+              opacity: 0;
+              transform: translateX(-14px) scale(0.985);
+            }
+
+            to {
+              opacity: 1;
+              transform: none;
+            }
           }
 
-          to {
-            opacity: 1;
-            transform: none;
-          }
-        }
+          @keyframes juhPulse {
+            0% {
+              box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-accent) 55%, transparent);
+            }
 
-        @keyframes juhPulse {
-          0% {
-            box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-accent) 55%, transparent);
-          }
-
-          100% {
-            box-shadow: 0 0 0 9px transparent;
-          }
-        }
-
-        @keyframes juhFloat {
-
-          0%,
-          100% {
-            transform: translateY(0);
+            100% {
+              box-shadow: 0 0 0 9px transparent;
+            }
           }
 
-          50% {
-            transform: translateY(-6px);
-          }
-        }
+          @keyframes juhFloat {
+            0%,
+            100% {
+              transform: translateY(0);
+            }
 
-        @keyframes juhDots {
-
-          0%,
-          80%,
-          100% {
-            opacity: .25;
+            50% {
+              transform: translateY(-6px);
+            }
           }
 
-          40% {
-            opacity: 1;
-          }
-        }
-      </style>
-    </helmet>
-    <div style="font-family: var(--font-body);">
-      <sc-if value="{{ closed }}" hint-placeholder-val="{{ true }}">
-        <button type="button" ref="{{ launcherRef }}" onClick="{{ toggle }}"
-          aria-label="Open Jawad's AI agent. Chat by text or voice." aria-expanded="false" aria-haspopup="dialog"
-          style="position: fixed; left: 16px; bottom: 20px; z-index: 60; display: flex; align-items: center; gap: 10px; padding: 5px 16px 5px 5px; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-divider); border-radius: 999px; cursor: pointer; box-shadow: var(--shadow-md); animation: juhFloat 4.5s ease-in-out infinite; transition: border-color .25s ease, box-shadow .25s ease;"
-          style-hover="border-color: var(--color-accent); box-shadow: var(--shadow-lg);">
-          <span style="position: relative; flex: none; width: 48px; height: 48px;">
-            <img src="assets/portrait.png" alt=""
-              style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; object-position: 50% 22%; border: 1.5px solid var(--color-accent); display: block;">
-            <span
-              style="position: absolute; right: 1px; bottom: 1px; width: 11px; height: 11px; border-radius: 50%; background: var(--color-accent); border: 2px solid var(--color-surface); animation: juhPulse 2.2s ease-out infinite;"></span>
-          </span>
-          <span style="display: grid; text-align: left; line-height: 1.15; white-space: nowrap;">
-            <span style="font-family: var(--font-heading); font-size: 18px; font-weight: 600;">Ask Jawad</span>
-            <span style="font-size: 12px; color: var(--muted);">AI agent · text or voice</span>
-          </span>
-        </button>
-      </sc-if>
+          @keyframes juhDots {
+            0%,
+            80%,
+            100% {
+              opacity: 0.25;
+            }
 
-      <sc-if value="{{ open }}" hint-placeholder-val="{{ false }}">
-        <div role="dialog" aria-labelledby="juh-agent-title"
-          style="position: fixed; left: 16px; bottom: 16px; z-index: 61; width: min(390px, calc(100vw - 32px)); height: min(590px, calc(100vh - 32px)); display: flex; flex-direction: column; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-divider); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); overflow: hidden; animation: juhAgentIn .34s cubic-bezier(.2,.7,.2,1);">
+            40% {
+              opacity: 1;
+            }
+          }
+        </style>
+      </helmet>
+      <div style="font-family: var(--font-body);">
+        <sc-if value="{{ closed }}" hint-placeholder-val="{{ true }}">
+          <button
+            type="button"
+            ref="{{ launcherRef }}"
+            onClick="{{ toggle }}"
+            aria-label="Open Jawad's AI agent. Chat by text or voice."
+            aria-expanded="false"
+            aria-haspopup="dialog"
+            style="position: fixed; left: 16px; bottom: 20px; z-index: 60; display: flex; align-items: center; gap: 10px; padding: 5px 16px 5px 5px; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-divider); border-radius: 999px; cursor: pointer; box-shadow: var(--shadow-md); animation: juhFloat 4.5s ease-in-out infinite; transition: border-color .25s ease, box-shadow .25s ease;"
+            style-hover="border-color: var(--color-accent); box-shadow: var(--shadow-lg);"
+          >
+            <span style="position: relative; flex: none; width: 48px; height: 48px;">
+              <img
+                src="assets/portrait.png"
+                alt=""
+                style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; object-position: 50% 22%; border: 1.5px solid var(--color-accent); display: block;"
+              >
+              <span
+                style="position: absolute; right: 1px; bottom: 1px; width: 11px; height: 11px; border-radius: 50%; background: var(--color-accent); border: 2px solid var(--color-surface); animation: juhPulse 2.2s ease-out infinite;"
+              ></span>
+            </span>
+            <span style="display: grid; text-align: left; line-height: 1.15; white-space: nowrap;">
+              <span style="font-family: var(--font-heading); font-size: 18px; font-weight: 600;">Ask Jawad</span>
+              <span style="font-size: 12px; color: var(--muted);">AI agent · text or voice</span>
+            </span>
+          </button>
+        </sc-if>
+
+        <sc-if value="{{ open }}" hint-placeholder-val="{{ false }}">
           <div
-            style="display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--color-divider);">
-            <img src="assets/portrait.png" alt=""
-              style="flex: none; width: 40px; height: 40px; border-radius: 50%; object-fit: cover; object-position: 50% 22%; border: 1px solid var(--color-accent);">
-            <div style="flex: 1; min-width: 0;">
-              <p id="juh-agent-title"
-                style="font-family: var(--font-heading); font-size: 21px; line-height: 1.1; margin: 0;">Ask Jawad</p>
-              <p style="font-size: 12px; color: var(--muted); margin: 2px 0 0;">{{ status }}</p>
-            </div>
-            <button type="button" onClick="{{ toggleSpeak }}" aria-pressed="{{ speakPressed }}" title="{{ speakTitle }}"
-              class="btn btn-ghost btn-icon" style="color: {{ speakColor }};">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                style="stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round;">
-                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-                <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
-              </svg>
-            </button>
-            <button type="button" onClick="{{ toggle }}" aria-label="Close agent" class="btn btn-ghost btn-icon">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                style="stroke-width: 1.75; stroke-linecap: round;">
-                <path d="M18 6 6 18"></path>
-                <path d="m6 6 12 12"></path>
-              </svg>
-            </button>
-          </div>
-
-          <div ref="{{ listRef }}" role="log" aria-live="polite" aria-label="Conversation"
-            style="flex: 1; overflow-y: auto; padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); scroll-behavior: smooth;">
-            <sc-for list="{{ messages }}" as="m" hint-placeholder-count="1">
-              <div style="display: flex; flex-direction: column; align-items: {{ m.align }}; gap: 3px;">
-                <div
-                  style="max-width: 88%; padding: 9px 13px; font-size: 14px; line-height: 1.55; white-space: pre-wrap; text-wrap: pretty; border: 1px solid {{ m.border }}; background: {{ m.bg }}; border-radius: var(--radius-md); font-family: {{ m.font }};">
-                  {{ m.text }}</div>
-                <span style="font-size: 11px; color: var(--muted);">{{ m.note }}</span>
+            role="dialog"
+            aria-labelledby="juh-agent-title"
+            style="position: fixed; left: 16px; bottom: 16px; z-index: 61; width: min(390px, calc(100vw - 32px)); height: min(590px, calc(100vh - 32px)); display: flex; flex-direction: column; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-divider); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); overflow: hidden; animation: juhAgentIn .34s cubic-bezier(.2,.7,.2,1);"
+          >
+            <div
+              style="display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--color-divider);"
+            >
+              <img
+                src="assets/portrait.png"
+                alt=""
+                style="flex: none; width: 40px; height: 40px; border-radius: 50%; object-fit: cover; object-position: 50% 22%; border: 1px solid var(--color-accent);"
+              >
+              <div style="flex: 1; min-width: 0;">
+                <p
+                  id="juh-agent-title"
+                  style="font-family: var(--font-heading); font-size: 21px; line-height: 1.1; margin: 0;"
+                >Ask Jawad</p>
+                <p style="font-size: 12px; color: var(--muted); margin: 2px 0 0;">{{ status }}</p>
               </div>
-            </sc-for>
-            <sc-if value="{{ busy }}" hint-placeholder-val="{{ false }}">
+              <button
+                type="button"
+                onClick="{{ toggleSpeak }}"
+                aria-pressed="{{ speakPressed }}"
+                title="{{ speakTitle }}"
+                class="btn btn-ghost btn-icon"
+                style="color: {{ speakColor }};"
+              >
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  style="stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round;"
+                >
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                </svg>
+              </button>
+              <button type="button" onClick="{{ toggle }}" aria-label="Close agent" class="btn btn-ghost btn-icon">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  style="stroke-width: 1.75; stroke-linecap: round;"
+                >
+                  <path d="M18 6 6 18"></path>
+                  <path d="m6 6 12 12"></path>
+                </svg>
+              </button>
+            </div>
+
+            <div
+              ref="{{ listRef }}"
+              role="log"
+              aria-live="polite"
+              aria-label="Conversation"
+              style="flex: 1; overflow-y: auto; padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); scroll-behavior: smooth;"
+            >
+              <sc-for list="{{ messages }}" as="m" hint-placeholder-count="1">
+                <div style="display: flex; flex-direction: column; align-items: {{ m.align }}; gap: 3px;">
+                  <div
+                    style="max-width: 88%; padding: 9px 13px; font-size: 14px; line-height: 1.55; white-space: pre-wrap; text-wrap: pretty; border: 1px solid {{ m.border }}; background: {{ m.bg }}; border-radius: var(--radius-md); font-family: {{ m.font }};"
+                  >
+                    {{ m.text }}</div>
+                  <span style="font-size: 11px; color: var(--muted);">{{ m.note }}</span>
+                </div>
+              </sc-for>
+              <sc-if value="{{ busy }}" hint-placeholder-val="{{ false }}">
+                <div
+                  style="display: flex; gap: 5px; padding: 6px 2px; color: var(--color-accent); font-size: 20px; line-height: 1;"
+                >
+                  <span style="animation: juhDots 1.2s infinite;">·</span>
+                  <span style="animation: juhDots 1.2s .15s infinite;">·</span>
+                  <span style="animation: juhDots 1.2s .3s infinite;">·</span>
+                </div>
+              </sc-if>
+            </div>
+
+            <div
+              role="group"
+              aria-label="Quick questions and shortcuts"
+              style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; max-height: {{ chipMax }}; overflow-y: auto; padding: var(--space-2) var(--space-3); border-top: 1px solid var(--color-divider);"
+            >
+              <sc-for list="{{ suggestions }}" as="s" hint-placeholder-count="6">
+                <button
+                  type="button"
+                  onClick="{{ s.run }}"
+                  disabled="{{ busy }}"
+                  style="flex: none; white-space: nowrap; font: inherit; font-size: 13px; line-height: 1.2; padding: 5px 11px; color: var(--color-text); background: transparent; border: 1px solid var(--color-divider); border-radius: 999px; cursor: pointer; transition: border-color .2s, color .2s;"
+                  style-hover="border-color: var(--color-accent); color: var(--color-accent);"
+                >{{ s.label }}</button>
+              </sc-for>
+              <button
+                type="button"
+                onClick="{{ toggleMore }}"
+                aria-expanded="{{ moreExpanded }}"
+                style="flex: none; white-space: nowrap; font: inherit; font-size: 13px; line-height: 1.2; padding: 5px 11px; color: var(--ink-accent); background: transparent; border: 1px dashed var(--color-divider); border-radius: 999px; cursor: pointer; transition: border-color .2s;"
+                style-hover="border-color: var(--color-accent);"
+              >{{ moreLabel }}</button>
+            </div>
+
+            <sc-if value="{{ listening }}" hint-placeholder-val="{{ false }}">
               <div
-                style="display: flex; gap: 5px; padding: 6px 2px; color: var(--color-accent); font-size: 20px; line-height: 1;">
-                <span style="animation: juhDots 1.2s infinite;">·</span>
-                <span style="animation: juhDots 1.2s .15s infinite;">·</span>
-                <span style="animation: juhDots 1.2s .3s infinite;">·</span>
+                style="display: flex; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-4); border-top: 1px solid var(--color-divider); font-size: 13px; color: var(--ink-accent);"
+              >
+                <span
+                  style="width: 7px; height: 7px; border-radius: 50%; background: var(--color-accent); animation: juhPulse 1.2s ease-out infinite; flex: none;"
+                ></span>
+                <span
+                  style="font-style: italic; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                >{{
+                interimText }}</span>
               </div>
             </sc-if>
+
+            <form
+              onSubmit="{{ onSubmit }}"
+              style="display: flex; align-items: center; gap: var(--space-2); padding: var(--space-3); border-top: 1px solid var(--color-divider);"
+            >
+              <button
+                type="button"
+                onClick="{{ toggleMic }}"
+                aria-pressed="{{ micPressed }}"
+                aria-label="Voice input"
+                title="{{ micTitle }}"
+                disabled="{{ micDisabled }}"
+                class="btn btn-secondary btn-icon"
+                style="flex: none; color: {{ micColor }}; border-color: {{ micBorder }};"
+              >
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  style="stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round;"
+                >
+                  <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
+                  <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                  <path d="M12 19v3"></path>
+                </svg>
+              </button>
+              <input
+                class="input"
+                ref="{{ inputRef }}"
+                value="{{ input }}"
+                onChange="{{ onInput }}"
+                placeholder="Ask, or say “show projects”"
+                aria-label="Message"
+                style="flex: 1; min-width: 0;"
+              >
+              <button type="submit" aria-label="Send" class="btn btn-primary btn-icon" style="flex: none;">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  style="stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round;"
+                >
+                  <path d="m22 2-7 20-4-9-9-4Z"></path>
+                  <path d="M22 2 11 13"></path>
+                </svg>
+              </button>
+            </form>
           </div>
-
-          <div role="group" aria-label="Quick questions and shortcuts"
-            style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; max-height: {{ chipMax }}; overflow-y: auto; padding: var(--space-2) var(--space-3); border-top: 1px solid var(--color-divider);">
-            <sc-for list="{{ suggestions }}" as="s" hint-placeholder-count="6">
-              <button type="button" onClick="{{ s.run }}" disabled="{{ busy }}"
-                style="flex: none; white-space: nowrap; font: inherit; font-size: 13px; line-height: 1.2; padding: 5px 11px; color: var(--color-text); background: transparent; border: 1px solid var(--color-divider); border-radius: 999px; cursor: pointer; transition: border-color .2s, color .2s;"
-                style-hover="border-color: var(--color-accent); color: var(--color-accent);">{{ s.label }}</button>
-            </sc-for>
-            <button type="button" onClick="{{ toggleMore }}" aria-expanded="{{ moreExpanded }}"
-              style="flex: none; white-space: nowrap; font: inherit; font-size: 13px; line-height: 1.2; padding: 5px 11px; color: var(--ink-accent); background: transparent; border: 1px dashed var(--color-divider); border-radius: 999px; cursor: pointer; transition: border-color .2s;"
-              style-hover="border-color: var(--color-accent);">{{ moreLabel }}</button>
-          </div>
-
-          <sc-if value="{{ listening }}" hint-placeholder-val="{{ false }}">
-            <div
-              style="display: flex; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-4); border-top: 1px solid var(--color-divider); font-size: 13px; color: var(--ink-accent);">
-              <span
-                style="width: 7px; height: 7px; border-radius: 50%; background: var(--color-accent); animation: juhPulse 1.2s ease-out infinite; flex: none;"></span>
-              <span
-                style="font-style: italic; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{
-                interimText }}</span>
-            </div>
-          </sc-if>
-
-          <form onSubmit="{{ onSubmit }}"
-            style="display: flex; align-items: center; gap: var(--space-2); padding: var(--space-3); border-top: 1px solid var(--color-divider);">
-            <button type="button" onClick="{{ toggleMic }}" aria-pressed="{{ micPressed }}" aria-label="Voice input"
-              title="{{ micTitle }}" disabled="{{ micDisabled }}" class="btn btn-secondary btn-icon"
-              style="flex: none; color: {{ micColor }}; border-color: {{ micBorder }};">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                style="stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round;">
-                <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
-                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
-                <path d="M12 19v3"></path>
-              </svg>
-            </button>
-            <input class="input" ref="{{ inputRef }}" value="{{ input }}" onChange="{{ onInput }}"
-              placeholder="Ask, or say “show projects”" aria-label="Message" style="flex: 1; min-width: 0;">
-            <button type="submit" aria-label="Send" class="btn btn-primary btn-icon" style="flex: none;">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                style="stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round;">
-                <path d="m22 2-7 20-4-9-9-4Z"></path>
-                <path d="M22 2 11 13"></path>
-              </svg>
-            </button>
-          </form>
-        </div>
-      </sc-if>
-    </div>
-  </x-dc>
-  <script type="text/x-dc" data-dc-script>
+        </sc-if>
+      </div>
+    </x-dc>
+    <script type="text/x-dc" data-dc-script>
 const PAGE_MAIN = '/';
 const PAGE_CASE = '/case-study';
 const PAGE_CREDS = '/credentials';
@@ -471,6 +555,6 @@ class Component extends DCLogic {
   }
 }
 </script>
-</body>
+  </body>
 
 </html>
