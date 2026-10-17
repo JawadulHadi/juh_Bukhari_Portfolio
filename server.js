@@ -72,6 +72,7 @@ app.get(/^\/([\w-]+)\.html$/, (req, res) => {
 const PUBLIC_ROOT_FILES = new Set([
   "/index.html",
   "/case-study.html",
+  "/case-study-2.html",
   "/credentials.html",
   "/agent.dc.html",
   "/support.js",
@@ -80,7 +81,7 @@ const PUBLIC_ROOT_FILES = new Set([
   "/favicon.svg",
   "/resume.pdf",
 ]);
-const PUBLIC_ROUTES = new Set(["/", "/case-study", "/credentials"]);
+const PUBLIC_ROUTES = new Set(["/", "/case-study", "/case-study-2", "/credentials"]);
 const PUBLIC_DIRECTORIES = ["/assets/", "/_ds/"];
 app.use((req, res, next) => {
   if (req.method !== "GET" && req.method !== "HEAD") return next();

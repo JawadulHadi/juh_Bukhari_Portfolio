@@ -1,28 +1,37 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Designing for AI Failure, Part 2 · Jawad Ul Hadi</title>
-  <meta name="description"
-    content="Case study, part 2: making LLM degradation observable, prompt versioning data-driven, and cost attribution tenant-truthful.">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Designing for AI Failure, Part 2 · Jawad Ul Hadi">
-  <meta property="og:description"
-    content="The gateway that learned to say no — contracts, config-as-data, and invariant validation for multi-provider LLM systems.">
-  <meta property="og:url" content="https://juh-bukhari.vercel.app/case-study-2">
-  <meta property="og:image" content="https://juh-bukhari.vercel.app/assets/og-1200x630.png">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://juh-bukhari.vercel.app/assets/og-1200x630.png">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <script src="./support.js"></script>
-  <script>(function (d) { var h = d.documentElement, o; h.classList.add('js'); function m() { var r = d.getElementById('dc-root'); if (!r || !r.firstElementChild) return 0; var p = d.getElementById('prerendered'); if (p) p.remove(); h.classList.remove('js'); o.disconnect(); return 1 } o = new MutationObserver(m); o.observe(h, { childList: true, subtree: true }); setTimeout(function () { if (!m()) h.classList.remove('js') }, 5000) })(document)</script>
-  <style>
-    .js #prerendered {
-      display: none
-    }
-  </style>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Designing for AI Failure, Part 2 · Jawad Ul Hadi</title>
+    <meta
+      name="description"
+      content="Case study, part 2: making LLM degradation observable, prompt versioning data-driven, and cost attribution tenant-truthful."
+    >
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Designing for AI Failure, Part 2 · Jawad Ul Hadi">
+    <meta
+      property="og:description"
+      content="The gateway that learned to say no — contracts, config-as-data, and invariant validation for multi-provider LLM systems."
+    >
+    <link rel="canonical" href="https://juh-bukhari.vercel.app/case-study-2">
+    <link rel="alternate" href="https://juh-bukhari.vercel.app/case-study-2.html">
+    <meta property="og:url" content="https://juh-bukhari.vercel.app/case-study-2">
+    <meta property="og:image" content="https://juh-bukhari.vercel.app/assets/og-1200x630.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://juh-bukhari.vercel.app/assets/og-1200x630.png">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <script>
+      (function () {
+        var path = window.location.pathname.replace(/\/+$/, "");
+        if (path === "/case-study-2.html") {
+          window.location.replace("/case-study-2");
+        }
+      })();
+    </script>
+    <script src="./support.js"></script>
+    <script>(function(d){var h=d.documentElement,o;h.classList.add('js');function m(){var r=d.getElementById('dc-root');if(!r||!r.firstElementChild)return 0;var p=d.getElementById('prerendered');if(p)p.remove();h.classList.remove('js');o.disconnect();return 1}o=new MutationObserver(m);o.observe(h,{childList:true,subtree:true});setTimeout(function(){if(!m())h.classList.remove('js')},5000)})(document)</script><style>.js #prerendered{display:none}</style>
 </head>
 
   <body>
@@ -225,7 +234,7 @@
               style="font-size: 17px; line-height: 1.65; text-align: justify; hyphens: auto; text-wrap: pretty; margin: 0;"
             >
               Part 1 answered <em>how the ladder stays up</em>. Part 2 answers the harder question — <em>how the system
-              stays honest while it's degraded</em>. A semantically wrong answer, a silently duplicated retry, a prompt
+                stays honest while it's degraded</em>. A semantically wrong answer, a silently duplicated retry, a prompt
               rollback that needs a redeploy: availability alone doesn't touch any of them. This is the layer of
               contracts, config-as-data and invariant validation that does.</p>
           </section>
@@ -579,24 +588,33 @@ export type Confidence = 'high' | 'medium' | 'low';
 export type LlmResponse&lt;T&gt; =
   | { tier: 'retry'; degraded: false; confidence: 'high'; content: T;
       providerMeta: ProviderMeta; invariants: InvariantReport }
-  | { tier: 'rag' | 'floor'; degraded: true; confidence: 'medium' | 'low'; content: T;
-      providerMeta: ProviderMeta; invariants: InvariantReport };
+  | {
+      tier: 'rag' | 'floor';
+      degraded: true;
+      confidence: 'medium' | 'low';
+      readonly _content: T;
+      providerMeta: ProviderMeta;
+      invariants: InvariantReport;
+      acceptDegraded(): T;
+    };
 
 /**
- * Callers cannot read `.content` on a degraded response without
- * explicitly acknowledging it. The type system refuses; the runtime
- * throws if they try to bypass it with `as any`.
+ * Degraded responses do not expose `.content` at all. The payload is only
+ * returned after `acceptDegraded()` runs the invariant check and audit log.
  */
 export function acceptDegraded&lt;T&gt;(res: LlmResponse&lt;T&gt;): T {
-  if (res.degraded &amp;&amp; !res.invariants.passed) {
-    throw new DegradedInvariantViolation(res.invariants.violated);
-  }
   if (res.degraded) {
+    if (!res.invariants.passed) {
+      throw new DegradedInvariantViolation(res.invariants.violated);
+    }
     logger.warn('degraded_accept', {
-      tier: res.tier, confidence: res.confidence,
+      tier: res.tier,
+      confidence: res.confidence,
       violations: res.invariants.violated,
     });
+    return res._content;
   }
+
   return res.content;
 }
 
@@ -762,4 +780,4 @@ class Component extends DCLogic {
 }
 </script>
   </body>
-                </html>
+</html>

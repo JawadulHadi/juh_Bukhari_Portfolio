@@ -106,10 +106,10 @@ const pages = {
   "case-study.html"(html, w) {
     return nav(renderVals(html, w).nav);
   },
-},
-"case-study-2.html"(html, w) {
-    return nav(renderVals(html, w).nav);  
-  };
+  "case-study-2.html"(html, w) {
+    return nav(renderVals(html, w).nav);
+  },
+};
 
 
 function build(html, body) {
