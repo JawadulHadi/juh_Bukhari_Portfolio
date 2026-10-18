@@ -11,7 +11,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Glass theme: frosted, translucent panels with a light sheen over an animated backdrop (drifting aurora, service nodes and traffic flowing along their edges). Motion stops under `prefers-reduced-motion`.
 - `#stack`: a "GitHub activity" block with the 3D contribution calendar generated daily by the profile repo; it follows the theme and hides itself until the image exists.
 - Pre-rendered HTML (`scripts/prerender.js`, `npm run prerender`): the nav, experience, work, stack, projects and every credential are written into the served HTML, so crawlers, link previews and ATS parsers see real roles, dates and credentials. CI checks it is up to date.
-- Home: a "Designing for AI Failure" case-study callout straight after the headline metrics.
+- Home: a "Designing for AI Failure" case1 callout straight after the headline metrics.
 - `/credentials` and `#stack` show "75 verified credentials" with the issuer breakdown.
 
 - `/credentials`: a separate, filterable certifications page (`credentials.html`). Certification data moved to `certs.js`, shared with the main page, which now shows only the certifications on the résumé.
@@ -36,13 +36,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Pre-rendered credentials without a verification URL show their ID (Django: `ID ESD-037/10/2025`).
 - Pre-rendered home page has `#experience`, `#work`, `#stack`, `#projects` and `#contact` anchors, and a contact line with the Gravatar link, so the fallback nav links land somewhere.
 
-- Main page order: intro, experience, selected work, stack & credentials, projects & open source, case study, services & contact. The case study is a teaser at the end, linking to `/case-study`.
+- Main page order: intro, experience, selected work, stack & credentials, projects & open source, case study, services & contact. The case study is a teaser at the end, linking to `/case1`.
 - Selected work now covers the projects named on the résumé (Talentnix, internal ATS, APAC Management System, iAgility, AgileBrains, serverless gateway). iAgility and AgileBrains are described from the résumé, and AgileBrains is a single product.
 - Experience text, roles and dates now match the résumé: 8+ years, Backend Lead Engineer, Market Icon from Aug 2018, and "zero AI failures during live LLM outages".
 - Stack groups mirror the résumé's skills section.
 - The project now lives at the repository root instead of `juh-portfolio/`.
 - `node_modules/` is no longer tracked in git.
-- Short URLs: the portfolio is served at `/` (was `/Portfolio.dc.html`) and the case study at `/case-study` (was `/Case Study.dc.html`). The old URLs 301-redirect, and `/resume` goes to `resume.pdf`.
+- Short URLs: the portfolio is served at `/` (was `/Portfolio.dc.html`) and the case study at `/case1` (was `/Case Study.dc.html`). The old URLs 301-redirect, and `/resume` goes to `resume.pdf`.
 - Pages now have their own `<title>`, meta description and favicon.
 
 ### Fixed
@@ -71,7 +71,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Removed
 
-- The legacy `projects.html`, `certifications.html`, `agent.html` and `case-study.html` pages.
+- The legacy `projects.html`, `certifications.html`, `agent.html` and `case1.html` pages.
 
 [Unreleased]: https://github.com/JawadulHadi/juh_Bukhari_Portfolio/compare/v2.0.0...HEAD
 [2.0.0]: https://github.com/JawadulHadi/juh_Bukhari_Portfolio/releases/tag/v2.0.0

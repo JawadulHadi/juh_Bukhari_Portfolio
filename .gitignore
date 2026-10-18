@@ -3,13 +3,13 @@ node_modules/
 dist/
 
 # Environment & secrets
-#.env
-#.env.*
-#!.env.example
+.env
+.env.*
+!.env.example
 
 # Deploy tooling
-#.vercel/
-#.render/
+.vercel/
+.render/
 
 # Logs
 npm-debug.log*

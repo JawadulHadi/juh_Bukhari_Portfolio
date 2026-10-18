@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LLM Response Envelope</title>
+    <style>
+      :root {
+        --bg: #f2f4fa;
+        --surface: #fff;
+        --surface-2: #e8ecf6;
+        --ink: #10162a;
+        --dim: #535d77;
+        --line: #d6dcea;
+        --c-blue: #2d5bef;
+        --c-teal: #0a9a8c;
+        --c-amber: #c47600;
+        --c-coral: #e5482e;
+        --c-magenta: #cc2f86;
+        --c-violet: #6b47ee;
+        --c-lime: #4b9a1c;
+        --ok: #148a4d;
+        --bad: #d7363c;
+        --on-tone: #fff;
+        --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+        --font-display:
+          "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+        --font-body:
+          "Instrument Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+        --font-mono:
+          "Martian Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0a0f1e;
+          --surface: #111930;
+          --surface-2: #1a2440;
+          --ink: #e9edf8;
+          --dim: #9aa5c0;
+          --line: #26314f;
+          --c-blue: #7090ff;
+          --c-teal: #2ccdbb;
+          --c-amber: #f5b83d;
+          --c-coral: #ff7a62;
+          --c-magenta: #f168b3;
+          --c-violet: #a08bff;
+          --c-lime: #8ad15a;
+          --ok: #3dd68c;
+          --bad: #ff6369;
+          --on-tone: #0a0f1e;
+        }
+      }
+      *,
+      :before,
+      :after {
+        box-sizing: border-box;
+        border-style: solid;
+        border-width: 0;
+        border-color: var(--line);
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-size: inherit;
+        font-weight: inherit;
+        margin: 0;
+      }
+      p {
+        margin: 0;
+      }
+      ol,
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      button {
+        font: inherit;
+        color: inherit;
+        background: none;
+        border: 0;
+        cursor: pointer;
+      }
+      svg {
+        display: block;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: var(--font-body);
+        font-size: 15px;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+        padding: 24px;
+        display: grid;
+        place-items: center;
+        min-height: 100vh;
+      }
+      .ag-panel {
+        container-type: inline-size;
+        border: 1px solid var(--line);
+        background: var(--surface);
+        border-radius: 16px;
+        padding: 18px;
+        display: grid;
+        gap: 10px;
+        align-content: start;
+        min-width: 0;
+        width: min(720px, 100%);
+      }
+      .ag-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .ag-top .h3 {
+        margin-top: 4px;
+      }
+      .ag-svg {
+        width: 100%;
+        height: auto;
+        display: block;
+        overflow: visible;
+      }
+      .ag-chain-node rect.fill {
+        fill: color-mix(in srgb, var(--tone) 9%, var(--surface));
+        stroke: var(--tone);
+        stroke-width: 1.5;
+        transition:
+          fill 0.25s,
+          stroke 0.25s;
+      }
+      .ag-chain-node.down rect.fill {
+        stroke: var(--bad);
+        stroke-dasharray: 4 4;
+        fill: color-mix(in srgb, var(--bad) 7%, var(--surface));
+      }
+      .ag-chain-node.win rect.fill {
+        fill: var(--tone);
+      }
+      .ag-chain-node.win text {
+        fill: var(--on-tone);
+      }
+      .ag-chain-node .nm {
+        fill: var(--ink);
+        font: 650 13.5px var(--font-body);
+        transition: fill 0.25s;
+      }
+      .ag-chain-node .tr {
+        fill: var(--dim);
+        font: 500 9px var(--font-mono);
+        transition: fill 0.25s;
+      }
+      .ag-chain-node .st {
+        font: 600 9px var(--font-mono);
+        transition: fill 0.25s;
+      }
+      .ag-chain-node.shake {
+        animation: agShake 0.32s ease-in-out;
+      }
+      .ag-chain-node.inv-fail rect.fill {
+        stroke: var(--bad);
+        stroke-width: 2.5;
+        fill: color-mix(in srgb, var(--bad) 14%, var(--surface));
+      }
+      .ag-link {
+        stroke: var(--line);
+        stroke-width: 2;
+      }
+      .ag-tok {
+        fill: var(--ink);
+      }
+      .ag-tok.back {
+        fill: var(--ok);
+      }
+      .ag-tok.degraded {
+        fill: var(--c-amber);
+      }
+      .ag-status {
+        margin: 0;
+        color: var(--dim);
+        font-size: 13px;
+        min-height: 1.4em;
+      }
+      .ag-inv-bar {
+        padding: 5px 10px;
+        border-radius: 7px;
+        background: var(--surface-2);
+        font-family: var(--font-mono);
+        font-size: 10.5px;
+        transition:
+          background 0.3s,
+          color 0.3s;
+        min-height: 1.8em;
+        display: flex;
+        align-items: center;
+      }
+      .ag-inv-bar.pass {
+        color: var(--ok);
+        background: color-mix(in srgb, var(--ok) 8%, var(--surface));
+      }
+      .ag-inv-bar.fail {
+        color: var(--bad);
+        background: color-mix(in srgb, var(--bad) 8%, var(--surface));
+      }
+      .ag-envelope {
+        padding: 8px 12px;
+        border: 1px solid var(--line);
+        border-radius: 9px;
+        background: var(--surface-2);
+        font-family: var(--font-mono);
+        font-size: 10.5px;
+        line-height: 1.75;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 0 16px;
+      }
+      .ag-ef {
+        display: flex;
+        gap: 6px;
+      }
+      .ag-ek {
+        color: var(--dim);
+        flex: none;
+      }
+      .ag-ev {
+        transition: color 0.35s;
+      }
+      .ag-ev.ok {
+        color: var(--ok);
+      }
+      .ag-ev.bad {
+        color: var(--bad);
+      }
+      .ag-ev.warn {
+        color: var(--c-amber);
+      }
+      .ag-log {
+        list-style: none;
+        margin: 0;
+        padding: 8px 12px;
+        background: var(--surface-2);
+        border-radius: 9px;
+        font-family: var(--font-mono);
+        font-size: 10.5px;
+        line-height: 1.45;
+        display: grid;
+        gap: 3px;
+        align-content: end;
+        overflow: hidden;
+        min-height: 64px;
+      }
+      .ag-log li {
+        display: grid;
+        grid-template-columns: 140px minmax(0, 1fr);
+        gap: 8px;
+        overflow-wrap: anywhere;
+        animation: agIn 0.35s var(--ease-out) backwards;
+      }
+      .ag-log li.sep {
+        display: block;
+        color: var(--dim);
+        opacity: 0.7;
+      }
+      .ag-k {
+        font-weight: 600;
+      }
+      .eyebrow {
+        font-family: var(--font-mono);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--dim);
+        margin: 0;
+        font-size: 10.5px;
+        font-weight: 500;
+      }
+      .h3 {
+        font-family: var(--font-display);
+        margin: 0;
+        font-size: 1.05rem;
+        font-weight: 700;
+        font-stretch: 100%;
+        line-height: 1.25;
+      }
+      .role-tag {
+        background: color-mix(in srgb, var(--role) 13%, transparent);
+        color: var(--ink);
+        font-family: var(--font-mono);
+        white-space: nowrap;
+        border-radius: 6px;
+        flex: none;
+        align-items: center;
+        gap: 6px;
+        padding: 3px 8px;
+        font-size: 10px;
+        font-weight: 500;
+        display: inline-flex;
+      }
+      .role-tag:before {
+        content: "";
+        background: var(--role);
+        border-radius: 50%;
+        width: 7px;
+        height: 7px;
+      }
+      @keyframes agIn {
+        from {
+          opacity: 0;
+          transform: translateY(4px);
+        }
+      }
+      @keyframes agShake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-4px);
+        }
+        75% {
+          transform: translateX(4px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="ag-panel" id="p4"></div>
+    <script>
+      (() => {
+        "use strict";
+        const NS = "http://www.w3.org/2000/svg";
+        const RM =
+          window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        function s(tag, a, p) {
+          const n = document.createElementNS(NS, tag);
+          for (const k in a || {}) {
+            if (k === "text") n.textContent = a[k];
+            else n.setAttribute(k, a[k]);
+          }
+          if (p) p.appendChild(n);
+          return n;
+        }
+        function h(tag, a, p) {
+          const n = document.createElement(tag);
+          for (const k in a || {}) {
+            if (k === "text") n.textContent = a[k];
+            else n.setAttribute(k, a[k]);
+          }
+          if (p) p.appendChild(n);
+          return n;
+        }
+        const ease = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
+        const lerp = (a, b, t) => a + (b - a) * t;
+
+        const live = new Set();
+        let raf = 0,
+          last = 0;
+        function frame(t) {
+          const dt = Math.min(64, last ? t - last : 16);
+          last = t;
+          for (const c of live) {
+            if (!c.root.isConnected) {
+              live.delete(c);
+              continue;
+            }
+            if (!document.hidden && c.visible) c.tick(dt);
+          }
+          if (live.size) raf = requestAnimationFrame(frame);
+          else {
+            raf = 0;
+            last = 0;
+          }
+        }
+        const io =
+          "IntersectionObserver" in window
+            ? new IntersectionObserver(
+                (es) => {
+                  for (const e of es) {
+                    const c = e.target.__ag;
+                    if (c) c.visible = e.isIntersecting;
+                  }
+                },
+                { rootMargin: "80px" },
+              )
+            : null;
+        function run(c) {
+          c.visible = !io;
+          c.root.__ag = c;
+          if (io) io.observe(c.root);
+          if (RM) {
+            if (c.still) c.still();
+            return;
+          }
+          live.add(c);
+          if (!raf) raf = requestAnimationFrame(frame);
+        }
+        function logger(ul, max) {
+          return {
+            push(parts, cls) {
+              const li = h("li", cls ? { class: cls } : {}, ul);
+              for (const p of parts) {
+                const n = h(
+                  p.code ? "code" : "span",
+                  p.cls ? { class: p.cls } : {},
+                  li,
+                );
+                n.textContent = p.t;
+                if (p.c) n.style.color = p.c;
+              }
+              while (ul.children.length > max) ul.removeChild(ul.firstChild);
+            },
+            clear() {
+              ul.textContent = "";
+            },
+          };
+        }
+        function panelHead(panel, eyebrow, title) {
+          const top = h("div", { class: "ag-top" }, panel);
+          const d = h("div", {}, top);
+          h("p", { class: "eyebrow", text: eyebrow }, d);
+          h("h3", { class: "h3", text: title }, d);
+          const tag = h("span", { class: "role-tag", text: "Backend Lead" }, top);
+          tag.style.setProperty("--role", "var(--c-blue)");
+          return top;
+        }
+
+        const CHAIN = [
+          { id: "req", name: "Agent call", tier: "request in", tone: "var(--ink)" },
+          {
+            id: "openai",
+            name: "OpenAI",
+            tier: "Tier 1 · Retry",
+            tone: "var(--c-teal)",
+            prov: 1,
+          },
+          {
+            id: "gemini",
+            name: "Gemini",
+            tier: "Tier 1 · Retry",
+            tone: "var(--c-blue)",
+            prov: 1,
+          },
+          {
+            id: "anthropic",
+            name: "Anthropic",
+            tier: "Tier 1 · Retry",
+            tone: "var(--c-coral)",
+            prov: 1,
+          },
+          {
+            id: "rag",
+            name: "RAG Fallback",
+            tier: "Tier 2",
+            tone: "var(--c-violet)",
+          },
+          {
+            id: "floor",
+            name: "Rule-Based Floor",
+            tier: "Tier 3",
+            tone: "var(--c-amber)",
+          },
+        ];
+        const FLOOR_IDX = CHAIN.findIndex((c) => c.id === "floor");
+
+        const SCEN = [
+          {
+            down: [],
+            invFail: false,
+            text: "All providers healthy. OpenAI answers; invariant check passes.",
+          },
+          {
+            down: ["openai", "gemini"],
+            invFail: false,
+            text: "Two providers down. Anthropic carries the call; invariant check passes.",
+          },
+          {
+            down: ["openai", "gemini", "anthropic"],
+            invFail: false,
+            text: "All LLMs down. RAG Fallback answers; invariant check passes.",
+          },
+          {
+            down: [],
+            invFail: true,
+            text: "OpenAI succeeds — but salary_delta > 50%. Invariant engine catches it → downgraded to Tier 3.",
+          },
+        ];
+
+        function mountEnvelope(panel) {
+          panelHead(
+            panel,
+            'LLM response envelope · invariant gate · "Designing for AI Failure"',
+            "Tier ladder + invariant validation",
+          );
+          const holder = h("div", {}, panel);
+          const status = h("p", { class: "ag-status", "aria-live": "polite" }, panel);
+          status.textContent =
+            "Watching the ladder; every response is validated by the invariant engine before it leaves the gateway.";
+
+          const invBar = h(
+            "p",
+            { class: "ag-inv-bar", "aria-live": "polite" },
+            panel,
+          );
+          invBar.textContent = " ";
+
+          const env = h("div", { class: "ag-envelope" }, panel);
+          function ef(key, val) {
+            const row = h("div", { class: "ag-ef" }, env);
+            h("span", { class: "ag-ek", text: key + ":" }, row);
+            const v = h("span", { class: "ag-ev", text: val }, row);
+            return v;
+          }
+          const E = {
+            tier: ef("tier", "'retry'"),
+            degraded: ef("degraded", "false"),
+            confidence: ef("confidence", "'high'"),
+            passed: ef("invariants.passed", "true"),
+            violated: ef("invariants.violated", "[]"),
+          };
+          // Set colours via classList; do not reassign className (that would
+          // wipe any future user classes).
+          function paintEv(el, kind) {
+            el.classList.remove("ok", "bad", "warn");
+            if (kind) el.classList.add(kind);
+          }
+
+          function setEnvelope(winIdx, invFailed) {
+            const id = CHAIN[winIdx].id;
+            const tier =
+              id === "openai" || id === "gemini" || id === "anthropic"
+                ? "retry"
+                : id === "rag"
+                  ? "rag"
+                  : "floor";
+            const effTier = invFailed ? "floor" : tier;
+            const degraded = effTier !== "retry";
+            const conf =
+              effTier === "retry" ? "high" : effTier === "rag" ? "medium" : "low";
+            E.tier.textContent = `'${effTier}'`;
+            paintEv(E.tier, degraded ? "warn" : "ok");
+            E.degraded.textContent = `${degraded}`;
+            paintEv(E.degraded, degraded ? "warn" : "ok");
+            E.confidence.textContent = `'${conf}'`;
+            paintEv(
+              E.confidence,
+              conf === "high" ? "ok" : conf === "medium" ? "warn" : "bad",
+            );
+            E.passed.textContent = `${!invFailed}`;
+            paintEv(E.passed, invFailed ? "bad" : "ok");
+            E.violated.textContent = invFailed ? "['salary_delta > 50%']" : "[]";
+            paintEv(E.violated, invFailed ? "bad" : "ok");
+          }
+
+          const ul = h(
+            "ol",
+            {
+              class: "ag-log",
+              "aria-live": "polite",
+              "aria-label": "Envelope log",
+            },
+            panel,
+          );
+          const log = logger(ul, 4);
+
+          let svg,
+            nodes = {},
+            tok,
+            vertical = null,
+            pos = [];
+          const st = {
+            sc: 0,
+            idx: 0,
+            mode: "travel",
+            t: 0,
+            retry: 0,
+            answered: 0,
+            retries: 0,
+            back: null,
+            win: null,
+          };
+
+          function stateOf(id) {
+            const sc = SCEN[st.sc],
+              c = nodes[id].c;
+            if (id === "req") return ["", ""];
+            if (c.prov) {
+              if (sc.down.includes(id) && nodes[id].tripped)
+                return ["breaker: open", "var(--bad)"];
+              if (nodes[id].half) return ["breaker: half-open", "var(--c-amber)"];
+              return ["breaker: closed", "var(--ok)"];
+            }
+            if (id === "rag")
+              return sc.down.includes("rag") && nodes[id].tripped
+                ? ["unavailable", "var(--bad)"]
+                : ["ready", "var(--ok)"];
+            return ["always on", "var(--ok)"];
+          }
+          function paint() {
+            const sc = SCEN[st.sc];
+            for (const id in nodes) {
+              const n = nodes[id];
+              const [t, c] = stateOf(id);
+              n.stt.textContent = t;
+              n.stt.style.fill = c;
+              n.g.classList.toggle("down", !!(sc.down.includes(id) && n.tripped));
+              n.g.classList.toggle("win", st.win === id);
+            }
+          }
+          function shake(id) {
+            const g = nodes[id].g;
+            g.classList.remove("shake");
+            void g.getBBox();
+            g.classList.add("shake");
+          }
+
+          function build() {
+            const w = holder.clientWidth || 600;
+            const v = w < 560;
+            if (v === vertical && svg) return;
+            vertical = v;
+            holder.textContent = "";
+            nodes = {};
+            const W = v ? 300 : 920,
+              H = v ? 600 : 140,
+              nw = v ? 200 : 120,
+              nh = 56;
+            svg = s(
+              "svg",
+              {
+                class: "ag-svg",
+                viewBox: `0 0 ${W} ${H}`,
+                role: "img",
+                "aria-label":
+                  "Request moving through the tier fallback chain, then the invariant engine, producing a typed response envelope",
+              },
+              holder,
+            );
+            pos = CHAIN.map((_, i) =>
+              v ? [W / 2, 44 + i * 100] : [80 + i * 152, H / 2],
+            );
+            for (let i = 0; i < pos.length - 1; i++)
+              s(
+                "line",
+                {
+                  x1: pos[i][0],
+                  y1: pos[i][1],
+                  x2: pos[i + 1][0],
+                  y2: pos[i + 1][1],
+                  class: "ag-link",
+                },
+                svg,
+              );
+            tok = s(
+              "circle",
+              {
+                r: 8,
+                class: "ag-tok",
+                style: "stroke:var(--surface);stroke-width:2.5",
+              },
+              svg,
+            );
+            CHAIN.forEach((c, i) => {
+              const [x, y] = pos[i];
+              const g = s("g", { transform: `translate(${x} ${y})` }, svg);
+              const inner = s("g", { class: "ag-chain-node" }, g);
+              inner.style.setProperty("--tone", c.tone);
+              s(
+                "rect",
+                {
+                  class: "fill",
+                  x: -nw / 2,
+                  y: -nh / 2,
+                  width: nw,
+                  height: nh,
+                  rx: 11,
+                },
+                inner,
+              );
+              s(
+                "text",
+                { class: "nm", "text-anchor": "middle", y: -5, text: c.name },
+                inner,
+              );
+              s(
+                "text",
+                { class: "tr", "text-anchor": "middle", y: 8, text: c.tier },
+                inner,
+              );
+              const stt = s(
+                "text",
+                { class: "st", "text-anchor": "middle", y: 20 },
+                inner,
+              );
+              nodes[c.id] = { c, g: inner, stt };
+            });
+            // Paint after every rebuild so mid-scenario state survives
+            // a same-orientation resize.
+            paint();
+          }
+
+          function startScenario() {
+            const sc = SCEN[st.sc];
+            st.idx = 0;
+            st.mode = "travel";
+            st.t = 0;
+            st.win = null;
+            st.back = null;
+            for (const id in nodes) {
+              nodes[id].tripped = false;
+              nodes[id].half = false;
+              nodes[id].g.classList.remove("inv-fail");
+            }
+            status.textContent = sc.text;
+            invBar.textContent = " ";
+            invBar.className = "ag-inv-bar";
+            log.push(
+              [{ t: "— scenario " + (st.sc + 1) + " of " + SCEN.length + " —" }],
+              "sep",
+            );
+            paint();
+          }
+
+          function place(x, y) {
+            tok.setAttribute("cx", x);
+            tok.setAttribute("cy", y);
+          }
+
+          build();
+          if (window.ResizeObserver) {
+            let pending = 0;
+            new ResizeObserver(() => {
+              cancelAnimationFrame(pending);
+              pending = requestAnimationFrame(() => {
+                build();
+                // Always re-place the token; a same-orientation rebuild
+                // recreates the <circle>, so its old cx/cy is gone.
+                place(...pos[st.idx]);
+              });
+            }).observe(holder);
+          }
+          startScenario();
+          place(...pos[0]);
+
+          return {
+            root: panel,
+
+            // Frozen but representative state for prefers-reduced-motion.
+            // Advances to the invariant-violation scenario (the point of
+            // this diagram) and shows the downgraded envelope.
+            still() {
+              st.sc = 3; // invariant violation
+              startScenario();
+              // Manually drive the animation to "inv_fail" end state.
+              const winIdx = 1; // OpenAI answered
+              st.win = CHAIN[winIdx].id;
+              st.idx = FLOOR_IDX;
+              nodes[CHAIN[winIdx].id].g.classList.remove("win");
+              nodes[CHAIN[winIdx].id].g.classList.add("inv-fail");
+              place(...pos[FLOOR_IDX]);
+              tok.classList.add("degraded");
+              paint();
+              invBar.textContent =
+                "✕ salary_delta 62% > threshold 50% · invariant violated → downgraded to Floor";
+              invBar.className = "ag-inv-bar fail";
+              setEnvelope(FLOOR_IDX, true);
+              log.clear();
+              log.push([{ t: "— scenario 4 of 4 (frozen) —" }], "sep");
+              log.push([
+                { t: "openai", cls: "ag-k", c: "var(--c-teal)" },
+                { t: "200 · response ready for validation" },
+              ]);
+              log.push([
+                { t: "inv·engine", cls: "ag-k", c: "var(--bad)" },
+                {
+                  t: "invariant violated · salary_delta > 50% → downgrade to Floor",
+                },
+              ]);
+              log.push([
+                { t: "floor", cls: "ag-k", c: "var(--c-amber)" },
+                {
+                  t: "rule engine returned safe default · tier=floor · degraded=true",
+                },
+              ]);
+              status.textContent =
+                'Animation is off. A Tier-1 "success" that violates a domain invariant is downgraded to Tier 3 and flagged. Availability and correctness are enforced separately.';
+            },
+
+            tick(dt) {
+              st.t += dt;
+              const sc = SCEN[st.sc];
+
+              if (st.mode === "travel") {
+                const a = pos[st.idx],
+                  b = pos[st.idx + 1];
+                const k = Math.min(1, st.t / 520),
+                  e = ease(k);
+                tok.classList.remove("back");
+                tok.classList.remove("degraded");
+                place(lerp(a[0], b[0], e), lerp(a[1], b[1], e));
+                if (k >= 1) {
+                  st.t = 0;
+                  st.idx++;
+                  const id = CHAIN[st.idx].id;
+                  if (sc.down.includes(id)) {
+                    st.mode = "fail";
+                    st.retry = 0;
+                    shake(id);
+                    log.push([
+                      { t: id, cls: "ag-k", c: CHAIN[st.idx].tone },
+                      {
+                        t: CHAIN[st.idx].prov
+                          ? "503 · attempt 1 failed"
+                          : "index unreachable",
+                      },
+                    ]);
+                  } else {
+                    st.mode = "answer";
+                    st.win = id;
+                    paint();
+                    log.push([
+                      { t: id, cls: "ag-k", c: CHAIN[st.idx].tone },
+                      { t: "200 · response ready for validation" },
+                    ]);
+                  }
+                }
+              } else if (st.mode === "fail") {
+                const id = CHAIN[st.idx].id,
+                  prov = CHAIN[st.idx].prov;
+                if (prov && st.retry < 2 && st.t > 400) {
+                  st.t = 0;
+                  st.retry++;
+                  st.retries++;
+                  shake(id);
+                  log.push([
+                    { t: id, cls: "ag-k", c: CHAIN[st.idx].tone },
+                    {
+                      t: `retry ${st.retry} · backoff ×${st.retry * 2} → failed`,
+                    },
+                  ]);
+                } else if ((!prov || st.retry >= 2) && st.t > 400) {
+                  nodes[id].tripped = true;
+                  paint();
+                  log.push([
+                    { t: id, cls: "ag-k", c: "var(--bad)" },
+                    {
+                      t: prov ? "breaker open → next provider" : "skip → next tier",
+                    },
+                  ]);
+                  st.t = 0;
+                  st.mode = "travel";
+                }
+              } else if (st.mode === "answer") {
+                if (st.t > 350) {
+                  st.t = 0;
+                  st.mode = "inv_check";
+                  invBar.textContent = "Invariant engine · validating domain rules…";
+                  invBar.className = "ag-inv-bar";
+                  log.push([
+                    { t: "inv·engine", cls: "ag-k", c: "var(--c-lime)" },
+                    { t: "checking domain invariants against response" },
+                  ]);
+                }
+              } else if (st.mode === "inv_check") {
+                if (st.t > 650) {
+                  st.t = 0;
+                  if (sc.invFail) {
+                    st.mode = "inv_fail";
+                    invBar.textContent =
+                      "✕ salary_delta 62% > threshold 50% · invariant violated → downgrading";
+                    invBar.className = "ag-inv-bar fail";
+                    nodes[CHAIN[st.idx].id].g.classList.add("inv-fail");
+                    log.push([
+                      { t: "inv·engine", cls: "ag-k", c: "var(--bad)" },
+                      {
+                        t: "invariant violated · salary_delta > 50% → downgrade to Floor",
+                      },
+                    ]);
+                  } else {
+                    st.mode = "inv_pass";
+                    invBar.textContent =
+                      "✓ All domain invariants satisfied · response cleared";
+                    invBar.className = "ag-inv-bar pass";
+                    setEnvelope(st.idx, false);
+                    log.push([
+                      { t: "inv·engine", cls: "ag-k", c: "var(--c-lime)" },
+                      {
+                        t:
+                          "all rules satisfied · tier=" +
+                          (CHAIN[st.idx].id === "rag"
+                            ? "rag"
+                            : CHAIN[st.idx].id === "floor"
+                              ? "floor"
+                              : "retry"),
+                      },
+                    ]);
+                  }
+                }
+              } else if (st.mode === "inv_pass") {
+                if (st.t > 350) {
+                  st.t = 0;
+                  st.mode = "return";
+                  tok.classList.add("back");
+                  st.back = st.idx;
+                }
+              } else if (st.mode === "inv_fail") {
+                if (st.t > 750) {
+                  st.t = 0;
+                  nodes[CHAIN[st.idx].id].g.classList.remove("win");
+                  nodes[CHAIN[st.idx].id].g.classList.remove("inv-fail");
+                  st.win = "floor";
+                  st.idx = FLOOR_IDX;
+                  paint();
+                  setEnvelope(FLOOR_IDX, true);
+                  log.push([
+                    { t: "floor", cls: "ag-k", c: "var(--c-amber)" },
+                    {
+                      t: "rule engine returned safe default · tier=floor · degraded=true",
+                    },
+                  ]);
+                  place(...pos[FLOOR_IDX]);
+                  st.mode = "return";
+                  tok.classList.add("degraded");
+                  st.back = FLOOR_IDX;
+                }
+              } else if (st.mode === "return") {
+                const span = st.back * 200;
+                const k = Math.min(1, st.t / Math.max(span, 1));
+                const f = st.back * (1 - ease(k));
+                const i = Math.floor(f),
+                  r = f - i;
+                const a = pos[i],
+                  b = pos[Math.min(i + 1, pos.length - 1)];
+                place(lerp(a[0], b[0], r), lerp(a[1], b[1], r));
+                if (k >= 1) {
+                  st.t = 0;
+                  st.mode = "rest";
+                  st.answered++;
+                  log.push([
+                    { t: "agent call", cls: "ag-k" },
+                    { t: "response envelope delivered ✓" },
+                  ]);
+                }
+              } else if (st.mode === "rest") {
+                if (st.t > 1600) {
+                  st.t = 0;
+                  tok.classList.remove("back");
+                  tok.classList.remove("degraded");
+                  for (const id in nodes)
+                    if (nodes[id].tripped && nodes[id].c.prov) {
+                      nodes[id].tripped = false;
+                      nodes[id].half = true;
+                    }
+                  st.win = null;
+                  paint();
+                  st.mode = "probe";
+                }
+              } else if (st.mode === "probe") {
+                if (st.t > 600) {
+                  st.sc = (st.sc + 1) % SCEN.length;
+                  startScenario();
+                }
+              }
+            },
+          };
+        }
+
+        run(mountEnvelope(document.getElementById("p4")));
+      })();
+    </script>
+    <script>
+      if (window.self !== window.top) document.body.style.minHeight = "auto";
+    </script>
+  </body>
+</html>

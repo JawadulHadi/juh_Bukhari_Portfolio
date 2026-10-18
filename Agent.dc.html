@@ -266,7 +266,7 @@
     </x-dc>
     <script type="text/x-dc" data-dc-script>
 const PAGE_MAIN = '/';
-const PAGE_CASE = '/case-study';
+const PAGE_CASE = '/case1';
 const PAGE_CREDS = '/credentials';
 const RESUME = '/resume.pdf';
 const CONTACT = 'https://gravatar.com/juhbukhari';
@@ -277,7 +277,7 @@ const SECTIONS = [
   { id: 'work', label: 'Selected work', re: /\b(selected work|work|systems|enterprise|talentnix|apac|hrms|iagility|agilebrains)\b/ },
   { id: 'stack', label: 'Stack', re: /\b(stack|skills|tech|technologies|tools|education|degree)\b/ },
   { id: 'projects', label: 'Projects', re: /\b(projects?|qeloma|open source|extensions?|side)\b/ },
-  { id: 'case-study', label: 'the case study', page: PAGE_CASE, re: /\b(case stud(?:y|ies)|deep dive|architecture|diagram)\b/ },
+  { id: 'case1', label: 'the case study', page: PAGE_CASE, re: /\b(case stud(?:y|ies)|deep dive|architecture|diagram)\b/ },
   { id: 'credentials', label: 'Credentials', page: PAGE_CREDS, re: /\b(credentials?|certifications?|certificates?|badges?)\b/ },
   { id: 'contact', label: 'Contact', re: /\b(contact|hire|reach)\b/ }
 ];
@@ -426,7 +426,7 @@ class Component extends DCLogic {
     if (nav) {
       const target = nav[1];
       if (/case stud|deep dive|architecture|diagram/.test(target)) {
-        if (!/case-study/.test(location.pathname)) location.href = PAGE_CASE;
+        if (!/case1/.test(location.pathname)) location.href = PAGE_CASE;
         else window.scrollTo({ top: 0, behavior: 'smooth' });
         return { text: 'Opening the case study.' };
       }

@@ -120,6 +120,9 @@
         position: absolute;
         top: 0;
         transform: translateX(-50%);
+        white-space: nowrap;
+        min-width: 28px;
+        text-align: center;
       }
       .axis span:first-child {
         transform: none;
@@ -189,11 +192,19 @@
   <body>
     <div class="panel">
       <div>
-        <p class="eyebrow">Career trace · 3 roles · Aug 2018 → present</p>
+        <p class="eyebrow">Career trace · 3 roles · shared month scale</p>
         <h3 class="h3">Spans on a shared month scale</h3>
       </div>
-      <div class="trace" id="trace"></div>
-      <p class="note">Read it like a request trace: one root span for the whole career, one child span per role.</p>
+      <div
+        class="trace"
+        id="trace"
+        role="img"
+        aria-label="Career trace: three roles plotted on one shared month axis from the earliest start to today."
+      ></div>
+      <p class="note">
+        Read it like a request trace: one root span for the whole career, one
+        child span per role.
+      </p>
     </div>
     <script>
       (() => {
@@ -223,27 +234,35 @@
             tone: "var(--amber)",
           },
         ];
-        const MON = [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dec",
-        ];
+
         const months = (a, b) => (b[0] - a[0]) * 12 + (b[1] - a[1]);
+
+        // Origin = earliest start across all roles. No hardcoded [2018, 7].
+        const ORIGIN = ROLES.reduce(
+          (acc, r) =>
+            r.start[0] < acc[0] || (r.start[0] === acc[0] && r.start[1] < acc[1])
+              ? r.start
+              : acc,
+          ROLES[0].start,
+        );
+
         const nowMonths = (() => {
           const d = new Date();
-          return months([2018, 7], [d.getFullYear(), d.getMonth()]);
+          return months(ORIGIN, [d.getFullYear(), d.getMonth()]);
         })();
-        const total = nowMonths;
+        // Never allow total to be zero (clock skew, mocked date, etc.).
+        const total = Math.max(1, nowMonths);
+
         const trace = document.getElementById("trace");
+
+        const yearStart = ORIGIN[0];
+        const yearEnd = new Date().getFullYear();
+
+        // Position of a given calendar year's gridline. Uses the same
+        // formula as the bar placement so ticks align with bars.
+        function yearLeft(y) {
+          return (((y - yearStart) * 12 - ORIGIN[1]) / total) * 100;
+        }
 
         // Header row: axis
         const head = document.createElement("div");
@@ -253,13 +272,11 @@
         hl.textContent = "Span";
         const hax = document.createElement("div");
         hax.className = "axis";
-        const yearStart = 2018,
-          yearEnd = new Date().getFullYear();
         for (let y = yearStart; y <= yearEnd; y++) {
-          const s = document.createElement("span");
-          s.style.left = `${(((y - yearStart) * 12 - 7) / total) * 100}%`;
-          s.textContent = String(y);
-          hax.appendChild(s);
+          const sp = document.createElement("span");
+          sp.style.left = yearLeft(y) + "%";
+          sp.textContent = String(y);
+          hax.appendChild(sp);
         }
         head.append(hl, hax);
         trace.appendChild(head);
@@ -276,7 +293,7 @@
         rgrid.className = "grid";
         for (let y = yearStart; y <= yearEnd; y++) {
           const i = document.createElement("i");
-          i.style.left = `${(((y - yearStart) * 12 - 7) / total) * 100}%`;
+          i.style.left = yearLeft(y) + "%";
           rgrid.appendChild(i);
         }
         rlane.appendChild(rgrid);
@@ -288,39 +305,38 @@
         rootRow.append(rl, rlane);
         trace.appendChild(rootRow);
 
-        // One row per role
+        // One row per role (reverse order → newest at top under the header)
         const rev = [...ROLES].reverse();
         rev.forEach((r, i) => {
-          const s = months([2018, 7], r.start);
-          const e = r.end ? months([2018, 7], r.end) : nowMonths;
-          const w = e - s;
+          const s = months(ORIGIN, r.start);
+          const e = r.end ? months(ORIGIN, r.end) : nowMonths;
+          const w = Math.max(1, e - s); // ≥1 so the bar is never zero-width
           const row = document.createElement("div");
           row.className = "row";
           const lbl = document.createElement("span");
           lbl.className = "label";
-          const m = w;
-          const y = Math.floor(m / 12),
-            mo = m % 12;
-          const dur = [y ? `${y} yr` : "", mo ? `${mo} mo` : ""]
-            .filter(Boolean)
-            .join(" ");
+          const y = Math.floor(w / 12),
+            mo = w % 12;
+          const dur =
+            [y ? `${y} yr` : "", mo ? `${mo} mo` : ""].filter(Boolean).join(" ") ||
+            "1 mo";
           lbl.innerHTML = `<strong>${r.title}</strong><span class="dim">${r.employer} · ${dur}</span>`;
           const lane = document.createElement("div");
           lane.className = "lane";
           const grid = document.createElement("div");
           grid.className = "grid";
-          for (let y = yearStart; y <= yearEnd; y++) {
+          for (let yy = yearStart; yy <= yearEnd; yy++) {
             const gi = document.createElement("i");
-            gi.style.left = `${(((y - yearStart) * 12 - 7) / total) * 100}%`;
+            gi.style.left = yearLeft(yy) + "%";
             grid.appendChild(gi);
           }
           lane.appendChild(grid);
           const bar = document.createElement("span");
           bar.className = "bar";
           bar.style.setProperty("--tone", r.tone);
-          bar.style.left = `${(s / total) * 100}%`;
-          bar.style.width = `${(w / total) * 100}%`;
-          bar.style.animationDelay = `${(i + 1) * 0.2}s`;
+          bar.style.left = (s / total) * 100 + "%";
+          bar.style.width = (w / total) * 100 + "%";
+          bar.style.animationDelay = (i + 1) * 0.2 + "s";
           if (!r.end) {
             const now = document.createElement("span");
             now.className = "now";

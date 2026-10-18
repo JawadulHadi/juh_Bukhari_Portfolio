@@ -146,7 +146,12 @@
     <div class="wrap">
       <p class="eyebrow">Career split by time in each role</p>
       <div class="ribbon-wrap">
-        <div class="ribbon" id="ribbon" role="img" aria-label="Career split by time in each role"></div>
+        <div
+          class="ribbon"
+          id="ribbon"
+          role="img"
+          aria-label="Career split by time in each role; see the legend below for exact durations"
+        ></div>
         <ul class="ribbon-legend" id="legend"></ul>
       </div>
     </div>
@@ -180,32 +185,58 @@
             end: [2022, 2],
           },
         ];
-        const O = ([y, m]) => (y - 2018) * 12 + m - 7;
+
+        // Origin = earliest start across all roles. No hardcoded [2018, 7].
+        const ORIGIN = E.reduce(
+          (acc, e) =>
+            e.start[0] < acc[0] || (e.start[0] === acc[0] && e.start[1] < acc[1])
+              ? e.start
+              : acc,
+          E[0].start,
+        );
+
+        const O = ([y, m]) => (y - ORIGIN[0]) * 12 + (m - ORIGIN[1]);
         function D(d = new Date()) {
           return O([d.getFullYear(), d.getMonth()]);
         }
-        function F(e, t = new Date()) {
-          const n = O(e.start),
-            r = e.end ? O(e.end) : D(t);
-          return { s: n, e: r, months: r - n };
+
+        function F(e) {
+          const s = O(e.start);
+          const end = e.end ? O(e.end) : D();
+          // Clamp to ≥1 so a zero-month role still renders a visible bar.
+          const months = Math.max(1, end - s);
+          return { s, e: end, months };
         }
+
         function $(n) {
           const y = Math.floor(n / 12),
             m = n % 12;
-          return [y ? `${y} yr` : "", m ? `${m} mo` : ""].filter(Boolean).join(" ");
+          return (
+            [y ? `${y} yr` : "", m ? `${m} mo` : ""].filter(Boolean).join(" ") ||
+            "1 mo"
+          );
         }
+
         const rev = [...E].reverse();
         const ribbon = document.getElementById("ribbon");
         const legend = document.getElementById("legend");
         rev.forEach((r, i) => {
+          const f = F(r);
           const span = document.createElement("span");
-          span.style.flexGrow = F(r).months;
+          span.style.flexGrow = f.months;
           span.style.background = x[r.id].color;
           span.style.setProperty("--i", i);
           ribbon.appendChild(span);
+
           const li = document.createElement("li");
           li.style.setProperty("--role", x[r.id].color);
-          li.innerHTML = `${r.title}, ${r.employer === "Market Icon" ? "Market Icon" : "MicroAgility"} <span>${$(F(r).months)}</span>`;
+          const emp = r.employer.includes("Market Icon")
+            ? "Market Icon"
+            : "MicroAgility";
+          // Duration span is aria-hidden so AT users don't hear it twice —
+          // once from the legend text, once from the span. The visible
+          // text is still shown for sighted users.
+          li.innerHTML = `${r.title}, ${emp} <span aria-hidden="true">${$(f.months)}</span>`;
           legend.appendChild(li);
         });
       })();
