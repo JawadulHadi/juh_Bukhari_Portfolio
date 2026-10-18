@@ -1,5 +1,11 @@
 # Deployment
 
+## Netlify
+
+The repository configuration runs `npm run build` and publishes `dist`. The build copies only public pages and assets, then exits. Keep `npm run dev` for local development; it starts a persistent Express server and cannot serve as a deployment build command.
+
+Netlify serves the static pages with clean URLs and runs `/api/agent` as a serverless function using the shared agent handler. Configure the existing Anthropic credentials in the site's runtime environment for live replies; without credentials, the browser uses its built-in answers. No Express server is required in production.
+
 ## Option A: Vercel (recommended)
 
 1. Import `JawadulHadi/juh_Bukhari_Portfolio` in the Vercel dashboard.
