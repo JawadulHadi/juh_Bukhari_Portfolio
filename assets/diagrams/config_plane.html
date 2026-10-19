@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Config Plane Rollback</title>
+    <title>LLM fallback chain</title>
     <style>
       :root {
         --bg: #f2f4fa;
@@ -12,6 +12,7 @@
         --ink: #10162a;
         --dim: #535d77;
         --line: #d6dcea;
+        --grid: #cdd4e6;
         --c-blue: #2d5bef;
         --c-teal: #0a9a8c;
         --c-amber: #c47600;
@@ -38,6 +39,7 @@
           --ink: #e9edf8;
           --dim: #9aa5c0;
           --line: #26314f;
+          --grid: #1c2643;
           --c-blue: #7090ff;
           --c-teal: #2ccdbb;
           --c-amber: #f5b83d;
@@ -57,6 +59,7 @@
         --ink: #e9edf8;
         --dim: #9aa5c0;
         --line: #26314f;
+        --grid: #1c2643;
         --c-blue: #7090ff;
         --c-teal: #2ccdbb;
         --c-amber: #f5b83d;
@@ -75,6 +78,7 @@
         --ink: #10162a;
         --dim: #535d77;
         --line: #d6dcea;
+        --grid: #cdd4e6;
         --c-blue: #2d5bef;
         --c-teal: #0a9a8c;
         --c-amber: #c47600;
@@ -146,7 +150,7 @@
         gap: 12px;
         align-content: start;
         min-width: 0;
-        width: min(800px, 100%);
+        width: min(1000px, 100%);
       }
       .ag-top {
         display: flex;
@@ -157,131 +161,102 @@
       .ag-top .h3 {
         margin-top: 4px;
       }
+      .gw-phases {
+        gap: 4px;
+        margin: 4px 0 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+      }
+      .gw-phases li {
+        background: var(--surface-2);
+        border-radius: 3px;
+        width: 16px;
+        height: 5px;
+        transition: background 0.3s;
+      }
+      .gw-phases li.on {
+        background: var(--ink);
+      }
       .ag-svg {
         width: 100%;
         height: auto;
         display: block;
         overflow: visible;
       }
-      .cp-node rect.fill {
+      .ag-chain-node rect.fill {
         fill: color-mix(in srgb, var(--tone) 9%, var(--surface));
         stroke: var(--tone);
         stroke-width: 1.5;
         transition:
-          fill 0.3s,
-          stroke 0.3s;
+          fill 0.25s,
+          stroke 0.25s;
       }
-      .cp-node.active rect.fill {
-        fill: color-mix(in srgb, var(--tone) 22%, var(--surface));
-        stroke: var(--tone);
-        stroke-width: 2;
+      .ag-chain-node.down rect.fill {
+        stroke: var(--bad);
+        stroke-dasharray: 4 4;
+        fill: color-mix(in srgb, var(--bad) 7%, var(--surface));
       }
-      .cp-node.done rect.fill {
+      .ag-chain-node.win rect.fill {
         fill: var(--tone);
       }
-      .cp-node.done text {
+      .ag-chain-node.win text {
         fill: var(--on-tone);
       }
-      .cp-node .nm {
+      .ag-chain-node .nm {
         fill: var(--ink);
-        font: 650 13px var(--font-body);
-        transition: fill 0.3s;
+        font: 650 13.5px var(--font-body);
+        transition: fill 0.25s;
       }
-      .cp-node .sub {
+      .ag-chain-node .tr {
         fill: var(--dim);
         font: 500 9px var(--font-mono);
-        transition: fill 0.3s;
+        transition: fill 0.25s;
       }
-      .cp-node .badge {
-        font: 700 9px var(--font-mono);
-        transition: fill 0.3s;
+      .ag-chain-node .st {
+        font: 600 9px var(--font-mono);
+        transition: fill 0.25s;
       }
-      .cp-node.pulse .ring {
-        animation: cpRing 1s ease-out infinite;
+      .ag-chain-node.shake {
+        animation: agShake 0.32s ease-in-out;
       }
-      .cp-node .ring {
-        fill: none;
-        stroke: var(--tone);
-        stroke-width: 1.5;
-        opacity: 0;
+      .ag-link {
+        stroke: var(--line);
+        stroke-width: 2;
       }
-      .cp-redis-slot {
-        font: 500 9.5px var(--font-mono);
-        fill: var(--dim);
-        transition: fill 0.35s;
+      .ag-tok {
+        fill: var(--ink);
       }
-      .cp-redis-slot.changed {
+      .ag-tok.back {
         fill: var(--ok);
       }
-      .cp-wire {
-        stroke: var(--line);
-        stroke-width: 1.5;
-        stroke-dasharray: 4 4;
-      }
-      .cp-arrow {
-        fill: none;
-        stroke: var(--c-violet);
-        stroke-width: 2.5;
-        opacity: 0;
-        transition: opacity 0.2s;
-      }
-      .cp-arrow.visible {
-        opacity: 1;
-      }
-      .cp-alert {
-        font: 600 8.5px var(--font-mono);
-        fill: var(--bad);
-        opacity: 0;
-        transition: opacity 0.3s;
-      }
-      .cp-alert.visible {
-        opacity: 1;
-      }
-      .ag-stats {
+      .ag-counters {
         display: flex;
         flex-wrap: wrap;
-        gap: 8px;
+        gap: 6px;
       }
-      .ag-stat {
+      .ag-counters span {
         font-family: var(--font-mono);
         font-size: 11px;
         background: var(--surface-2);
         border-radius: 999px;
         padding: 3px 10px;
       }
-      .ag-stat b {
+      .ag-counters b {
         font-weight: 600;
-      }
-      .ag-timer {
-        font-family: var(--font-display);
-        font-size: 32px;
-        font-weight: 700;
-        color: var(--c-violet);
-        font-variant-numeric: tabular-nums;
-        line-height: 1;
-        transition: color 0.35s;
-      }
-      .ag-timer.done {
-        color: var(--ok);
-      }
-      .ag-timer-label {
-        font-family: var(--font-mono);
-        font-size: 10.5px;
-        color: var(--dim);
-        margin-top: 3px;
       }
       .ag-status {
         margin: 0;
+        min-height: 2.6em;
         color: var(--dim);
-        font-size: 13px;
-        min-height: 1.4em;
+        font-size: 13.5px;
       }
       .ag-log {
         list-style: none;
         margin: 0;
-        padding: 8px 12px;
+        padding: 10px 12px;
         background: var(--surface-2);
-        border-radius: 9px;
+        border-radius: 10px;
         font-family: var(--font-mono);
         font-size: 10.5px;
         line-height: 1.45;
@@ -289,11 +264,10 @@
         gap: 3px;
         align-content: end;
         overflow: hidden;
-        min-height: 68px;
       }
       .ag-log li {
         display: grid;
-        grid-template-columns: 110px minmax(0, 1fr);
+        grid-template-columns: 150px minmax(0, 1fr);
         gap: 8px;
         overflow-wrap: anywhere;
         animation: agIn 0.35s var(--ease-out) backwards;
@@ -311,6 +285,24 @@
         font-size: 13px;
         margin: 0;
       }
+      @keyframes agIn {
+        from {
+          opacity: 0;
+          transform: translateY(4px);
+        }
+      }
+      @keyframes agShake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-4px);
+        }
+        75% {
+          transform: translateX(4px);
+        }
+      }
       .eyebrow {
         font-family: var(--font-mono);
         letter-spacing: 0.06em;
@@ -323,7 +315,7 @@
       .h3 {
         font-family: var(--font-display);
         margin: 0;
-        font-size: 1.05rem;
+        font-size: 1.1rem;
         font-weight: 700;
         font-stretch: 100%;
         line-height: 1.25;
@@ -349,26 +341,10 @@
         width: 7px;
         height: 7px;
       }
-      @keyframes agIn {
-        from {
-          opacity: 0;
-          transform: translateY(4px);
-        }
-      }
-      @keyframes cpRing {
-        0% {
-          opacity: 0.7;
-          r: 32;
-        }
-        100% {
-          opacity: 0;
-          r: 46;
-        }
-      }
     </style>
   </head>
   <body>
-    <div class="ag-panel" id="p5"></div>
+    <div class="ag-panel" id="p3"></div>
     <script>
       (() => {
         "use strict";
@@ -394,6 +370,8 @@
           if (p) p.appendChild(n);
           return n;
         }
+        const ease = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
+        const lerp = (a, b, t) => a + (b - a) * t;
 
         const live = new Set();
         let raf = 0,
@@ -457,84 +435,113 @@
             },
           };
         }
-
-        function mountConfigPlane(panel) {
+        function panelHead(panel, eyebrow, title) {
           const top = h("div", { class: "ag-top" }, panel);
           const d = h("div", {}, top);
-          // FIXED: single-quoted string so the inner "Designing…" is legal JS.
-          h(
-            "p",
-            {
-              class: "eyebrow",
-              text: 'Config plane · Redis pub/sub · from "Designing for AI Failure"',
-            },
-            d,
-          );
-          h(
-            "h3",
-            {
-              class: "h3",
-              text: "Prompt rollback in < 5 seconds · zero deploys",
-            },
-            d,
-          );
+          h("p", { class: "eyebrow", text: eyebrow }, d);
+          h("h3", { class: "h3", text: title }, d);
           const tag = h("span", { class: "role-tag", text: "Backend Lead" }, top);
           tag.style.setProperty("--role", "var(--c-blue)");
+          return top;
+        }
 
-          // Timer + stats row
-          const timerRow = h(
-            "div",
-            {
-              style: "display:flex;align-items:flex-start;gap:24px;flex-wrap:wrap;",
-            },
+        const CHAIN = [
+          {
+            id: "req",
+            name: "Agent call",
+            tier: "request in",
+            tone: "var(--ink)",
+          },
+          {
+            id: "openai",
+            name: "OpenAI",
+            tier: "Tier 1 · Retry",
+            tone: "var(--c-teal)",
+            prov: 1,
+          },
+          {
+            id: "gemini",
+            name: "Gemini",
+            tier: "Tier 1 · Retry",
+            tone: "var(--c-blue)",
+            prov: 1,
+          },
+          {
+            id: "anthropic",
+            name: "Anthropic",
+            tier: "Tier 1 · Retry",
+            tone: "var(--c-coral)",
+            prov: 1,
+          },
+          {
+            id: "rag",
+            name: "RAG Fallback",
+            tier: "Tier 2",
+            tone: "var(--c-violet)",
+          },
+          {
+            id: "floor",
+            name: "Rule-Based Floor",
+            tier: "Tier 3",
+            tone: "var(--c-amber)",
+          },
+        ];
+        const SCEN = [
+          {
+            down: [],
+            text: "All providers healthy. OpenAI answers on the first try.",
+          },
+          {
+            down: ["openai"],
+            text: "OpenAI outage. Two retries, its breaker opens, the call moves to Gemini.",
+          },
+          {
+            down: ["openai", "gemini"],
+            text: "Two providers down. Anthropic carries the call.",
+          },
+          {
+            down: ["openai", "gemini", "anthropic"],
+            text: "Every LLM provider down. The RAG Fallback answers from indexed context.",
+          },
+          {
+            down: ["openai", "gemini", "anthropic", "rag"],
+            text: "RAG unavailable as well. The Rule-Based Floor still returns a safe answer.",
+          },
+        ];
+
+        function mountChain(panel) {
+          const top = panelHead(
             panel,
+            'LLM fallback chain · from "Designing for AI Failure"',
+            "Retry → RAG Fallback → Rule-Based Floor",
           );
-          const timerWrap = h("div", {}, timerRow);
-          const timerEl = h("div", { class: "ag-timer", text: "0.0s" }, timerWrap);
-          h("div", { class: "ag-timer-label", text: "rollback timer" }, timerWrap);
-
-          const statsWrap = h(
-            "div",
-            {
-              class: "ag-stats",
-              style: "align-self:center;",
-              role: "status",
-              "aria-live": "polite",
-              "aria-label": "Rollback counters",
-            },
-            timerRow,
+          const phases = h(
+            "ul",
+            { class: "gw-phases", "aria-hidden": "true" },
+            top.firstChild,
           );
-
-          // Stable stat pills: created once, only the <b> textContent updates.
-          function makeStat(label) {
-            const el = h("span", { class: "ag-stat" }, statsWrap);
-            const b = h("b", { text: "0" }, el);
-            el.append(" " + label);
-            return b;
-          }
-          const statB = {
-            rollbacks: makeStat("rollbacks"),
-            deploys: makeStat("deploys"),
-            dropped: makeStat("dropped reqs"),
-          };
-          function updateStats(rb, dep, dr) {
-            statB.rollbacks.textContent = String(rb);
-            statB.deploys.textContent = String(dep);
-            statB.dropped.textContent = String(dr);
-          }
-          updateStats(0, 0, 0);
+          const pl = SCEN.map(() => h("li", {}, phases));
 
           const holder = h("div", {}, panel);
           const status = h("p", { class: "ag-status", "aria-live": "polite" }, panel);
           status.textContent =
-            "Steady state: all gateways serving talent-screening@v3.";
+            "Watching the ladder step down: OpenAI → Gemini → Anthropic → RAG → Rule-Based Floor.";
+
+          const cnt = h(
+            "div",
+            { class: "ag-counters", role: "status", "aria-live": "polite" },
+            panel,
+          );
+          const cA = h("span", {}, cnt);
+          const cF = h("span", {}, cnt);
+          const cR = h("span", {}, cnt);
 
           const ul = h(
             "ol",
             {
-              class: "ag-log",
+              class: "ag-log wide",
               "aria-live": "polite",
-              "aria-label": "Rollback log",
+              "aria-label": "Fallback log",
             },
             panel,
           );
@@ -543,35 +550,51 @@
             "p",
             {
               class: "ag-note",
-              text: "Simulated. Breakers reset before each loop. Rollback = Redis pointer flip; no service restarts.",
+              text: "Simulated traffic. Breakers reset to half-open, then closed, before each new scenario.",
             },
             panel,
           );
 
-          // SVG layout
-          const W = 560,
-            H = 300;
-          const SVG_AUTHOR = [280, 52];
-          const SVG_REDIS = [280, 165];
-          const SVG_GWS = [
-            [80, 275],
-            [280, 275],
-            [480, 275],
-          ];
-          const GW_LABELS = ["Gateway-1", "Gateway-2", "Gateway-3"];
-
           let svg,
-            elAuthor,
-            elRedis,
-            elGWs = [],
-            elAlert,
-            elSlots,
-            elArrowWR,
-            elArrowsRG,
-            elPubDots;
+            nodes = {},
+            tok,
+            vertical = null,
+            pos = [];
+          const st = {
+            sc: 0,
+            idx: 0,
+            mode: "travel",
+            t: 0,
+            retry: 0,
+            answered: 0,
+            retries: 0,
+            back: null,
+            win: null,
+          };
 
-          function buildSvg() {
+          function counters() {
+            cA.innerHTML = "";
+            cF.innerHTML = "";
+            cR.innerHTML = "";
+            h("b", { text: String(st.answered) }, cA);
+            cA.append(" answered");
+            h("b", { text: "0" }, cF);
+            cF.append(" failed");
+            h("b", { text: String(st.retries) }, cR);
+            cR.append(" retries");
+          }
+
+          function build() {
+            const w = holder.clientWidth || 700;
+            const v = w < 640;
+            if (v === vertical && svg) return;
+            vertical = v;
             holder.textContent = "";
+            nodes = {};
+            const W = v ? 340 : 1000,
+              H = v ? 600 : 150,
+              nw = v ? 224 : 142,
+              nh = 60;
             svg = s(
               "svg",
               {
@@ -579,473 +602,276 @@
                 viewBox: `0 0 ${W} ${H}`,
                 role: "img",
                 "aria-label":
-                  "Config Author writes a pointer to Redis, which pub/sub-notifies three Gateway instances",
+                  "A request moving along the fallback chain: OpenAI, Gemini, Anthropic, RAG Fallback, Rule-Based Floor",
               },
               holder,
             );
-
-            // Static wires
-            s(
-              "line",
-              {
-                x1: SVG_AUTHOR[0],
-                y1: SVG_AUTHOR[1] + 28,
-                x2: SVG_REDIS[0],
-                y2: SVG_REDIS[1] - 32,
-                class: "cp-wire",
-              },
-              svg,
+            pos = CHAIN.map((c, i) =>
+              v ? [W / 2, 48 + i * 100] : [82 + i * 167, H / 2],
             );
-            SVG_GWS.forEach(([gx, gy]) => {
+            for (let i = 0; i < pos.length - 1; i++)
               s(
                 "line",
                 {
-                  x1: SVG_REDIS[0],
-                  y1: SVG_REDIS[1] + 32,
-                  x2: gx,
-                  y2: gy - 28,
-                  class: "cp-wire",
+                  x1: pos[i][0],
+                  y1: pos[i][1],
+                  x2: pos[i + 1][0],
+                  y2: pos[i + 1][1],
+                  class: "ag-link",
                 },
                 svg,
               );
-            });
-
-            // Author node
-            elAuthor = makeNode(
-              svg,
-              SVG_AUTHOR,
-              "Config Author",
-              "operator · SLO alert",
-              "var(--c-coral)",
-              80,
-              52,
-            );
-
-            // Alert badge on Author
-            elAlert = s(
-              "text",
+            tok = s(
+              "circle",
               {
-                class: "cp-alert",
-                x: SVG_AUTHOR[0] + 44,
-                y: SVG_AUTHOR[1] - 10,
-                "text-anchor": "middle",
-                text: "bad output ⚠",
+                r: 8,
+                class: "ag-tok",
+                style: "stroke:var(--surface);stroke-width:2.5",
               },
               svg,
             );
-
-            // Redis node (wider)
-            elRedis = makeNode(
-              svg,
-              SVG_REDIS,
-              "Redis",
-              "config store · pub/sub",
-              "var(--c-violet)",
-              140,
-              60,
-            );
-
-            // Redis internal slots
-            const slotKeys = [
-              "prompt:talent-screening",
-              "routing:apac",
-              "tenant:acme-override",
-            ];
-            const slotVals = ["@ v3", "→ stable", "→ on"];
-            elSlots = slotKeys.map((k, i) => {
-              const sy = SVG_REDIS[1] - 10 + i * 13;
-              const g = s("g", {}, svg);
+            CHAIN.forEach((c, i) => {
+              const [x, y] = pos[i];
+              const g = s("g", { transform: `translate(${x} ${y})` }, svg);
+              const inner = s("g", { class: "ag-chain-node" }, g);
+              inner.style.setProperty("--tone", c.tone);
+              s(
+                "rect",
+                {
+                  class: "fill",
+                  x: -nw / 2,
+                  y: -nh / 2,
+                  width: nw,
+                  height: nh,
+                  rx: 12,
+                },
+                inner,
+              );
               s(
                 "text",
-                {
-                  class: "cp-redis-slot",
-                  x: SVG_REDIS[0] - 62,
-                  y: sy,
-                  text: k,
-                },
-                g,
+                { class: "nm", "text-anchor": "middle", y: -6, text: c.name },
+                inner,
               );
-              const v = s(
+              s(
                 "text",
-                {
-                  class: "cp-redis-slot",
-                  x: SVG_REDIS[0] + 65,
-                  y: sy,
-                  "text-anchor": "end",
-                  text: slotVals[i],
-                },
-                g,
+                { class: "tr", "text-anchor": "middle", y: 8, text: c.tier },
+                inner,
               );
-              return v;
-            });
-
-            // Gateway nodes
-            elGWs = SVG_GWS.map(([gx, gy], i) =>
-              makeNode(
-                svg,
-                [gx, gy],
-                GW_LABELS[i],
-                "serving v3",
-                "var(--c-teal)",
-                88,
-                50,
-              ),
-            );
-
-            // Animated arrows
-            elArrowWR = makeArrow(svg, SVG_AUTHOR, SVG_REDIS, "var(--c-coral)");
-            elArrowsRG = SVG_GWS.map(([gx, gy]) =>
-              makeArrow(svg, SVG_REDIS, [gx, gy], "var(--c-violet)"),
-            );
-
-            // Pub/sub dots
-            elPubDots = SVG_GWS.map(([gx, gy]) => {
-              const dot = s(
-                "circle",
-                {
-                  r: 5,
-                  style:
-                    "fill:var(--c-violet);stroke:var(--surface);stroke-width:1.5;opacity:0",
-                },
-                svg,
+              const stt = s(
+                "text",
+                { class: "st", "text-anchor": "middle", y: 21 },
+                inner,
               );
-              return dot;
+              nodes[c.id] = { c, g: inner, stt };
             });
+            // Paint after every rebuild so mid-scenario breakers / winners
+            // do not disappear on a same-orientation resize.
+            paint();
           }
 
-          function makeNode(parent, [cx, cy], label, sub, tone, nw, nh) {
-            const g = s("g", { transform: `translate(${cx} ${cy})` }, parent);
-            const inner = s("g", { class: "cp-node" }, g);
-            inner.style.setProperty("--tone", tone);
-            s("circle", { class: "ring", r: 30 }, inner);
-            s(
-              "rect",
-              {
-                class: "fill",
-                x: -nw / 2,
-                y: -nh / 2,
-                width: nw,
-                height: nh,
-                rx: 12,
-              },
-              inner,
-            );
-            s(
-              "text",
-              { class: "nm", "text-anchor": "middle", y: -5, text: label },
-              inner,
-            );
-            const subEl = s(
-              "text",
-              { class: "sub", "text-anchor": "middle", y: 8, text: sub },
-              inner,
-            );
-            return { inner, subEl };
+          function stateOf(id) {
+            const sc = SCEN[st.sc],
+              c = nodes[id].c;
+            if (id === "req") return ["", ""];
+            if (c.prov) {
+              if (sc.down.includes(id) && nodes[id].tripped)
+                return ["breaker: open", "var(--bad)"];
+              if (nodes[id].half) return ["breaker: half-open", "var(--c-amber)"];
+              return ["breaker: closed", "var(--ok)"];
+            }
+            if (id === "rag")
+              return sc.down.includes("rag") && nodes[id].tripped
+                ? ["unavailable", "var(--bad)"]
+                : ["ready", "var(--ok)"];
+            return ["always on", "var(--ok)"];
           }
 
-          function makeArrow(parent, [ax, ay], [bx, by]) {
-            const dx = bx - ax,
-              dy = by - ay,
-              len = Math.sqrt(dx * dx + dy * dy);
-            const nx = dx / len,
-              ny = dy / len;
-            const sx = ax + nx * 30,
-              sy = ay + ny * 30;
-            const ex = bx - nx * 30,
-              ey = by - ny * 30;
-            const g = s("g", {}, parent);
-            const line = s(
-              "line",
-              {
-                class: "cp-arrow",
-                x1: sx,
-                y1: sy,
-                x2: ex,
-                y2: ey,
-                "stroke-width": 2,
-              },
-              g,
-            );
-            const angle = Math.atan2(ey - sy, ex - sx);
-            const ah = 7;
-            const p1x = ex - ah * Math.cos(angle - 0.4),
-              p1y = ey - ah * Math.sin(angle - 0.4);
-            const p2x = ex - ah * Math.cos(angle + 0.4),
-              p2y = ey - ah * Math.sin(angle + 0.4);
-            const head = s(
-              "polyline",
-              {
-                class: "cp-arrow",
-                points: `${p1x},${p1y} ${ex},${ey} ${p2x},${p2y}`,
-                "stroke-width": 2,
-                "stroke-linecap": "round",
-                "stroke-linejoin": "round",
-              },
-              g,
-            );
-            return {
-              line,
-              head,
-              show() {
-                line.classList.add("visible");
-                head.classList.add("visible");
-              },
-              hide() {
-                line.classList.remove("visible");
-                head.classList.remove("visible");
-              },
-            };
+          function paint() {
+            const sc = SCEN[st.sc];
+            pl.forEach((li, i) => li.classList.toggle("on", i <= st.sc));
+            for (const id in nodes) {
+              const n = nodes[id];
+              const [t, c] = stateOf(id);
+              n.stt.textContent = t;
+              n.stt.style.fill = c;
+              n.g.classList.toggle("down", !!(sc.down.includes(id) && n.tripped));
+              n.g.classList.toggle("win", st.win === id);
+            }
           }
 
-          buildSvg();
-
-          // Debounced rebuild on resize. buildSvg() clears the SVG, so we
-          // never accumulate nodes; the animation state is preserved by
-          // re-applying it in resetScene() only when we're in "steady".
-          if (window.ResizeObserver) {
-            let pending = 0;
-            new ResizeObserver(() => {
-              cancelAnimationFrame(pending);
-              pending = requestAnimationFrame(() => {
-                buildSvg();
-                // Re-apply the last committed scene state after rebuild.
-                if (st.phase === "steady") resetScene();
-                else applySceneState();
-              });
-            }).observe(holder);
+          function shake(id) {
+            const g = nodes[id].g;
+            g.classList.remove("shake");
+            void g.getBBox();
+            g.classList.add("shake");
           }
 
-          // Animation state machine
-          const st = {
-            phase: "steady",
-            t: 0,
-            rollbacks: 0,
-            fanoutIdx: 0,
-            elapsed: 0,
-            timerActive: false,
-          };
-
-          function setPhase(p) {
-            st.phase = p;
+          function startScenario() {
+            const sc = SCEN[st.sc];
+            st.idx = 0;
+            st.mode = "travel";
             st.t = 0;
+            st.win = null;
+            for (const id in nodes) {
+              nodes[id].tripped = false;
+              nodes[id].half = false;
+            }
+            status.textContent = sc.text;
+            log.push(
+              [{ t: "— scenario " + (st.sc + 1) + " of " + SCEN.length + " —" }],
+              "sep",
+            );
+            paint();
           }
 
-          // Idempotent "steady" reset — safe to call after a rebuild too.
-          function resetScene() {
-            elAlert.classList.remove("visible");
-            elArrowWR.hide();
-            elArrowsRG.forEach((a) => a.hide());
-            elPubDots.forEach((d) => (d.style.opacity = 0));
-            elAuthor.inner.classList.remove("active", "done", "pulse");
-            elRedis.inner.classList.remove("active", "done", "pulse");
-            elGWs.forEach((g) => {
-              g.inner.classList.remove("active", "done", "pulse");
-              g.subEl.textContent = "serving v3";
-            });
-            elSlots[0].textContent = "@ v3";
-            elSlots[0].classList.remove("changed");
-            timerEl.textContent = "0.0s";
-            timerEl.className = "ag-timer";
-            st.elapsed = 0;
-            st.timerActive = false;
+          function place(x, y) {
+            tok.setAttribute("cx", x);
+            tok.setAttribute("cy", y);
           }
 
-          // Best-effort re-apply if a resize happens mid-animation.
-          // We don't try to perfectly restore the frame — just stop
-          // animation cleanly and reset to a coherent visual.
-          function applySceneState() {
-            // Any mid-flight visual is dropped; the next tick() will
-            // continue from the current phase value and re-drive the DOM.
-            // Arrows/dots are re-hidden so nothing floats orphaned.
-            elArrowWR.hide();
-            elArrowsRG.forEach((a) => a.hide());
-            elPubDots.forEach((d) => (d.style.opacity = 0));
-          }
-
-          resetScene();
-          log.push([{ t: "— rollback loop —" }], "sep");
+          build();
+          counters();
+          if (window.ResizeObserver)
+            new ResizeObserver(() => {
+              build();
+              // Always re-place the token — a same-orientation rebuild
+              // recreates the <circle>, so its old cx/cy is gone.
+              place(...pos[st.idx]);
+            }).observe(holder);
+          startScenario();
+          place(...pos[0]);
 
           return {
             root: panel,
 
             // Frozen but representative state for prefers-reduced-motion.
-            // Advances the state machine enough to show the mid-rollback
-            // frame (author pulsing, arrow visible, timer at ~1.2s).
             still() {
-              // Manually place the DOM in the "write" phase.
-              elAlert.classList.add("visible");
-              elAuthor.inner.classList.add("active", "pulse");
-              elArrowWR.show();
-              timerEl.textContent = "1.2s";
-              st.timerActive = false;
-              st.elapsed = 1200;
-              log.clear();
-              log.push([{ t: "— rollback loop (frozen) —" }], "sep");
-              log.push([
-                { t: "slo·monitor", cls: "ag-k", c: "var(--bad)" },
-                { t: "output anomaly detected · talent-screening@v3" },
-              ]);
-              log.push([
-                { t: "operator", cls: "ag-k", c: "var(--c-coral)" },
-                { t: "redis SET prompt:talent-screening @v2" },
-              ]);
+              // Pretend we're mid-scenario 2 (OpenAI outage → Gemini answers):
+              // shows the ladder working, breakers open, token on the winner.
+              st.sc = 1;
+              startScenario();
+              // Jump the token to Gemini and mark OpenAI's breaker open.
+              nodes.openai.tripped = true;
+              st.idx = 2; // gemini
+              st.win = "gemini";
+              place(...pos[st.idx]);
+              paint();
               status.textContent =
-                "Animation off (reduced motion). The rollback loop: operator writes a Redis pointer (v3→v2); pub/sub notifies all gateway replicas; they reload in <200ms each. Total: ~4.1s, zero deploys.";
+                "Animation is off because reduced motion is on. The chain runs Retry across OpenAI, Gemini and Anthropic, then the RAG Fallback, then the Rule-Based Floor. Shown here: OpenAI's breaker is open, Gemini answered.";
             },
 
             tick(dt) {
               st.t += dt;
-              if (st.timerActive) {
-                st.elapsed = Math.min(st.elapsed + dt, 4100);
-                timerEl.textContent = (st.elapsed / 1000).toFixed(1) + "s";
-              }
+              const sc = SCEN[st.sc];
 
-              if (st.phase === "steady") {
-                if (st.t > 1400) {
-                  setPhase("alert");
-                  elAlert.classList.add("visible");
-                  elAuthor.inner.classList.add("active");
-                  status.textContent =
-                    "Bad output detected. SLO alert fires on Config Author.";
-                  log.push([
-                    { t: "slo·monitor", cls: "ag-k", c: "var(--bad)" },
-                    {
-                      t: "output anomaly detected · talent-screening@v3",
-                    },
-                  ]);
-                }
-              } else if (st.phase === "alert") {
-                if (st.t > 900) {
-                  setPhase("write");
-                  elArrowWR.show();
-                  elAuthor.inner.classList.add("pulse");
-                  st.timerActive = true;
-                  status.textContent =
-                    "Operator flips the Redis pointer: talent-screening@v3 → @v2.";
-                  log.push([
-                    { t: "operator", cls: "ag-k", c: "var(--c-coral)" },
-                    { t: "redis SET prompt:talent-screening @v2" },
-                  ]);
-                }
-              } else if (st.phase === "write") {
-                if (st.t > 700) {
-                  setPhase("redis_update");
-                  elArrowWR.hide();
-                  elAlert.classList.remove("visible");
-                  elAuthor.inner.classList.remove("active", "pulse");
-                  elRedis.inner.classList.add("active", "pulse");
-                  elSlots[0].textContent = "@ v2";
-                  elSlots[0].classList.add("changed");
-                  status.textContent =
-                    "Redis updates the pointer. Pub/sub fanout begins.";
-                  log.push([
-                    { t: "redis", cls: "ag-k", c: "var(--c-violet)" },
-                    {
-                      t: "pointer updated → pub/sub PUBLISH config:reload",
-                    },
-                  ]);
-                }
-              } else if (st.phase === "redis_update") {
-                if (st.t > 500) {
-                  setPhase("fanout");
-                  st.fanoutIdx = 0;
-                  elRedis.inner.classList.remove("pulse");
-                }
-              } else if (st.phase === "fanout") {
-                const delay = 220;
-                const visible = Math.floor(st.t / delay);
-                for (let i = 0; i < 3; i++) {
-                  if (i < visible) elArrowsRG[i].show();
-                }
-                if (st.t > 220 * 3 + 200) {
-                  setPhase("gw_reload");
-                  st.fanoutIdx = 0;
-                  elArrowsRG.forEach((a) => a.hide());
-                  status.textContent =
-                    "All three gateway replicas receive the pub/sub event.";
-                }
-              } else if (st.phase === "gw_reload") {
-                const delay = 350;
-                const done = Math.floor(st.t / delay);
-                for (let i = 0; i < 3; i++) {
-                  if (i < done) {
-                    if (!elGWs[i].inner.classList.contains("done")) {
-                      elGWs[i].inner.classList.add("done");
-                      elGWs[i].inner.classList.remove("active");
-                      elGWs[i].subEl.textContent = "v2 ✓ loaded";
-                      if (i === 0) {
-                        status.textContent =
-                          "Gateway-1 invalidated cache. Serving talent-screening@v2.";
-                        log.push([
-                          {
-                            t: "gateway-1",
-                            cls: "ag-k",
-                            c: "var(--c-teal)",
-                          },
-                          {
-                            t: "cache invalidated · talent-screening@v2 loaded",
-                          },
-                        ]);
-                      } else if (i === 1) {
-                        log.push([
-                          {
-                            t: "gateway-2",
-                            cls: "ag-k",
-                            c: "var(--c-teal)",
-                          },
-                          {
-                            t: "cache invalidated · talent-screening@v2 loaded",
-                          },
-                        ]);
-                      } else {
-                        log.push([
-                          {
-                            t: "gateway-3",
-                            cls: "ag-k",
-                            c: "var(--c-teal)",
-                          },
-                          {
-                            t: "cache invalidated · talent-screening@v2 loaded",
-                          },
-                        ]);
-                      }
-                    } else {
-                      elGWs[i].inner.classList.add("active");
-                    }
+              if (st.mode === "travel") {
+                const a = pos[st.idx],
+                  b = pos[st.idx + 1],
+                  k = Math.min(1, st.t / 560),
+                  e = ease(k);
+                tok.classList.remove("back");
+                place(lerp(a[0], b[0], e), lerp(a[1], b[1], e));
+                if (k >= 1) {
+                  st.t = 0;
+                  st.idx++;
+                  const id = CHAIN[st.idx].id;
+                  if (sc.down.includes(id)) {
+                    st.mode = "fail";
+                    st.retry = 0;
+                    shake(id);
+                    log.push([
+                      { t: id, cls: "ag-k", c: CHAIN[st.idx].tone },
+                      {
+                        t: CHAIN[st.idx].prov
+                          ? "503 · attempt 1 failed"
+                          : "index unreachable",
+                      },
+                    ]);
+                  } else {
+                    st.mode = "answer";
+                    st.win = id;
+                    paint();
+                    log.push([
+                      { t: id, cls: "ag-k", c: CHAIN[st.idx].tone },
+                      { t: "200 · answered (" + CHAIN[st.idx].tier + ")" },
+                    ]);
                   }
                 }
-                if (done >= 3 && st.t > delay * 3 + 300) {
-                  setPhase("complete");
-                  st.timerActive = false;
-                  timerEl.className = "ag-timer done";
-                  elRedis.inner.classList.add("done");
-                  elRedis.inner.classList.remove("active");
-                  st.rollbacks++;
-                  updateStats(st.rollbacks, 0, 0);
-                  status.textContent = `Rollback complete in ${(st.elapsed / 1000).toFixed(1)}s. Zero deploys. Zero dropped requests.`;
+              } else if (st.mode === "fail") {
+                const id = CHAIN[st.idx].id,
+                  prov = CHAIN[st.idx].prov;
+                if (prov && st.retry < 2 && st.t > 420) {
+                  st.t = 0;
+                  st.retry++;
+                  st.retries++;
+                  counters();
+                  shake(id);
                   log.push([
-                    { t: "rollback", cls: "ag-k", c: "var(--ok)" },
+                    { t: id, cls: "ag-k", c: CHAIN[st.idx].tone },
                     {
-                      t: `complete · ${(st.elapsed / 1000).toFixed(1)}s · 0 deploys · 0 dropped requests`,
+                      t: `retry ${st.retry} · backoff ×${st.retry * 2} → failed`,
                     },
                   ]);
+                } else if ((!prov || st.retry >= 2) && st.t > 420) {
+                  nodes[id].tripped = true;
+                  paint();
+                  log.push([
+                    { t: id, cls: "ag-k", c: "var(--bad)" },
+                    { t: prov ? "breaker open → next provider" : "skip → next tier" },
+                  ]);
+                  st.t = 0;
+                  st.mode = "travel";
                 }
-              } else if (st.phase === "complete") {
-                if (st.t > 2400) {
-                  setPhase("reset");
+              } else if (st.mode === "answer") {
+                if (st.t > 520) {
+                  st.t = 0;
+                  st.mode = "return";
+                  tok.classList.add("back");
+                  st.back = st.idx;
                 }
-              } else if (st.phase === "reset") {
-                resetScene();
-                setPhase("steady");
-                status.textContent =
-                  "Steady state: all gateways serving talent-screening@v3 (next cycle).";
-                log.push([{ t: "— loop —" }], "sep");
+              } else if (st.mode === "return") {
+                const span = st.back * 200,
+                  k = Math.min(1, st.t / span),
+                  f = st.back * (1 - ease(k)),
+                  i = Math.floor(f),
+                  r = f - i;
+                const a = pos[i],
+                  b = pos[Math.min(i + 1, pos.length - 1)];
+                place(lerp(a[0], b[0], r), lerp(a[1], b[1], r));
+                if (k >= 1) {
+                  st.t = 0;
+                  st.mode = "rest";
+                  st.answered++;
+                  counters();
+                  log.push([
+                    { t: "agent call", cls: "ag-k" },
+                    { t: "response delivered ✓" },
+                  ]);
+                }
+              } else if (st.mode === "rest") {
+                if (st.t > 1500) {
+                  st.t = 0;
+                  tok.classList.remove("back");
+                  for (const id in nodes)
+                    if (nodes[id].tripped && nodes[id].c.prov) {
+                      nodes[id].tripped = false;
+                      nodes[id].half = true;
+                    }
+                  st.win = null;
+                  paint();
+                  st.mode = "probe";
+                }
+              } else if (st.mode === "probe") {
+                if (st.t > 700) {
+                  st.sc = (st.sc + 1) % SCEN.length;
+                  startScenario();
+                }
               }
             },
           };
         }
 
-        run(mountConfigPlane(document.getElementById("p5")));
+        run(mountChain(document.getElementById("p3")));
       })();
     </script>
     <script>
