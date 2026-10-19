@@ -556,15 +556,17 @@
   window.JUH_CERT_TOTAL = window.JUH_CERTS.length;
 
   // Stable colour per issuer, used by the waffle on both pages.
+  // Fallback hex = the light-mode value of the matching --c-* token in :root,
+  // so the widget looks identical whether or not the CSS variables exist.
   window.JUH_ISSUER_COLORS = {
-    "LinkedIn Learning": "var(--c-blue, #2d5bef)",
-    "Google Cloud Skills Boost": "var(--c-lime, #4b9a1c)",
-    IBM: "var(--c-teal, #00a7f5)",
-    Anthropic: "var(--c-coral, #d86b06)",
-    "Microsoft Learning": "var(--c-amber, #2bff00)",
-    Coursera: "var(--c-magenta, #012c7c)",
-    "Cognitive Class": "var(--c-rose, #690231)",
-    Udemy: "var(--c-sand, #d0ff00)",
+    "LinkedIn Learning": "var(--c-blue,    #2d5bef)",
+    "Google Cloud Skills Boost": "var(--c-lime,    #4b9a1c)",
+    IBM: "var(--c-teal,    #0a9a8c)",
+    Anthropic: "var(--c-coral,   #e5482e)",
+    "Microsoft Learning": "var(--c-amber,   #c47600)",
+    Coursera: "var(--c-magenta, #cc2f86)",
+    "Cognitive Class": "var(--c-rose,    #db2777)",
+    Udemy: "var(--c-sand,    #92400e)",
   };
 
   window.JUH_CERT_HIGHLIGHTS = [

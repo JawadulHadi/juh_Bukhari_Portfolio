@@ -2,6 +2,13 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
   "trailingSlash": false,
+  "rewrites": [
+    { "source": "/favicon.svg", "destination": "/assets/favicon.svg" },
+    { "source": "/", "destination": "/lib/public/index.html" },
+    { "source": "/credentials", "destination": "/lib/public/credentials.html" },
+    { "source": "/case1", "destination": "/lib/cases/case1.html" },
+    { "source": "/case2", "destination": "/lib/cases/case2.html" }
+  ],
   "redirects": [
     {
       "source": "/Portfolio.dc(.*)",
@@ -10,13 +17,43 @@
     },
     {
       "source": "/Case(.*)Study.dc(.*)",
-      "destination": "/case-study",
+      "destination": "/case1",
       "permanent": true
     },
     {
       "source": "/resume",
       "destination": "/resume.pdf",
       "permanent": false
+    },
+    {
+      "source": "/credentials.html",
+      "destination": "/credentials",
+      "permanent": true
+    },
+    {
+      "source": "/case1.html",
+      "destination": "/case1",
+      "permanent": true
+    },
+    {
+      "source": "/case2.html",
+      "destination": "/case2",
+      "permanent": true
+    },
+    {
+      "source": "/case1-2",
+      "destination": "/case2",
+      "permanent": true
+    },
+    {
+      "source": "/case1-2.html",
+      "destination": "/case2",
+      "permanent": true
+    },
+    {
+      "source": "/case-study-2",
+      "destination": "/case2",
+      "permanent": true
     }
   ],
   "headers": [
@@ -47,7 +84,7 @@
       ]
     },
     {
-      "source": "/favicon.svg",
+      "source": "/assets/favicon.svg",
       "headers": [
         {
           "key": "Cache-Control",

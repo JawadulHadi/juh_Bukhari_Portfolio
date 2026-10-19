@@ -23,11 +23,13 @@
     "vercel"
   ],
   "scripts": {
+    "build": "node scripts/prerender.js",
     "dev": "node server.js",
     "start": "node server.js",
     "prerender": "node scripts/prerender.js",
     "check": "node scripts/prerender.js --check",
-    "syntax": "node --check server.js && node --check api/_agent.js && node --check theme.js && node --check certs.js && node --check scripts/prerender.js"
+    "syntax": "node --check server.js && node --check api/_agent.js && node --check theme.js && node --check certs.js && node --check scripts/prerender.js",
+    "cache:clean": "rimraf node_modules/.cache package-lock.json && npm install"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.135.0",

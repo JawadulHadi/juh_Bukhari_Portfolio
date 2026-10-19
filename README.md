@@ -4,7 +4,7 @@
 
 **Backend Lead / Architect building multi-tenant SaaS and AI-first systems that fail predictably.**
 
-> Static portfolio pages plus one serverless endpoint that powers **"Ask Jawad"**, a Claude-backed portfolio agent you can chat with by text or voice.
+> _Static portfolio pages plus one serverless endpoint that powers **"Ask Jawad"**, a Claude-backed portfolio agent you can chat with by text or voice._
 
 <p align="center">
   <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/code-MIT-blue?style=flat-square"></a>
@@ -40,7 +40,7 @@
 
 ## Features
 
-- **Portfolio page** — experience first, then selected work (the projects named on the résumé), stack & credentials, public repositories and the Qeloma suite, a case-study teaser, and services & contact. Includes Open Graph and Twitter card tags for link previews.
+- **Portfolio page** — experience first, then selected work (the projects named on the résumé), stack & credentials, public repositories and the Qeloma suite, a case1 teaser, and services & contact. Includes Open Graph and Twitter card tags for link previews.
 - **Credentials page** — every certification with topic filters and issuer verification links. The main page shows only the ones on the résumé.
 - **Case study** — the Retry → RAG Fallback → Rule-Based Floor pattern, with architecture figures and an interactive failure simulator.
 - **"Ask Jawad" agent** — a floating chat on every page, backed by Claude on the server. It supports voice input and read-aloud, and can navigate the site ("take me to projects").
@@ -96,7 +96,7 @@ Agent tuning lives in [`api/_agent.js`](api/_agent.js):
 ```markdown
 .
 ├── index.html # Main page, served at /
-├── case-study.html # "Designing for AI Failure" + failure simulator, served at /case-study
+├── case1.html # "Designing for AI Failure" + failure simulator, served at /case1
 ├── credentials.html # Full, filterable certification list, served at /credentials
 ├── certs.js # Certification data, shared by index.html and credentials.html
 ├── Agent.dc.html # Floating "Ask Jawad" agent, imported by both pages
@@ -170,7 +170,3 @@ Issues and PRs are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) and the [Cod
 ## License
 
 The code is released under the [MIT License](LICENSE). Personal content (portrait, résumé, bio, case study text) is **not** covered. See [NOTICE.md](NOTICE.md).
-
-```
-
-```

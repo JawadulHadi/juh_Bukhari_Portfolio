@@ -23,7 +23,7 @@ See [Local Development](docs/wiki/Local-Development.md) for testing the agent wi
 ## Workflow
 
 1. Open an issue first for anything bigger than a small fix, so we can agree on the approach.
-2. Branch from `main` with a descriptive name: `fix/agent-voice-safari`, `feat/case-study-figure`, `docs/deployment`.
+2. Branch from `main` with a descriptive name: `fix/agent-voice-safari`, `feat/case1-figure`, `docs/deployment`.
 3. Keep PRs focused, one concern each.
 4. Fill in the [PR template](.github/PULL_REQUEST_TEMPLATE.md), including screenshots for visual changes in **all three themes**.
 

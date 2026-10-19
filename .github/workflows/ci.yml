@@ -41,7 +41,7 @@ jobs:
 
       - name: Pages are served
         run: |
-          for p in / /case-study /credentials /Agent.dc.html /resume.pdf /theme.js /certs.js /favicon.svg; do
+          for p in / /case1 /credentials /Agent.dc.html /resume.pdf /theme.js /certs.js /favicon.svg; do
             code=$(curl -s -o /dev/null -w '%{http_code}' "http://localhost:3000$p")
             echo "$p -> $code"
             [ "$code" = "200" ] || exit 1

@@ -14,7 +14,7 @@
       property="og:description"
       content="Backend Lead / Architect building multi-tenant SaaS and AI-first systems that fail predictably."
     >
-    <meta property="og:url" content="https://juh-bukhari.vercel.app/case-study">
+    <meta property="og:url" content="https://juh-bukhari.vercel.app/case1">
     <meta property="og:image" content="https://juh-bukhari.vercel.app/assets/portrait.png">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:image" content="https://juh-bukhari.vercel.app/assets/portrait.png">
@@ -207,7 +207,7 @@
           <section style="padding: calc(var(--space-8) * 2) 0 calc(var(--space-8) * 1.4); max-width: 820px;">
             <a
               data-reveal="0"
-              href="/#case-study"
+              href="/#case1"
               style="display: inline-block; font-size: 14px; margin-bottom: var(--space-6); text-decoration: none;"
             >← Back
               to the portfolio</a>
@@ -230,9 +230,10 @@
               data-reveal="260"
               style="font-size: 17px; line-height: 1.65; text-align: justify; hyphens: auto; text-wrap: pretty; margin: 0;"
             >
-              Inside the provider-agnostic, three-tier fallback architecture that keeps enterprise AI workflows running
-              when models falter. Every client talks to one service, every heavy task runs on one queue, and every
-              AI-backed capability inherits the same reliability ladder.</p>
+              Part 1 answered <em>how the ladder stays up</em>. Part 2 answers the harder question — <em>how the system
+                stays honest while it's degraded</em>. A semantically wrong answer, a silently duplicated retry, a prompt
+              rollback that needs a redeploy: availability alone doesn't touch any of them. This is the layer of
+              contracts, config-as-data and invariant validation that does.</p>
           </section>
 
           <section
@@ -665,36 +666,52 @@
                 TypeScript / NestJS</p>
             </div>
             <pre data-reveal="0"
-            style="margin: 0; padding: var(--space-6); border: 1px solid var(--color-divider); border-radius: var(--radius-md); overflow-x: auto; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; line-height: 1.7; color: var(--color-text); background: color-mix(in srgb, var(--color-text) 3%, transparent);"><code>export class UnifiedAIService {
-  async executeWithReliabilityLadder&lt;T&gt;(
-    req: AIRequestPayload,
-    tenantContext: TenantSecurityContext
-  ): Promise&lt;AIResponse&lt;T&gt;&gt; {
-    // Tier 1: multi-provider LLM with exponential retry
-    try {
-      return await this.dispatchPrimaryLLM(req, tenantContext);
-    } catch (llmErr) {
-      this.logger.warn(`Tier-1 LLM failed: ${llmErr.message}. Escalating to Tier-2 RAG.`);
-    }
+            style="margin: 0; padding: var(--space-6); border: 1px solid var(--color-divider); border-radius: var(--radius-md); overflow-x: auto; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; line-height: 1.7; color: var(--color-text); background: color-mix(in srgb, var(--color-text) 3%, transparent);"><code>export type LlmTier = 'retry' | 'rag' | 'floor';
+export type Confidence = 'high' | 'medium' | 'low';
 
-    // Tier 2: tenant-scoped grounded vector retrieval
-    try {
-      const vectorMatches = await this.vectorStore.searchByTenant({
-        tenantId: tenantContext.tenantId,
-        query: req.queryText,
-        threshold: 0.78
-      });
-      if (vectorMatches.length &gt; 0) {
-        return this.formatGroundedSnippets(vectorMatches, 'TIER_2_RAG');
-      }
-    } catch (ragErr) {
-      this.logger.warn(`Tier-2 RAG empty/failed: ${ragErr.message}. Escalating to Tier-3 floor.`);
-    }
+export type LlmResponse&lt;T&gt; =
+  | { tier: 'retry'; degraded: false; confidence: 'high'; content: T;
+      providerMeta: ProviderMeta; invariants: InvariantReport }
+  | {
+      tier: 'rag' | 'floor';
+      degraded: true;
+      confidence: 'medium' | 'low';
+      readonly _content: T;
+      providerMeta: ProviderMeta;
+      invariants: InvariantReport;
+      acceptDegraded(): T;
+    };
 
-    // Tier 3: deterministic rule-based heuristics and OCR floor
-    return this.ruleEngine.extractHeuristicData(req.rawDocument, 'TIER_3_RULE_FLOOR');
+/**
+ * Degraded responses do not expose `.content` at all. The payload is only
+ * returned after `acceptDegraded()` runs the invariant check and audit log.
+ */
+export function acceptDegraded&lt;T&gt;(res: LlmResponse&lt;T&gt;): T {
+  if (res.degraded) {
+    if (!res.invariants.passed) {
+      throw new DegradedInvariantViolation(res.invariants.violated);
+    }
+    logger.warn('degraded_accept', {
+      tier: res.tier,
+      confidence: res.confidence,
+      violations: res.invariants.violated,
+    });
+    return res._content;
   }
-}</code></pre>
+
+  return res.content;
+}
+
+// Gateway side — invariant validation runs AFTER a Tier-1 success.
+const raw = await this.dispatchPrimaryLLM(req, tenantContext);
+const invariants = this.invariantEngine.check(raw, req.domainRules);
+
+if (!invariants.passed) {
+  // Tier 1 "succeeded" but violated a domain rule. Downgrade.
+  return this.ruleEngine.extractHeuristicData(req.rawDocument, 'floor', invariants);
+}
+
+return { tier: 'retry', degraded: false, confidence: 'high', content: raw, providerMeta, invariants };</code></pre>
           </section>
 
           <section style="padding: calc(var(--space-8) * 1.8) 0; border-top: 1px solid var(--color-divider);">
@@ -840,5 +857,4 @@ class Component extends DCLogic {
 }
 </script>
   </body>
-
 </html>

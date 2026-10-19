@@ -106,7 +106,6 @@ h4 {
   box-sizing: border-box;
 }
 
-
 h1 {
   font-size: 42px;
 }
@@ -262,7 +261,7 @@ figcaption {
 }
 
 /* — forms — */
-.field>label {
+.field > label {
   display: block;
   font-size: 12px;
   margin-bottom: 5px;
@@ -325,13 +324,13 @@ textarea.input {
   border-color: var(--color-accent);
 }
 
-.radio input:checked+.dot {
+.radio input:checked + .dot {
   border-color: var(--color-accent);
   background: var(--color-accent);
   box-shadow: inset 0 0 0 4px var(--color-bg);
 }
 
-.radio input:focus-visible+.dot {
+.radio input:focus-visible + .dot {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
@@ -352,7 +351,7 @@ textarea.input {
   cursor: pointer;
 }
 
-.seg-opt+.seg-opt {
+.seg-opt + .seg-opt {
   border-left: 1px solid var(--color-divider);
 }
 
@@ -545,8 +544,8 @@ textarea.input {
   margin-top: var(--space-2);
 }
 
-/* — case-study steps — */
-.case-study-steps {
+/* — case1 steps — */
+.case1-steps {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -555,35 +554,37 @@ textarea.input {
   gap: var(--space-2);
 }
 
-.case-study-step {
+.case1-step {
   padding: var(--space-3);
   border: 1px solid var(--color-divider);
   border-radius: var(--radius-md);
-  background-image: radial-gradient(200px circle at var(--gx, -50%) var(--gy, -50%),
-      color-mix(in srgb, var(--color-accent) 14%, transparent),
-      transparent 70%);
+  background-image: radial-gradient(
+    200px circle at var(--gx, -50%) var(--gy, -50%),
+    color-mix(in srgb, var(--color-accent) 14%, transparent),
+    transparent 70%
+  );
 }
 
-.case-study-step-index {
+.case1-step-index {
   font-size: 12px;
   color: var(--muted);
   margin: 0;
   font-variant-numeric: tabular-nums;
 }
 
-.case-study-step-title {
+.case1-step-title {
   font-family: var(--font-heading);
   font-size: 17px;
   margin: 0;
 }
 
-.case-study-step-desc {
+.case1-step-desc {
   font-size: 12px;
   color: var(--muted);
   margin: 0;
 }
 
-.case-study-read-path-note {
+.case1-read-path-note {
   font-size: 14px;
   line-height: 1.6;
   margin: var(--space-3) 0 0;
@@ -592,11 +593,11 @@ textarea.input {
   border-radius: var(--radius-md);
 }
 
-.case-study-strong {
+.case1-strong {
   color: var(--ink-accent);
 }
 
-.case-study-erasure-copy {
+.case1-erasure-copy {
   font-size: 14px;
   line-height: 1.6;
   margin: 0;
@@ -604,14 +605,27 @@ textarea.input {
   border-top: 1px solid var(--color-divider);
 }
 
-.case-study-heading {
+.case1-heading {
   font-family: var(--font-heading);
   font-size: 18px;
 }
 
-.case-study-figure-caption {
+.case1-figure-caption {
   font-size: 14px;
   font-style: italic;
   color: var(--muted);
   text-align: center;
+}
+
+.axis span {
+  white-space: nowrap;
+  min-width: 28px;
+}
+
+.axis span:first-child {
+  transform: none;
+}
+
+.axis span:last-child {
+  transform: translateX(-100%);
 }

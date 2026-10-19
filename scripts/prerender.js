@@ -71,7 +71,7 @@ function issuerLine(w) {
 }
 
 const pages = {
-  "index.html"(html, w) {
+  "lib/public/index.html"(html, w) {
     const v = renderVals(html, w);
     return [
       nav(v.nav),
@@ -86,7 +86,7 @@ const pages = {
       `<ul>${v.stack.map((x) => `<li><strong>${esc(x.group)}:</strong> ${esc(x.items)}</li>`).join("")}</ul>`,
       "<h2>Certifications & Credentials</h2>",
       `<ul>${v.certs.map(certItem).join("")}</ul>`,
-      `<p>${issuerLine(w)}. ${link("/credentials.html", "View all")}</p>`,
+      `<p>${issuerLine(w)}. ${link("/credentials", "View all")}</p>`,
       '<h2 id="projects">Projects</h2>',
       `<ul>${[...v.repos, ...v.qeloma].map((r) => `<li>${link(r.href, r.name)}: ${esc(r.desc)}</li>`).join("")}</ul>`,
       '<h2 id="contact">Services &amp; Contact</h2>',
@@ -94,7 +94,7 @@ const pages = {
       `<p>Open to Backend Lead, Solutions Architecture and AI Platform roles. ${link("https://gravatar.com/juhbukhari", "Ready to build something resilient? Let’s connect ↗")}</p>`,
     ].join("\n");
   },
-  "credentials.html"(html, w) {
+  "lib/public/credentials.html"(html, w) {
     const v = renderVals(html, w, { filter: "all", expanded: true });
     return [
       nav(v.nav),
@@ -103,7 +103,10 @@ const pages = {
       `<ul>${v.certs.map(certItem).join("")}</ul>`,
     ].join("\n");
   },
-  "case-study.html"(html, w) {
+  "lib/cases/case1.html"(html, w) {
+    return nav(renderVals(html, w).nav);
+  },
+  "lib/cases/case2.html"(html, w) {
     return nav(renderVals(html, w).nav);
   },
   "case-study-2.html"(html, w) {
