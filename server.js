@@ -92,6 +92,7 @@ app.get("/case1-2", (req, res) => res.redirect(301, "/case2"));
 const PUBLIC_ROOT_FILES = new Set([
   "/index.html",
   "/case-study.html",
+  "/case-study-2.html",
   "/credentials.html",
   "/agent.dc.html",
   "/support.js",
@@ -99,7 +100,7 @@ const PUBLIC_ROOT_FILES = new Set([
   "/certs.js",
   "/resume.pdf",
 ]);
-const PUBLIC_ROUTES = new Set(["/", "/case-study", "/credentials"]);
+const PUBLIC_ROUTES = new Set(["/", "/case-study", "/case-study-2", "/credentials"]);
 const PUBLIC_DIRECTORIES = ["/assets/", "/_ds/"];
 const PUBLIC_DIRECTORIES = ["/assets/", "/_ds/", "/lib/"];
 app.use((req, res, next) => {

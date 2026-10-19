@@ -1,25 +1,27 @@
-[build]
-  command = "npm run build"
-  publish = "dist"
-
-[functions]
-  directory = "netlify/functions"
-  node_bundler = "esbuild"
+# Clean URLs and Trailing Slash settings are handled by Netlify's UI or framework settings.
+# You cannot set them directly in netlify.toml like you can in vercel.json.
+# Go to Site configuration > Build & deploy > Post processing in the Netlify UI
+# and enable "Pretty URLs" (for clean URLs) or set your framework to handle it.
+# For trailing slashes, Netlify normalizes URLs by default. You may need to adjust
+# your framework's config (e.g., Docusaurus, Next.js) to match.
 
 [[redirects]]
   from = "/Portfolio.dc*"
   to = "/"
   status = 301
+  force = true
 
 [[redirects]]
-  from = "/Case%20Study.dc*"
+  from = "/Case*Study.dc*"
   to = "/case-study"
   status = 301
+  force = true
 
 [[redirects]]
   from = "/resume"
   to = "/resume.pdf"
-  status = 307
+  status = 302
+  force = true
 
 [[headers]]
   for = "/*"
@@ -27,3 +29,17 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(self), geolocation=(), payment=()"
+
+[[headers]]
+  for = "/(_ds|assets)/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/favicon.svg"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+# Function timeouts are not configured this way in netlify.toml.
+# Netlify's default timeout for synchronous functions is 60 seconds.
+# To configure timeouts or memory per function, see the note below.
