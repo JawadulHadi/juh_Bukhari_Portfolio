@@ -12,11 +12,12 @@ const PORT = process.env.PORT || 3000;
 const LEGACY_HTML_REDIRECTS = {
   index: "/",
   case1: "/case1",
+  "case-study": "/case1",
   "case1-2": "/case2",
   "case-study-2": "/case2",
   case2: "/case2",
   credentials: "/credentials",
-  resume: "/resume",
+  resume: "/resume.pdf",
 };
 
 app.use((req, res, next) => {
@@ -53,6 +54,15 @@ app.use("/api", (req, res) => {
   res.status(404).json({ error: "not_found" });
 });
 
+// Drop trailing slashes so relative asset paths (theme.js, _ds/…) resolve.
+app.use((req, res, next) => {
+  if (req.path.length > 1 && req.path.endsWith("/")) {
+    const query = req.url.slice(req.path.length);
+    return res.redirect(301, req.path.replace(/\/+$/, "") + query);
+  }
+  next();
+});
+
 // Old long URLs → short ones.
 app.get(/^\/Portfolio\.dc/, (req, res) => res.redirect(301, "/"));
 app.get(/^\/Case(%20| )Study\.dc/, (req, res) => res.redirect(301, "/case1"));
@@ -87,38 +97,30 @@ app.get("/case2", (req, res) =>
   res.sendFile(path.join(__dirname, "lib/cases/case2.html")),
 );
 app.get("/case1-2", (req, res) => res.redirect(301, "/case2"));
+app.get("/case-study", (req, res) => res.redirect(301, "/case1"));
+app.get("/case-study-2", (req, res) => res.redirect(301, "/case2"));
 
-// Static assets — only expose safe root-level files plus asset directories.
-const PUBLIC_ROOT_FILES = new Set([
-  "/index.html",
-  "/case-study.html",
-  "/case-study-2.html",
-  "/credentials.html",
-  "/agent.dc.html",
-  "/support.js",
-  "/theme.js",
-  "/certs.js",
-  "/resume.pdf",
-]);
-const PUBLIC_ROUTES = new Set(["/", "/case-study", "/case-study-2", "/credentials"]);
-const PUBLIC_DIRECTORIES = ["/assets/", "/_ds/"];
-const PUBLIC_DIRECTORIES = ["/assets/", "/_ds/", "/lib/"];
-app.use((req, res, next) => {
-  if (req.method !== "GET" && req.method !== "HEAD") return next();
-  const requestPath = req.path.toLowerCase();
-  if (
-    PUBLIC_ROOT_FILES.has(requestPath) ||
-    PUBLIC_DIRECTORIES.some((prefix) => requestPath.startsWith(prefix))
-  ) {
-    return next();
-  }
-  if (path.extname(requestPath)) return res.status(404).send("Not found");
-  return res.sendFile(path.join(__dirname, "lib/public/index.html"));
-});
+// Static assets — only these root files and directories are public. Paths are
+// literal so Vercel's file tracing bundles them into the function.
+app.get("/support.js", (req, res) =>
+  res.sendFile(path.join(__dirname, "support.js")),
+);
+app.get("/theme.js", (req, res) =>
+  res.sendFile(path.join(__dirname, "theme.js")),
+);
+app.get("/certs.js", (req, res) =>
+  res.sendFile(path.join(__dirname, "certs.js")),
+);
+app.get("/Agent.dc.html", (req, res) =>
+  res.sendFile(path.join(__dirname, "Agent.dc.html")),
+);
+app.get("/resume.pdf", (req, res) =>
+  res.sendFile(path.join(__dirname, "resume.pdf")),
+);
+app.use("/assets", express.static(path.join(__dirname, "assets")));
+app.use("/_ds", express.static(path.join(__dirname, "_ds")));
 
-app.use(express.static(path.join(__dirname, "lib/public"), { index: false }));
-
-// SPA fallback for unknown clean routes.
+// Unknown clean routes → home page; unknown files → 404.
 app.get("*", (req, res, next) => {
   if (path.extname(req.path)) return next();
   res.sendFile(path.join(__dirname, "lib/public/index.html"));

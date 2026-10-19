@@ -1,14 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "cleanUrls": true,
+  "cleanUrls": false,
   "trailingSlash": false,
-  "rewrites": [
-    { "source": "/favicon.svg", "destination": "/assets/favicon.svg" },
-    { "source": "/", "destination": "/lib/public/index.html" },
-    { "source": "/credentials", "destination": "/lib/public/credentials.html" },
-    { "source": "/case1", "destination": "/lib/cases/case1.html" },
-    { "source": "/case2", "destination": "/lib/cases/case2.html" }
-  ],
   "redirects": [
     {
       "source": "/Portfolio.dc(.*)",
