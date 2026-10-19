@@ -160,6 +160,10 @@
     document.documentElement.setAttribute("data-theme", k);
     glassFx(!!t.glass);
     window.dispatchEvent(new CustomEvent("juh-theme", { detail: k }));
+    var ifs = document.querySelectorAll('iframe');
+    for (var i = 0; i < ifs.length; i++) {
+      try { ifs[i].contentWindow.postMessage({ type: 'juh-theme', scheme: t.scheme }, '*'); } catch (x) {}
+    }
   }
   // Glass theme: frosted panels plus a fixed, animated backdrop drawn like the
   // profile's system-design SVGs (aurora glow, service nodes, traffic flowing
@@ -343,6 +347,11 @@
   }
   window.addEventListener("storage", function (e) {
     if (e.key === KEY && THEMES[e.newValue]) apply(e.newValue);
+  });
+  window.addEventListener('message', function (e) {
+    if (e.data && e.data.type === 'juh-theme-ready' && current) {
+      try { e.source.postMessage({ type: 'juh-theme', scheme: THEMES[current].scheme }, '*'); } catch (x) {}
+    }
   });
 
   var io = null;
