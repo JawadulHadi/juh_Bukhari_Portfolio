@@ -54,8 +54,7 @@
           --on-tone: #0a0f1e;
         }
       }
-      /* Portfolio theme override: wins over the media query above */
-      :root[data-juh="dark"] {
+      [data-juh="dark"] {
         --bg: #0a0f1e;
         --surface: #111930;
         --surface-2: #1a2440;
@@ -74,7 +73,7 @@
         --bad: #ff6369;
         --on-tone: #0a0f1e;
       }
-      :root[data-juh="light"] {
+      [data-juh="light"] {
         --bg: #f2f4fa;
         --surface: #fff;
         --surface-2: #e8ecf6;
@@ -365,20 +364,6 @@
         height: 7px;
       }
     </style>
-      <script>
-      (function () {
-        var root = document.documentElement;
-        window.addEventListener("message", function (e) {
-          if (e.source !== window.parent) return;
-          var d = e.data;
-          if (!d || d.type !== "juh-theme") return;
-          if (d.scheme === "dark" || d.scheme === "light")
-            root.setAttribute("data-juh", d.scheme);
-        });
-        if (window.parent !== window)
-          window.parent.postMessage({ type: "juh-theme-ready" }, "*");
-      })();
-    </script>
   </head>
 
   <body>
@@ -793,6 +778,15 @@
     </script>
     <script>
       if (window.self !== window.top) document.body.style.minHeight = "auto";
+    </script>
+    <script>
+      (function () {
+        function applyJuh(s) { document.documentElement.setAttribute('data-juh', s); }
+        window.addEventListener('message', function (e) {
+          if (e.data && e.data.type === 'juh-theme') applyJuh(e.data.scheme);
+        });
+        try { if (window.parent !== window) window.parent.postMessage({ type: 'juh-theme-ready' }, '*'); } catch (x) {}
+      })();
     </script>
   </body>
 

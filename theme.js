@@ -160,30 +160,11 @@
     document.documentElement.setAttribute("data-theme", k);
     glassFx(!!t.glass);
     window.dispatchEvent(new CustomEvent("juh-theme", { detail: k }));
-    broadcast();
+    var ifs = document.querySelectorAll('iframe');
+    for (var i = 0; i < ifs.length; i++) {
+      try { ifs[i].contentWindow.postMessage({ type: 'juh-theme', scheme: t.scheme }, '*'); } catch (x) {}
+    }
   }
-  // Embedded diagrams are separate documents, so they can't see this page's
-  // theme. Push the scheme to every iframe on each change, and answer the
-  // "juh-theme-ready" handshake each diagram sends once it has loaded.
-  function post(win) {
-    if (!current || !win) return;
-    try {
-      win.postMessage(
-        { type: "juh-theme", scheme: THEMES[current].scheme },
-        "*",
-      );
-    } catch (e) {}
-  }
-  function broadcast() {
-    var frames = document.querySelectorAll("iframe");
-    for (var i = 0; i < frames.length; i++) post(frames[i].contentWindow);
-  }
-  window.addEventListener("message", function (e) {
-    if (!e.data || e.data.type !== "juh-theme-ready") return;
-    var frames = document.querySelectorAll("iframe");
-    for (var i = 0; i < frames.length; i++)
-      if (frames[i].contentWindow === e.source) return post(e.source);
-  });
   // Glass theme: frosted panels plus a fixed, animated backdrop drawn like the
   // profile's system-design SVGs (aurora glow, service nodes, traffic flowing
   // along the edges). Built on first use and removed when another theme is picked.
@@ -366,6 +347,11 @@
   }
   window.addEventListener("storage", function (e) {
     if (e.key === KEY && THEMES[e.newValue]) apply(e.newValue);
+  });
+  window.addEventListener('message', function (e) {
+    if (e.data && e.data.type === 'juh-theme-ready' && current) {
+      try { e.source.postMessage({ type: 'juh-theme', scheme: THEMES[current].scheme }, '*'); } catch (x) {}
+    }
   });
 
   var io = null;
