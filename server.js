@@ -116,7 +116,7 @@ app.use((req, res, next) => {
   return res.sendFile(path.join(__dirname, "lib/public/index.html"));
 });
 
-app.use(express.static(__dirname, { index: false }));
+app.use(express.static(path.join(__dirname, "lib/public"), { index: false }));
 
 // SPA fallback for unknown clean routes.
 app.get("*", (req, res, next) => {
