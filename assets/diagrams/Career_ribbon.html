@@ -52,6 +52,45 @@
           --on-tone: #0a0f1e;
         }
       }
+      /* Portfolio theme override: wins over the media query above */
+      :root[data-juh="dark"] {
+        --bg: #0a0f1e;
+        --surface: #111930;
+        --surface-2: #1a2440;
+        --ink: #e9edf8;
+        --dim: #9aa5c0;
+        --line: #26314f;
+        --grid: #1c2643;
+        --c-blue: #7090ff;
+        --c-teal: #2ccdbb;
+        --c-amber: #f5b83d;
+        --c-coral: #ff7a62;
+        --c-magenta: #f168b3;
+        --c-violet: #a08bff;
+        --c-lime: #8ad15a;
+        --ok: #3dd68c;
+        --bad: #ff6369;
+        --on-tone: #0a0f1e;
+      }
+      :root[data-juh="light"] {
+        --bg: #f2f4fa;
+        --surface: #fff;
+        --surface-2: #e8ecf6;
+        --ink: #10162a;
+        --dim: #535d77;
+        --line: #d6dcea;
+        --grid: #cdd4e6;
+        --c-blue: #2d5bef;
+        --c-teal: #0a9a8c;
+        --c-amber: #c47600;
+        --c-coral: #e5482e;
+        --c-magenta: #cc2f86;
+        --c-violet: #6b47ee;
+        --c-lime: #4b9a1c;
+        --ok: #148a4d;
+        --bad: #d7363c;
+        --on-tone: #fff;
+      }
       *,
       :before,
       :after {
@@ -141,6 +180,20 @@
         }
       }
     </style>
+      <script>
+      (function () {
+        var root = document.documentElement;
+        window.addEventListener("message", function (e) {
+          if (e.source !== window.parent) return;
+          var d = e.data;
+          if (!d || d.type !== "juh-theme") return;
+          if (d.scheme === "dark" || d.scheme === "light")
+            root.setAttribute("data-juh", d.scheme);
+        });
+        if (window.parent !== window)
+          window.parent.postMessage({ type: "juh-theme-ready" }, "*");
+      })();
+    </script>
   </head>
   <body>
     <div class="wrap">
