@@ -13,7 +13,7 @@
 
 [[redirects]]
   from = "/Case*Study.dc*"
-  to = "/case-study"
+  to = "/case1"
   status = 301
   force = true
 
@@ -23,6 +23,74 @@
   status = 302
   force = true
 
+# Legacy URLs → clean ones (mirrors vercel.json).
+[[redirects]]
+  from = "/credentials.html"
+  to = "/credentials"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/case1.html"
+  to = "/case1"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/case2.html"
+  to = "/case2"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/case1-2"
+  to = "/case2"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/case1-2.html"
+  to = "/case2"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/case-study-2"
+  to = "/case2"
+  status = 301
+  force = true
+
+# Clean URLs → page files under lib/ (status 200 = rewrite).
+[[redirects]]
+  from = "/favicon.svg"
+  to = "/assets/favicon.svg"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/"
+  to = "/lib/public/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/credentials"
+  to = "/lib/public/credentials.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/case1"
+  to = "/lib/cases/case1.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/case2"
+  to = "/lib/cases/case2.html"
+  status = 200
+  force = true
+
 [[headers]]
   for = "/*"
   [headers.values]
@@ -30,8 +98,14 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(self), geolocation=(), payment=()"
 
+# Netlify paths don't support regex alternation, so one block per directory.
 [[headers]]
-  for = "/(_ds|assets)/*"
+  for = "/_ds/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=604800"
 

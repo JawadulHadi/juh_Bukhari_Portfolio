@@ -5,15 +5,11 @@ const root = new URL("../", import.meta.url);
 const output = new URL("dist/", root);
 // Publish only public pages and assets, never server code or environment files.
 const publicFiles = [
-  "index.html",
-  "case-study.html",
-  "case-study-2.html",
-  "credentials.html",
+  "lib",
   "Agent.dc.html",
   "support.js",
   "theme.js",
   "certs.js",
-  "favicon.svg",
   "assets",
   "_ds",
 ];

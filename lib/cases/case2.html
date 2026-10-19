@@ -15,23 +15,15 @@
             property="og:description"
             content="The gateway that learned to say no — contracts, config-as-data, and invariant validation for multi-provider LLM systems."
         >
-        <link rel="canonical" href="https://juh-bukhari.vercel.app/case1-2">
-        <link rel="alternate" href="https://juh-bukhari.vercel.app/case1-2.html">
-        <meta property="og:url" content="https://juh-bukhari.vercel.app/case1-2">
+        <link rel="canonical" href="https://juh-bukhari.vercel.app/case2">
+        <link rel="alternate" href="https://juh-bukhari.vercel.app/case2.html">
+        <meta property="og:url" content="https://juh-bukhari.vercel.app/case2">
         <meta property="og:image" content="https://juh-bukhari.vercel.app/assets/og-1200x630.png">
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:image" content="https://juh-bukhari.vercel.app/assets/og-1200x630.png">
         <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-        <script>
-            (function () {
-                var path = window.location.pathname.replace(/\/+$/, "");
-                if (path === "/case1-2.html") {
-                    window.location.replace("/case1-2");
-                }
-            })();
-        </script>
         <script src="./support.js"></script>
-      <script>(function(d){var h=d.documentElement,o;h.classList.add('js');function m(){var r=d.getElementById('dc-root');if(!r||!r.firstElementChild)return 0;var p=d.getElementById('prerendered');if(p)p.remove();h.classList.remove('js');o.disconnect();return 1}o=new MutationObserver(m);o.observe(h,{childList:true,subtree:true});setTimeout(function(){if(!m())h.classList.remove('js')},5000)})(document)</script><style>.js #prerendered{display:none}</style>
+  <script>(function(d){var h=d.documentElement,o;h.classList.add('js');function m(){var r=d.getElementById('dc-root');if(!r||!r.firstElementChild)return 0;var p=d.getElementById('prerendered');if(p)p.remove();h.classList.remove('js');o.disconnect();return 1}o=new MutationObserver(m);o.observe(h,{childList:true,subtree:true});setTimeout(function(){if(!m())h.classList.remove('js')},5000)})(document)</script><style>.js #prerendered{display:none}</style>
 </head>
 
     <body>
@@ -169,7 +161,8 @@
                             <span
                                 style="font-family: var(--font-heading); font-size: 15px; letter-spacing: .12em; color: var(--color-accent); border: 1px solid var(--color-accent); padding: 2px 7px; border-radius: var(--radius-sm);"
                             >JUH</span>
-                            <span style="font-family: var(--font-heading); font-size: 19px; font-weight: 600;">Jawad Ul Hadi</span>
+                            <span style="font-family: var(--font-heading); font-size: 19px; font-weight: 600;">Jawad Ul
+                                Hadi</span>
                         </a>
                         <nav
                             aria-label="Primary"
@@ -184,7 +177,9 @@
                                 >{{ n.label }}</a>
                             </sc-for>
                         </nav>
-                        <div style="display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-3); max-width: 100%;">
+                        <div
+                            style="display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-3); max-width: 100%;"
+                        >
                             <div
                                 role="radiogroup"
                                 aria-label="Theme"
@@ -194,11 +189,12 @@
                                     <button
                                         type="button"
                                         role="radio"
-                                        aria-checked="{{ t.checked }}"onClick="{{ t.pick }}"
+                                        aria-checked="{{ t.checked }}"
+                                        onClick="{{ t.pick }}"
                                         title="{{ t.desc }}"
                                         style="font-family: var(--font-heading); font-size: 13px; padding: 5px 11px; background: {{ t.bg }}; color: {{ t.fg }}; border: 0; cursor: pointer; transition: background-color .25s ease, color .25s ease;"
                                     >{{
-                  t.label }}</button>
+                                    t.label }}</button>
                                 </sc-for>
                             </div>
                             <a class="btn btn-primary" href="resume.pdf" target="_blank" rel="noopener">Résumé</a>
@@ -212,7 +208,8 @@
                             data-reveal="0"
                             href="/case1"
                             style="display: inline-block; font-size: 14px; margin-bottom: var(--space-6); text-decoration: none;"
-                        >← Back
+                        >←
+                            Back
                             to part 1</a>
                         <p
                             data-reveal="60"
@@ -233,9 +230,12 @@
                             data-reveal="260"
                             style="font-size: 17px; line-height: 1.65; text-align: justify; hyphens: auto; text-wrap: pretty; margin: 0;"
                         >
-                            Part 1 answered <em>how the ladder stays up</em>. Part 2 answers the harder question — <em>how the system
-                                stays honest while it's degraded</em>. A semantically wrong answer, a silently duplicated retry, a prompt
-                            rollback that needs a redeploy: availability alone doesn't touch any of them. This is the layer of
+                            Part 1 answered <em>how the ladder stays up</em>. Part 2 answers the harder question — <em>how
+                                the system
+                                stays honest while it's degraded</em>. A semantically wrong answer, a silently duplicated
+                            retry, a prompt
+                            rollback that needs a redeploy: availability alone doesn't touch any of them. This is the layer
+                            of
                             contracts, config-as-data and invariant validation that does.</p>
                     </section>
 
@@ -250,7 +250,8 @@
                                 style="font-family: var(--font-heading); font-size: 48px; line-height: 1; font-variant-numeric: tabular-nums; color: var(--color-accent);"
                             >
                                 &lt;5s</div>
-                            <p style="font-size: 14px; color: var(--muted); margin: var(--space-2) 0 0;">mean time to roll back a
+                            <p style="font-size: 14px; color: var(--muted); margin: var(--space-2) 0 0;">mean time to roll
+                                back a
                                 prompt or routing policy — a pointer flip in Redis, never a redeploy</p>
                         </div>
                         <div style="padding: var(--space-6) 0 var(--space-6) var(--space-4);">
@@ -258,7 +259,8 @@
                                 style="font-family: var(--font-heading); font-size: 48px; line-height: 1; font-variant-numeric: tabular-nums; color: var(--color-accent);"
                             >
                                 4th</div>
-                            <p style="font-size: 14px; color: var(--muted); margin: var(--space-2) 0 0;">orthogonal tier: invariant
+                            <p style="font-size: 14px; color: var(--muted); margin: var(--space-2) 0 0;">orthogonal tier:
+                                invariant
                                 validation that runs <em>after</em> a successful LLM call, because success ≠ correctness</p>
                         </div>
                     </section>
@@ -272,32 +274,54 @@
                         <div
                             style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: var(--space-8) calc(var(--space-8) * 1.4);"
                         >
-                            <article data-reveal="0" style="border-top: 1px solid var(--color-divider); padding-top: var(--space-4);">
+                            <article
+                                data-reveal="0"
+                                style="border-top: 1px solid var(--color-divider); padding-top: var(--space-4);"
+                            >
                                 <p
                                     style="font-family: var(--font-heading); font-size: 18px; color: var(--color-accent); margin-bottom: var(--space-2); font-variant-numeric: tabular-nums;"
                                 >
                                     01 · The problem part 1 didn't solve</p>
                                 <h2 style="font-size: 30px; font-weight: 400; margin-bottom: var(--space-3);">Success is not
                                     correctness</h2>
-                                <p style="font-size: 15px; line-height: 1.7; text-align: justify; hyphens: auto; margin: 0;">The ladder
-                                    in Part 1 ensures a response <em>always</em> comes back. It says nothing about whether that response is
-                                    <em>right</em>. During a Gemini degradation window, a well-formed but semantically wrong answer passed
-                                    every tier as success — caught only because a downstream payroll validator rejected the number. Prompt
-                                    edits required a redeploy; cost was attributed by provider-reported usage that silently lied across
-                                    retries. And callers could ignore the tier entirely.</p>
+                                <p
+                                    style="font-size: 15px; line-height: 1.7; text-align: justify; hyphens: auto; margin: 0;"
+                                >
+                                    The ladder
+                                    in Part 1 ensures a response <em>always</em> comes back. It says nothing about whether
+                                    that response is
+                                    <em>right</em>. During a Gemini degradation window, a well-formed but semantically wrong
+                                    answer passed
+                                    every tier as success — caught only because a downstream payroll validator rejected the
+                                    number. Prompt
+                                    edits required a redeploy; cost was attributed by provider-reported usage that silently
+                                    lied across
+                                    retries. And callers could ignore the tier entirely.
+                                </p>
                             </article>
-                            <article data-reveal="120" style="border-top: 1px solid var(--color-divider); padding-top: var(--space-4);">
+                            <article
+                                data-reveal="120"
+                                style="border-top: 1px solid var(--color-divider); padding-top: var(--space-4);"
+                            >
                                 <p
                                     style="font-family: var(--font-heading); font-size: 18px; color: var(--color-accent); margin-bottom: var(--space-2); font-variant-numeric: tabular-nums;"
                                 >
                                     02 · The approach</p>
-                                <h2 style="font-size: 30px; font-weight: 400; margin-bottom: var(--space-3);">Make degradation a
+                                <h2 style="font-size: 30px; font-weight: 400; margin-bottom: var(--space-3);">Make
+                                    degradation a
                                     contract</h2>
-                                <p style="font-size: 15px; line-height: 1.7; text-align: justify; hyphens: auto; margin: 0;">Every
-                                    response carries <code>tier</code>, <code>degraded</code> and <code>confidence</code> as a
-                                    discriminated union — the type system forbids ignoring them. Prompts and routing policies live in Redis
-                                    and reload via pub/sub. Cost is computed from <em>our own</em> price table, not the provider's. A fourth
-                                    orthogonal tier — invariant validation — runs after every "successful" call, because the ladder protects
+                                <p
+                                    style="font-size: 15px; line-height: 1.7; text-align: justify; hyphens: auto; margin: 0;"
+                                >
+                                    Every
+                                    response carries <code>tier</code>, <code>degraded</code> and <code>confidence</code> as
+                                    a
+                                    discriminated union — the type system forbids ignoring them. Prompts and routing
+                                    policies live in Redis
+                                    and reload via pub/sub. Cost is computed from <em>our own</em> price table, not the
+                                    provider's. A fourth
+                                    orthogonal tier — invariant validation — runs after every "successful" call, because the
+                                    ladder protects
                                     availability and invariants protect correctness.</p>
                             </article>
                         </div>
@@ -332,7 +356,7 @@
                                 ><span
                                         style="font-size: 13px; color: var(--muted); margin-right: 6px; font-variant-numeric: tabular-nums;"
                                     >{{
-                  t.num }}</span>{{ t.label }}</button>
+                                    t.num }}</span>{{ t.label }}</button>
                             </sc-for>
                         </div>
 
@@ -345,11 +369,20 @@
                                 <div
                                     style="padding: var(--space-4); border: 1px solid var(--color-accent); border-radius: var(--radius-md); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; line-height: 1.8; background: color-mix(in srgb, var(--color-text) 3%, transparent);"
                                 >
-                                    <div><span style="color: var(--muted);">tier:</span> <span style="color: var(--color-accent);">'retry' | 'rag' | 'floor'</span></div>
-                                    <div><span style="color: var(--muted);">degraded:</span> <span style="color: var(--color-accent);">boolean</span> <span style="color: var(--muted);">// tier !== 'retry'</span></div>
-                                    <div><span style="color: var(--muted);">confidence:</span> <span style="color: var(--color-accent);">'high' | 'medium' | 'low'</span></div>
+                                    <div><span style="color: var(--muted);">tier:</span> <span
+                                            style="color: var(--color-accent);"
+                                        >'retry' | 'rag' | 'floor'</span></div>
+                                    <div><span style="color: var(--muted);">degraded:</span> <span
+                                            style="color: var(--color-accent);"
+                                        >boolean</span> <span
+                                            style="color: var(--muted);"
+                                        >// tier !== 'retry'</span></div>
+                                    <div><span style="color: var(--muted);">confidence:</span> <span
+                                            style="color: var(--color-accent);"
+                                        >'high' | 'medium' | 'low'</span></div>
                                     <div><span style="color: var(--muted);">providerMeta:</span> { provider, model }</div>
-                                    <div><span style="color: var(--muted);">invariants:</span> { passed: boolean; violated: string[] }</div>
+                                    <div><span style="color: var(--muted);">invariants:</span> { passed: boolean; violated:
+                                        string[] }</div>
                                 </div>
                                 <div
                                     style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-3);"
@@ -357,18 +390,25 @@
                                     <div
                                         style="padding: var(--space-3); border: 1px solid var(--color-divider); border-radius: var(--radius-md);"
                                     >
-                                        <p style="font-family: var(--font-heading); font-size: 17px; margin: 0;">If <code>degraded</code> is false</p>
-                                        <p style="font-size: 12px; color: var(--muted); margin: 0;">Caller treats it as a normal high-quality answer.</p>
+                                        <p style="font-family: var(--font-heading); font-size: 17px; margin: 0;">If
+                                            <code>degraded</code> is false</p>
+                                        <p style="font-size: 12px; color: var(--muted); margin: 0;">Caller treats it as a
+                                            normal high-quality answer.</p>
                                     </div>
                                     <div
                                         style="padding: var(--space-3); border: 1px solid var(--color-accent); border-radius: var(--radius-md);"
                                     >
-                                        <p style="font-family: var(--font-heading); font-size: 17px; margin: 0;">If <code>degraded</code> is true</p>
-                                        <p style="font-size: 12px; color: var(--muted); margin: 0;">Caller must call <code>acceptDegraded()</code> or the response throws at runtime.</p>
+                                        <p style="font-family: var(--font-heading); font-size: 17px; margin: 0;">If
+                                            <code>degraded</code> is true</p>
+                                        <p style="font-size: 12px; color: var(--muted); margin: 0;">Caller must call
+                                            <code>acceptDegraded()</code> or the response throws at runtime.</p>
                                     </div>
                                 </div>
-                                <figcaption style="font-size: 14px; font-style: italic; color: var(--muted); margin-top: var(--space-2); text-align: center;">
-                                    Figure 1 · Degradation can't be silently ignored. The type system and runtime both refuse.</figcaption>
+                                <figcaption
+                                    style="font-size: 14px; font-style: italic; color: var(--muted); margin-top: var(--space-2); text-align: center;"
+                                >
+                                    Figure 1 · Degradation can't be silently ignored. The type system and runtime both
+                                    refuse.</figcaption>
                             </figure>
                         </sc-if>
 
@@ -386,9 +426,13 @@
                                             <li
                                                 style="padding: var(--space-3); border: 1px solid var(--color-divider); border-radius: var(--radius-md);"
                                             >
-                                                <p style="font-size: 12px; color: var(--muted); margin: 0; font-variant-numeric: tabular-nums;">{{
-                        s.n }}</p>
-                                                <p style="font-family: var(--font-heading); font-size: 17px; margin: 0;">{{ s.t }}</p>
+                                                <p
+                                                    style="font-size: 12px; color: var(--muted); margin: 0; font-variant-numeric: tabular-nums;"
+                                                >
+                                                    {{
+                                                s.n }}</p>
+                                                <p style="font-family: var(--font-heading); font-size: 17px; margin: 0;">{{
+                                                s.t }}</p>
                                                 <p style="font-size: 12px; color: var(--muted); margin: 0;">{{ s.d }}</p>
                                             </li>
                                         </sc-for>
@@ -406,9 +450,13 @@
                                             <li
                                                 style="padding: var(--space-3); border: 1px solid var(--color-divider); border-radius: var(--radius-md);"
                                             >
-                                                <p style="font-size: 12px; color: var(--muted); margin: 0; font-variant-numeric: tabular-nums;">{{
-                        s.n }}</p>
-                                                <p style="font-family: var(--font-heading); font-size: 17px; margin: 0;">{{ s.t }}</p>
+                                                <p
+                                                    style="font-size: 12px; color: var(--muted); margin: 0; font-variant-numeric: tabular-nums;"
+                                                >
+                                                    {{
+                                                s.n }}</p>
+                                                <p style="font-family: var(--font-heading); font-size: 17px; margin: 0;">{{
+                                                s.t }}</p>
                                                 <p style="font-size: 12px; color: var(--muted); margin: 0;">{{ s.d }}</p>
                                             </li>
                                         </sc-for>
@@ -416,13 +464,19 @@
                                     <p
                                         style="font-size: 14px; line-height: 1.6; margin: var(--space-3) 0 0; padding: var(--space-3) var(--space-4); border: 1px dashed var(--color-accent); border-radius: var(--radius-md);"
                                     >
-                                        <span style="color: var(--ink-accent);">Mean time to rollback:</span> under 5 seconds. Every response
-                                        logs <code>(promptVersion, routingPolicy, provider, tier)</code>, so any bad output traces to a
+                                        <span style="color: var(--ink-accent);">Mean time to rollback:</span> under 5
+                                        seconds. Every response
+                                        logs <code>(promptVersion, routingPolicy, provider, tier)</code>, so any bad output
+                                        traces to a
                                         specific config tuple.
                                     </p>
                                 </div>
-                                <figcaption style="font-size: 14px; font-style: italic; color: var(--muted); text-align: center;">Figure 2
-                                    · Prompts, routing and tenant overrides are all data, reloaded via Redis pub/sub.</figcaption>
+                                <figcaption
+                                    style="font-size: 14px; font-style: italic; color: var(--muted); text-align: center;"
+                                >
+                                    Figure 2
+                                    · Prompts, routing and tenant overrides are all data, reloaded via Redis pub/sub.
+                                </figcaption>
                             </figure>
                         </sc-if>
 
@@ -453,12 +507,18 @@
                                 <p
                                     style="font-size: 14px; line-height: 1.6; margin: 0; padding: var(--space-3) var(--space-4); border: 1px dashed var(--color-accent); border-radius: var(--radius-md);"
                                 >
-                                    <span style="color: var(--ink-accent);">Key insight:</span> a Tier-1 "success" that violates a domain
-                                    invariant is silently downgraded to Tier 3 and flagged for review. Availability and correctness are
+                                    <span style="color: var(--ink-accent);">Key insight:</span> a Tier-1 "success" that
+                                    violates a domain
+                                    invariant is silently downgraded to Tier 3 and flagged for review. Availability and
+                                    correctness are
                                     separate concerns, enforced separately.
                                 </p>
-                                <figcaption style="font-size: 14px; font-style: italic; color: var(--muted); text-align: center;">Figure 3
-                                    · The ladder protects uptime. Invariants protect truth. They never share a code path.</figcaption>
+                                <figcaption
+                                    style="font-size: 14px; font-style: italic; color: var(--muted); text-align: center;"
+                                >
+                                    Figure 3
+                                    · The ladder protects uptime. Invariants protect truth. They never share a code path.
+                                </figcaption>
                             </figure>
                         </sc-if>
 
@@ -472,7 +532,8 @@
                                             aria-pressed="{{ s.pressed }}"
                                             style="font-family: var(--font-body); font-size: 13px; padding: 7px 13px; white-space: nowrap; flex: none; border-radius: 999px; cursor: pointer; border: 1px solid {{ s.border }}; color: {{ s.fg }}; background: {{ s.bg }}; transition: border-color .2s ease, color .2s ease, transform .2s ease;"
                                             style-hover="border-color: var(--color-accent); transform: translateY(-1px);"
-                                        >{{ s.label }}</button>
+                                        >{{
+                                        s.label }}</button>
                                     </sc-for>
                                 </div>
                                 <div
@@ -486,10 +547,13 @@
                                                 <div
                                                     style="display: flex; justify-content: space-between; gap: var(--space-2); align-items: baseline;"
                                                 >
-                                                    <span style="font-family: var(--font-heading); font-size: 18px;">{{ l.name }}</span>
-                                                    <span style="font-size: 12px; color: {{ l.stateColor }};">{{ l.state }}</span>
+                                                    <span style="font-family: var(--font-heading); font-size: 18px;">{{
+                                                    l.name }}</span>
+                                                    <span style="font-size: 12px; color: {{ l.stateColor }};">{{ l.state
+                                                    }}</span>
                                                 </div>
-                                                <p style="font-size: 13px; color: var(--muted); margin: 2px 0 0;">{{ l.desc }}</p>
+                                                <p style="font-size: 13px; color: var(--muted); margin: 2px 0 0;">{{ l.desc
+                                                }}</p>
                                             </div>
                                         </sc-for>
                                     </div>
@@ -506,31 +570,45 @@
                                             style="padding: var(--space-3) var(--space-4); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; line-height: 1.7; display: grid; gap: 2px; align-content: start; flex: 1;"
                                         >
                                             <sc-for list="{{ logs }}" as="g" hint-placeholder-count="4">
-                                                <div style="animation: juhLog .3s ease-out both;"><span style="color: var(--muted);">{{ g.t
-                          }}</span> <span style="color: {{ g.color }};">{{ g.level }}</span> {{ g.msg }}</div>
+                                                <div style="animation: juhLog .3s ease-out both;"><span
+                                                        style="color: var(--muted);"
+                                                    >{{ g.t
+                                                    }}</span> <span style="color: {{ g.color }};">{{ g.level }}</span>
+                                                    {{ g.msg }}</div>
                                             </sc-for>
                                         </div>
                                     </div>
                                 </div>
-                                <p style="font-size: 14px; font-style: italic; color: var(--muted); text-align: center; margin: 0;">
+                                <p
+                                    style="font-size: 14px; font-style: italic; color: var(--muted); text-align: center; margin: 0;"
+                                >
                                     Simulation · pick a scenario to watch how the contract responds to each caller.</p>
                             </div>
                         </sc-if>
 
-                        <div data-reveal="0" style="margin-top: calc(var(--space-8) * 1.2); display: grid; gap: var(--space-6);">
+                        <div
+                            data-reveal="0"
+                            style="margin-top: calc(var(--space-8) * 1.2); display: grid; gap: var(--space-6);"
+                        >
                             <div>
-                                <p style="font-size: 11px; letter-spacing: .13em; text-transform: uppercase; color: var(--muted); margin: 0 0 var(--space-3);">Animated · response envelope — Retry → RAG → Floor, with invariant gate</p>
+                                <p
+                                    style="font-size: 11px; letter-spacing: .13em; text-transform: uppercase; color: var(--muted); margin: 0 0 var(--space-3);"
+                                >
+                                    Animated · response envelope — Retry → RAG → Floor, with invariant gate</p>
                                 <iframe
-                                    src="/assets/fact%20diagrams/deepseek_html_20261015_ca939b.html"
+                                    src="/assets/diagrams/response_envelope.html"
                                     title="Animated LLM response envelope: tier, degraded flag and invariant gate across the three-tier ladder"
                                     style="width: 100%; height: 460px; border: 1px solid var(--color-divider); border-radius: var(--radius-md); display: block;"
                                     loading="lazy"
                                 ></iframe>
                             </div>
                             <div>
-                                <p style="font-size: 11px; letter-spacing: .13em; text-transform: uppercase; color: var(--muted); margin: 0 0 var(--space-3);">Animated · config plane — prompt &amp; routing version rollback via Redis pub/sub</p>
+                                <p
+                                    style="font-size: 11px; letter-spacing: .13em; text-transform: uppercase; color: var(--muted); margin: 0 0 var(--space-3);"
+                                >
+                                    Animated · config plane — prompt &amp; routing version rollback via Redis pub/sub</p>
                                 <iframe
-                                    src="/assets/fact%20diagrams/deepseek_html_20261015_55ffc0.html"
+                                    src="/assets/diagrams/config_plane.html"
                                     title="Animated config plane: prompt versions, routing policies, tenant overrides and sub-second rollback through Redis pub/sub"
                                     style="width: 100%; height: 700px; border: 1px solid var(--color-divider); border-radius: var(--radius-md); display: block;"
                                     loading="lazy"
@@ -559,9 +637,13 @@
                                     data-reveal="{{ g.delay }}"
                                     style="border-top: 1px solid var(--color-divider); padding-top: var(--space-3);"
                                 >
-                                    <h3 style="font-size: 22px; font-weight: 400; margin-bottom: var(--space-2);">{{ g.t }}</h3>
-                                    <p style="font-size: 14px; line-height: 1.65; color: var(--muted); margin: 0; text-wrap: pretty;">{{ g.d
-                  }}</p>
+                                    <h3 style="font-size: 22px; font-weight: 400; margin-bottom: var(--space-2);">{{ g.t }}
+                                    </h3>
+                                    <p
+                                        style="font-size: 14px; line-height: 1.65; color: var(--muted); margin: 0; text-wrap: pretty;"
+                                    >
+                                        {{ g.d
+                                    }}</p>
                                 </div>
                             </sc-for>
                         </div>
@@ -582,7 +664,7 @@
                                 TypeScript / NestJS</p>
                         </div>
                         <pre data-reveal="0"
-            style="margin: 0; padding: var(--space-6); border: 1px solid var(--color-divider); border-radius: var(--radius-md); overflow-x: auto; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; line-height: 1.7; color: var(--color-text); background: color-mix(in srgb, var(--color-text) 3%, transparent);"><code>export type LlmTier = 'retry' | 'rag' | 'floor';
+                        style="margin: 0; padding: var(--space-6); border: 1px solid var(--color-divider); border-radius: var(--radius-md); overflow-x: auto; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; line-height: 1.7; color: var(--color-text); background: color-mix(in srgb, var(--color-text) 3%, transparent);"><code>export type LlmTier = 'retry' | 'rag' | 'floor';
 export type Confidence = 'high' | 'medium' | 'low';
 
 export type LlmResponse&lt;T&gt; =
@@ -644,7 +726,8 @@ return { tier: 'retry', degraded: false, confidence: 'high', content: raw, provi
                                 rel="noopener"
                                 style="flex: none; white-space: nowrap;"
                             >Contact me on Gravatar ↗</a>
-                            <a class="btn btn-secondary" href="/case1" style="flex: none; white-space: nowrap;">Read part 1</a>
+                            <a class="btn btn-secondary" href="/case1" style="flex: none; white-space: nowrap;">Read part
+                                1</a>
                         </div>
                     </section>
                 </main>
@@ -780,4 +863,5 @@ class Component extends DCLogic {
 }
 </script>
     </body>
+
 </html>

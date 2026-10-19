@@ -109,9 +109,6 @@ const pages = {
   "lib/cases/case2.html"(html, w) {
     return nav(renderVals(html, w).nav);
   },
-  "case-study-2.html"(html, w) {
-    return nav(renderVals(html, w).nav);
-  },
 };
 
 

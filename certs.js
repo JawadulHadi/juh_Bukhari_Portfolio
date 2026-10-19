@@ -93,7 +93,7 @@
       "Certified Django Developer",
       "Udemy",
       "Oct 2025",
-      "/assets/certified_django_developer.png",
+      "",
       1,
     ],
     [
