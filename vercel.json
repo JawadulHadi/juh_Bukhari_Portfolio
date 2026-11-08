@@ -42,11 +42,6 @@
       "source": "/case1-2.html",
       "destination": "/case2",
       "permanent": true
-    },
-    {
-      "source": "/case-study-2",
-      "destination": "/case2",
-      "permanent": true
     }
   ],
   "headers": [

@@ -7,7 +7,6 @@ const output = new URL("dist/", root);
 const publicFiles = [
   "index.html",
   "case-study.html",
-  "case-study-2.html",
   "credentials.html",
   "Agent.dc.html",
   "support.js",
