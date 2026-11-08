@@ -14,7 +14,6 @@ const LEGACY_HTML_REDIRECTS = {
   case1: "/case1",
   "case-study": "/case1",
   "case1-2": "/case2",
-  "case-study-2": "/case2",
   case2: "/case2",
   credentials: "/credentials",
   resume: "/resume.pdf",
@@ -98,7 +97,6 @@ app.get("/case2", (req, res) =>
 );
 app.get("/case1-2", (req, res) => res.redirect(301, "/case2"));
 app.get("/case-study", (req, res) => res.redirect(301, "/case1"));
-app.get("/case-study-2", (req, res) => res.redirect(301, "/case2"));
 
 // Static assets — only these root files and directories are public. Paths are
 // literal so Vercel's file tracing bundles them into the function.

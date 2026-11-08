@@ -31,7 +31,7 @@
             })();
         </script>
         <script src="./support.js"></script>
-      <script>(function(d){var h=d.documentElement,o;h.classList.add('js');function m(){var r=d.getElementById('dc-root');if(!r||!r.firstElementChild)return 0;var p=d.getElementById('prerendered');if(p)p.remove();h.classList.remove('js');o.disconnect();return 1}o=new MutationObserver(m);o.observe(h,{childList:true,subtree:true});setTimeout(function(){if(!m())h.classList.remove('js')},5000)})(document)</script><style>.js #prerendered{display:none}</style>
+  <script>(function(d){var h=d.documentElement,o;h.classList.add('js');function m(){var r=d.getElementById('dc-root');if(!r||!r.firstElementChild)return 0;var p=d.getElementById('prerendered');if(p)p.remove();h.classList.remove('js');o.disconnect();return 1}o=new MutationObserver(m);o.observe(h,{childList:true,subtree:true});setTimeout(function(){if(!m())h.classList.remove('js')},5000)})(document)</script><style>.js #prerendered{display:none}</style>
 </head>
 
     <body>
@@ -233,10 +233,7 @@
                             data-reveal="260"
                             style="font-size: 17px; line-height: 1.65; text-align: justify; hyphens: auto; text-wrap: pretty; margin: 0;"
                         >
-                            Part 1 answered <em>how the ladder stays up</em>. Part 2 answers the harder question — <em>how the system
-                                stays honest while it's degraded</em>. A semantically wrong answer, a silently duplicated retry, a prompt
-                            rollback that needs a redeploy: availability alone doesn't touch any of them. This is the layer of
-                            contracts, config-as-data and invariant validation that does.</p>
+                            A fallback ladder keeps the AI answering, but it can&rsquo;t tell you whether the answer is <em>right</em>. This part makes degradation an explicit contract: every response carries its tier and confidence in a type callers can&rsquo;t ignore, prompts and routing live in Redis so a rollback is a pointer flip instead of a redeploy, cost comes from our own price table, and a fourth tier validates domain invariants after every &ldquo;successful&rdquo; call.</p>
                     </section>
 
                     <section
@@ -521,7 +518,7 @@
                             <div>
                                 <p style="font-size: 11px; letter-spacing: .13em; text-transform: uppercase; color: var(--muted); margin: 0 0 var(--space-3);">Animated · response envelope — Retry → RAG → Floor, with invariant gate</p>
                                 <iframe
-                                    src="/assets/fact%20diagrams/deepseek_html_20261015_ca939b.html"
+                                    src="/assets/diagrams/llm_response_envelope.html"
                                     title="Animated LLM response envelope: tier, degraded flag and invariant gate across the three-tier ladder"
                                     style="width: 100%; height: 460px; border: 1px solid var(--color-divider); border-radius: var(--radius-md); display: block;"
                                     loading="lazy"
@@ -530,7 +527,7 @@
                             <div>
                                 <p style="font-size: 11px; letter-spacing: .13em; text-transform: uppercase; color: var(--muted); margin: 0 0 var(--space-3);">Animated · config plane — prompt &amp; routing version rollback via Redis pub/sub</p>
                                 <iframe
-                                    src="/assets/fact%20diagrams/deepseek_html_20261015_55ffc0.html"
+                                    src="/assets/diagrams/config_plane.html"
                                     title="Animated config plane: prompt versions, routing policies, tenant overrides and sub-second rollback through Redis pub/sub"
                                     style="width: 100%; height: 700px; border: 1px solid var(--color-divider); border-radius: var(--radius-md); display: block;"
                                     loading="lazy"

@@ -230,10 +230,7 @@
               data-reveal="260"
               style="font-size: 17px; line-height: 1.65; text-align: justify; hyphens: auto; text-wrap: pretty; margin: 0;"
             >
-              Part 1 answered <em>how the ladder stays up</em>. Part 2 answers the harder question — <em>how the system
-                stays honest while it's degraded</em>. A semantically wrong answer, a silently duplicated retry, a prompt
-              rollback that needs a redeploy: availability alone doesn't touch any of them. This is the layer of
-              contracts, config-as-data and invariant validation that does.</p>
+              Every AI feature fails eventually: the provider times out, rate-limits you, or just has a bad day. Most teams answer with a try/catch and an apology message. I built a three-tier fallback ladder instead &mdash; <em>retry inside the queue</em>, <em>RAG fallback</em> over the tenant&rsquo;s own data, then a <em>rule-based floor</em> &mdash; so an AI outage never reaches the user as an error. Five AI-backed capabilities sit behind one Unified AI Service and inherit the same reliability pattern: one contract, one queue, one fallback ladder.</p>
           </section>
 
           <section
@@ -602,7 +599,7 @@
                 >
                   Animated · LLM fallback chain — Retry → RAG fallback → Rule-Based Floor</p>
                 <iframe
-                  src="/assets/diagrams/LLM_fallback.html"
+                  src="/assets/diagrams/llm_fallback_ chain.html"
                   title="Animated LLM fallback chain: three-tier resilience across OpenAI, Gemini, Anthropic, RAG fallback and rule-based floor"
                   style="width: 100%; height: 460px; border: 1px solid var(--color-divider); border-radius: var(--radius-md); display: block;"
                   loading="lazy"
@@ -614,7 +611,7 @@
                 >
                   Animated · multi-agent swarm — four agents, one BullMQ &amp; Redis message bus</p>
                 <iframe
-                  src="/assets/diagrams/Multi_agent.html"
+                  src="/assets/diagrams/multi_agent.html"
                   title="Animated multi-agent swarm: Planner, Retriever, Tool runner and Critic exchanging messages through a BullMQ Redis bus"
                   style="width: 100%; height: 700px; border: 1px solid var(--color-divider); border-radius: var(--radius-md); display: block;"
                   loading="lazy"
@@ -729,6 +726,7 @@ return { tier: 'retry', degraded: false, confidence: 'high', content: raw, provi
                 style="flex: none; white-space: nowrap;"
               >Ready to build something resilient? Let’s connect ↗</a>
               <a class="btn btn-secondary" href="/#contact" style="flex: none; white-space: nowrap;">See services</a>
+              <a class="btn btn-secondary" href="/case2" style="flex: none; white-space: nowrap;">Read part 2 →</a>
             </div>
           </section>
         </main>
