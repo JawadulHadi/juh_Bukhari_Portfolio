@@ -6,7 +6,7 @@
   "description": "Static portfolio pages plus one serverless endpoint that powers **Ask Jawad**, a Claude-backed portfolio agent you can chat with by text or voice.",
   "author": "Jawad Ul Hadi (https://gravatar.com/juhbukhari)",
   "license": "MIT",
-  "homepage": "https://juh-bukhari.vercel.app",
+  "homepage": "https://juhbukhari.vercel.app",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JawadulHadi/juh_Bukhari_Portfolio.git"
@@ -35,5 +35,7 @@
     "@anthropic-ai/sdk": "^1.3.0",
     "dotenv": "^18.0.9",
     "express": "^4.22.0"
-  }
+  },
+  "engines": { "node": ">=20" }
+
 }

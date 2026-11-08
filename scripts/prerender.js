@@ -28,10 +28,12 @@ function loadCerts() {
 
 // Evaluates the page's <script data-dc-script> and returns renderVals() for the given state.
 function renderVals(html, certs, state = {}) {
-  const m =
-    /<script type="text\/x-dc" data-dc-script[^>]*>([\s\S]*?)<\/script>/.exec(
-      html,
-    );
+  // Tolerant of formatters: attributes may be wrapped across lines, and
+  // quoted values (e.g. data-props JSON) may contain ">".
+  const ATTR = `(?:"[^"]*"|'[^']*'|[^>"'])*`;
+  const m = new RegExp(
+    `<script${ATTR}\\bdata-dc-script\\b${ATTR}>([\\s\\S]*?)<\\/script>`,
+  ).exec(html);
   if (!m) throw new Error("no data-dc-script block");
   class DCLogic {
     constructor() {
@@ -124,7 +126,9 @@ function build(html, body) {
     : html.replace(/<body>\n/, () => `<body>\n  ${block}\n`);
   out = out
     .replace(HEAD_HOOK_RE, "")
-    .replace("</head>", () => `  ${HEAD_HOOK}\n</head>`);
+    // Swallow the indentation before </head> so the output is the same on
+    // every run, however an editor/formatter indented the original.
+    .replace(/[ \t]*<\/head>/, () => `  ${HEAD_HOOK}\n</head>`);
   return out;
 }
 
