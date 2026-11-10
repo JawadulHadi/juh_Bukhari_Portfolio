@@ -348,6 +348,16 @@
   window.addEventListener("storage", function (e) {
     if (e.key === KEY && THEMES[e.newValue]) apply(e.newValue);
   });
+  // Embedded diagrams report their content height so the frame fits exactly
+  // (no inner scrollbars, no dead space).
+  window.addEventListener('message', function (e) {
+    var d = e.data;
+    if (!d || d.type !== 'juh-diagram-height' || !(d.height > 0)) return;
+    var ifs = document.querySelectorAll('iframe');
+    for (var i = 0; i < ifs.length; i++) {
+      if (ifs[i].contentWindow === e.source) { ifs[i].style.height = Math.ceil(d.height) + 'px'; break; }
+    }
+  });
   window.addEventListener('message', function (e) {
     if (e.data && e.data.type === 'juh-theme-ready' && current) {
       try { e.source.postMessage({ type: 'juh-theme', scheme: THEMES[current].scheme }, '*'); } catch (x) {}

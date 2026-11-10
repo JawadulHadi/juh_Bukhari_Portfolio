@@ -84,6 +84,8 @@ const pages = {
       ),
       '<h2 id="work">Selected work</h2>',
       `<ul>${v.work.map((x) => `<li><strong>${esc(x.title)}</strong> (${esc(x.role)}): ${esc(x.desc)} ${esc(x.stack)}</li>`).join("")}</ul>`,
+      "<h3>Public repositories</h3>",
+      `<ul>${v.workRepos.map((r) => `<li>${link(r.href, r.name)}: ${esc(r.desc)}</li>`).join("")}</ul>`,
       '<h2 id="stack">Stack</h2>',
       `<ul>${v.stack.map((x) => `<li><strong>${esc(x.group)}:</strong> ${esc(x.items)}</li>`).join("")}</ul>`,
       "<h2>Certifications & Credentials</h2>",

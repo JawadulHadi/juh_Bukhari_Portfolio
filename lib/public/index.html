@@ -40,6 +40,8 @@
 <section><h3>Software Engineer · Market Icon, Rawalpindi</h3><p>Aug 2018 – Mar 2022</p><ul><li>Worked as the primary full-stack developer on a large-scale MEAN (MongoDB, Express.js, Angular and Node.js) system, with ownership of backend design and delivery.</li><li>Designed the distributed server and database architecture on an OpenStack cloud platform.</li><li>Modelled the databases for continuously growing real-time data, so reads and writes stayed fast as volume rose.</li><li>Built serverless AWS Lambda and API Gateway services on an event-driven design, removing the idle cost of always-on servers.</li><li>Built Express.js, FastAPI and Django REST Framework APIs for secure CRM and payment integrations.</li><li>Hardened backend services against peak load and power outages, and introduced code documentation and change tracking.</li></ul></section>
 <h2 id="work">Selected work</h2>
 <ul><li><strong>Talentnix: AI gateway &amp; resilience</strong> (Backend Lead): Multi-tenant SaaS platform. One routing layer in front of OpenAI, Gemini and Anthropic with automatic failover, backed by a three-tier fallback (retry → RAG fallback → rule-based floor). Tenant isolation is enforced across its REST and GraphQL APIs with OAuth 2.0 and JWT. OpenAI · Gemini · Anthropic · REST · GraphQL · OAuth 2.0 / JWT</li><li><strong>Multi-tenant AI recruitment ATS</strong> (Backend Lead &amp; Architect): Internal ATS built with Claude Code and Gemini 2.5 Flash. Tenant scope comes from verified JWT claims across the query layer. Résumé ingestion runs on BullMQ workers with rule-based fallbacks; search is tenant-scoped MeiliSearch. NestJS · MongoDB · Gemini 2.5 Flash · MeiliSearch · BullMQ · Postal SMTP</li><li><strong>APAC Management System (HRMS)</strong> (Backend Lead): MicroAgility’s HRMS, combining payroll, HR and attendance with complete employee records. It has role-based access control, leave banking with Excel import and export, multi-level request approvals, and GCS signed-URL documents behind a Redis cache. NestJS 11 · MongoDB · Redis · GCS</li><li><strong>iAgility</strong> (Backend Engineer): A large product built around the hiring and consultancy workflow, on a MEAN microservices stack. I owned the backend: Express.js microservices and GraphQL APIs for the hiring flow with MongoDB as the main data store, Postal for transactional email, Google Cloud Storage for files and WebSocket for real-time notifications. MongoDB · Express.js · Angular · Node.js · GraphQL · WebSocket · Postal</li><li><strong>AgileBrains</strong> (Backend Engineer): A single consultant and client hiring platform on the same MEAN microservices stack: Admin, Client, Consultant and Job services behind a Main App gateway and a custom service registry, each split into presentation, business and data layers. MongoDB · Express.js · Angular · Node.js · TypeScript · Mongoose</li><li><strong>Serverless gateway &amp; CRM layer</strong> (Software Engineer): Serverless AWS Lambda and API Gateway services on an event-driven design, replacing always-on servers, plus Express.js, FastAPI and Django REST Framework APIs for secure CRM and payment integrations. AWS Lambda · API Gateway · Express.js · FastAPI · Django REST</li></ul>
+<h3>Public repositories</h3>
+<ul><li><a href="https://github.com/JawadulHadi/omni-io">Omni.io</a>: Multi-tenant RAG support engine with a three-tier resilience ladder that degrades gracefully instead of failing.</li><li><a href="https://github.com/JawadulHadi/nest-multitenant-rls">Nest Multitenant RLS</a>: NestJS API where PostgreSQL row-level security, not application code, enforces tenant isolation.</li><li><a href="https://github.com/JawadulHadi/nest-webhook-gateway">Nest Webhook Gateway</a>: Verifies, deduplicates and delivers webhooks to your services with retries, jittered backoff and a dead-letter list, on NestJS and BullMQ.</li><li><a href="https://github.com/JawadulHadi/llm-provider-gateway">LLM Provider Gateway</a>: A small TypeScript layer between your app and any LLM: swap providers, survive outages, track cost and get validated JSON.</li><li><a href="https://github.com/JawadulHadi/mcp-server-esign-mock">MCP e-sign mock</a>: Model Context Protocol server for a mock e-signature workflow, with a human approval gate on anything that sends mail or cancels a document.</li><li><a href="https://github.com/JawadulHadi/agent-in-loop">Agent in Loop</a>: A tool-calling agent in about 250 lines of plain Python, with no framework, so you can see exactly what an agent is.</li><li><a href="https://github.com/JawadulHadi/agnostic_agent">Agnostic Agent</a>: Python prototype for agentic document parsing: a provider-agnostic gateway, a ReAct loop, deterministic validation and confidence scoring.</li><li><a href="https://github.com/JawadulHadi/fastapi-field-detector">FastAPI Field Detector</a>: Upload a PDF and get proposed signature, initials, date, name and checkbox fields with positions, party roles and confidence scores.</li><li><a href="https://github.com/JawadulHadi/vetwise">Vetwise</a>: Self-hosted MCP server that keeps a household's pet records and answers whether something is safe for a pet, using species- and weight-aware toxicosis math and cited sources.</li><li><a href="https://github.com/JawadulHadi/proof-ledger">Proof Ledger</a>: Django dashboard that tracks your skills, the proof behind each one and your job-search funnel. Skills lose freshness over time, so it shows what to revise next.</li><li><a href="https://github.com/JawadulHadi/huntpilot">HuntPilot</a>: Referral-first AI job-search copilot that finds roles, scores fit, tailors résumés and referral asks, and keeps your tracker.</li><li><a href="https://github.com/JawadulHadi/pitchfire">PitchFire</a>: Seven-agent job application pipeline that discovers matched jobs, tailors each application, tracks replies and books interviews.</li><li><a href="https://github.com/JawadulHadi/talentflow-ai">TalentFlow AI</a>: Lightweight applicant tracking system with an AI recruiting agent, STAR scorecards and hiring analytics.</li><li><a href="https://github.com/JawadulHadi/scanwise">Scanwise</a>: Turns photos, scans, PDFs and Office files into a cited summary with key factors and options, showing how sure it is of each word.</li><li><a href="https://github.com/JawadulHadi/catch-box">Catchbox</a>: A safety net for web scrapers: failed scrapes land in an inbox, a person fixes them, and only approved records count as data.</li><li><a href="https://github.com/JawadulHadi/scrapio">Scrapio</a>: Human-in-the-loop triage dashboard for web scrapers.</li><li><a href="https://github.com/JawadulHadi/sap-agi-procure">SAP-AGI Procure</a>: Procurement and accounts-payable control centre built on UiPath agentic AI and an SAP S/4HANA RFC/BAPI bridge.</li><li><a href="https://github.com/JawadulHadi/llm-powered-ticket-automation">Ticket Automation</a>: Support triage and resolution engine combining FastAPI, LLM reasoning, Redis event queues and UiPath unattended robots.</li><li><a href="https://github.com/JawadulHadi/git-glow">GitHub Glow-Up</a>: Workspace for repository documentation that drafts READMEs and publishes docs, topics and releases.</li><li><a href="https://github.com/JawadulHadi/taskmaster-agent">Taskmaster Agent</a>: Hackathon entry: an event-driven HR operations agent on Google Genkit and Gemini.</li><li><a href="https://github.com/JawadulHadi/ai-job-search">AI Job Search</a>: Fork of an AI job-application framework built on Claude Code, used to evaluate postings, tailor CVs and prep interviews.</li><li><a href="https://github.com/JawadulHadi/juh_Bukhari_Portfolio">This portfolio</a>: Static portfolio pages plus one serverless endpoint that powers Ask Jawad, a Claude-backed portfolio agent you can talk to by text or voice.</li></ul>
 <h2 id="stack">Stack</h2>
 <ul><li><strong>Architecture &amp; systems design:</strong> Distributed systems, system design, microservices, event-driven architecture, multi-tenant SaaS, REST and GraphQL API design, scalability and reliability trade-offs</li><li><strong>Backend engineering:</strong> Node.js, NestJS, TypeScript, Express.js, Python, FastAPI, Django REST Framework, PostgreSQL, MySQL, MongoDB, Redis, BullMQ, MeiliSearch</li><li><strong>AI-first engineering:</strong> LLM integration (OpenAI, Gemini, Anthropic), RAG pipelines, MCP servers, AI agent workflows, Claude Code, GitHub Copilot, Gemini 2.5 Flash</li><li><strong>Cloud &amp; delivery:</strong> AWS (Lambda, API Gateway), GCP, OpenStack, Docker, Kubernetes, CI/CD (GitHub Actions), Jest, OAuth 2.0 / JWT</li><li><strong>Product domains:</strong> Multi-tenant SaaS, HRMS, CRM, recruitment and consultancy platforms</li><li><strong>Leadership:</strong> Technical leadership, mentoring and onboarding, architecture and code review, technical direction, architecture decision records (ADRs)</li></ul>
 <h2>Certifications & Credentials</h2>
@@ -670,11 +672,11 @@
                   style="
                     width: 100%;
                     height: 310px;
-                    border: 1px solid var(--color-divider);
-                    border-radius: var(--radius-md);
+                    border: 0;
                     display: block;
                   "
                   loading="lazy"
+                  scrolling="no"
                 ></iframe>
               </div>
               <div>
@@ -695,11 +697,11 @@
                   style="
                     width: 100%;
                     height: 120px;
-                    border: 1px solid var(--color-divider);
-                    border-radius: var(--radius-md);
+                    border: 0;
                     display: block;
                   "
                   loading="lazy"
+                  scrolling="no"
                 ></iframe>
               </div>
             </div>
@@ -810,6 +812,100 @@
                   </p>
                 </article>
               </sc-for>
+            </div>
+
+            <div
+              data-reveal="0"
+              style="margin-top: calc(var(--space-8) * 1.4)"
+            >
+              <div
+                style="
+                  display: flex;
+                  align-items: baseline;
+                  gap: var(--space-4);
+                  flex-wrap: wrap;
+                  margin-bottom: var(--space-3);
+                "
+              >
+                <h3 style="font-size: 24px; font-weight: 400; margin: 0; flex: 1">
+                  Public repositories
+                </h3>
+                <p
+                  style="
+                    font-size: 13px;
+                    font-style: italic;
+                    color: var(--muted);
+                    margin: 0;
+                    max-width: 44ch;
+                  "
+                >
+                  The same patterns, built in the open. Source is on GitHub.
+                </p>
+              </div>
+              <div style="border-top: 1px solid var(--color-divider)">
+                <sc-for list="{{ workRepos }}" as="w" hint-placeholder-count="8">
+                  <a
+                    href="{{ w.href }}"
+                    target="_blank"
+                    rel="noopener"
+                    data-glow=""
+                    style="
+                      background-image: radial-gradient(
+                        300px circle at var(--gx, -50%) var(--gy, -50%),
+                        color-mix(
+                          in srgb,
+                          var(--color-accent) 11%,
+                          transparent
+                        ),
+                        transparent 70%
+                      );
+                      display: grid;
+                      grid-template-columns: minmax(150px, 220px) minmax(
+                          0,
+                          1fr
+                        ) auto;
+                      gap: var(--space-2) var(--space-6);
+                      align-items: baseline;
+                      padding: var(--space-4) var(--space-2);
+                      border-bottom: 1px solid var(--color-divider);
+                      color: var(--color-text);
+                      text-decoration: none;
+                      transition:
+                        background-color 0.25s ease,
+                        padding 0.25s ease;
+                    "
+                    style-hover="background-color: color-mix(in srgb, var(--color-accent) 7%, transparent); padding-left: var(--space-4);"
+                  >
+                    <span
+                      style="font-family: var(--font-heading); font-size: 21px"
+                      >{{ w.name }}</span
+                    >
+                    <span
+                      style="
+                        font-size: 14px;
+                        line-height: 1.55;
+                        color: var(--muted);
+                        text-wrap: pretty;
+                      "
+                      >{{ w.desc }}</span
+                    >
+                    <span
+                      style="
+                        font-size: 13px;
+                        color: var(--ink-accent);
+                        white-space: nowrap;
+                      "
+                      >{{ w.kind }} ↗</span
+                    >
+                  </a>
+                </sc-for>
+              </div>
+              <p style="font-size: 14px; color: var(--muted); margin: var(--space-4) 0 0">
+                Everything else lives at
+                <a href="https://github.com/JawadulHadi" target="_blank" rel="noopener">github.com/JawadulHadi</a>
+                and, for the Qeloma suite, at
+                <a href="https://github.com/Qeloma" target="_blank" rel="noopener">github.com/Qeloma</a>.
+              </p>
             </div>
           </section>
 
@@ -1812,6 +1908,30 @@
               { delay: 120, role: 'Backend Engineer', title: 'iAgility', desc: 'A large product built around the hiring and consultancy workflow, on a MEAN microservices stack. I owned the backend: Express.js microservices and GraphQL APIs for the hiring flow with MongoDB as the main data store, Postal for transactional email, Google Cloud Storage for files and WebSocket for real-time notifications.', stack: 'MongoDB · Express.js · Angular · Node.js · GraphQL · WebSocket · Postal' },
               { delay: 0, role: 'Backend Engineer', title: 'AgileBrains', desc: 'A single consultant and client hiring platform on the same MEAN microservices stack: Admin, Client, Consultant and Job services behind a Main App gateway and a custom service registry, each split into presentation, business and data layers.', stack: 'MongoDB · Express.js · Angular · Node.js · TypeScript · Mongoose' },
               { delay: 120, role: 'Software Engineer', title: 'Serverless gateway & CRM layer', desc: 'Serverless AWS Lambda and API Gateway services on an event-driven design, replacing always-on servers, plus Express.js, FastAPI and Django REST Framework APIs for secure CRM and payment integrations.', stack: 'AWS Lambda · API Gateway · Express.js · FastAPI · Django REST' }
+            ],
+            workRepos: [
+              { name: 'Omni.io', desc: 'Multi-tenant RAG support engine with a three-tier resilience ladder that degrades gracefully instead of failing.', href: 'https://github.com/JawadulHadi/omni-io', kind: 'Source' },
+              { name: 'Nest Multitenant RLS', desc: 'NestJS API where PostgreSQL row-level security, not application code, enforces tenant isolation.', href: 'https://github.com/JawadulHadi/nest-multitenant-rls', kind: 'Source' },
+              { name: 'Nest Webhook Gateway', desc: 'Verifies, deduplicates and delivers webhooks to your services with retries, jittered backoff and a dead-letter list, on NestJS and BullMQ.', href: 'https://github.com/JawadulHadi/nest-webhook-gateway', kind: 'Source' },
+              { name: 'LLM Provider Gateway', desc: 'A small TypeScript layer between your app and any LLM: swap providers, survive outages, track cost and get validated JSON.', href: 'https://github.com/JawadulHadi/llm-provider-gateway', kind: 'Source' },
+              { name: 'MCP e-sign mock', desc: 'Model Context Protocol server for a mock e-signature workflow, with a human approval gate on anything that sends mail or cancels a document.', href: 'https://github.com/JawadulHadi/mcp-server-esign-mock', kind: 'Source' },
+              { name: 'Agent in Loop', desc: 'A tool-calling agent in about 250 lines of plain Python, with no framework, so you can see exactly what an agent is.', href: 'https://github.com/JawadulHadi/agent-in-loop', kind: 'Source' },
+              { name: 'Agnostic Agent', desc: 'Python prototype for agentic document parsing: a provider-agnostic gateway, a ReAct loop, deterministic validation and confidence scoring.', href: 'https://github.com/JawadulHadi/agnostic_agent', kind: 'Source' },
+              { name: 'FastAPI Field Detector', desc: 'Upload a PDF and get proposed signature, initials, date, name and checkbox fields with positions, party roles and confidence scores.', href: 'https://github.com/JawadulHadi/fastapi-field-detector', kind: 'Source' },
+              { name: 'Vetwise', desc: 'Self-hosted MCP server that keeps a household\'s pet records and answers whether something is safe for a pet, using species- and weight-aware toxicosis math and cited sources.', href: 'https://github.com/JawadulHadi/vetwise', kind: 'Source' },
+              { name: 'Proof Ledger', desc: 'Django dashboard that tracks your skills, the proof behind each one and your job-search funnel. Skills lose freshness over time, so it shows what to revise next.', href: 'https://github.com/JawadulHadi/proof-ledger', kind: 'Source' },
+              { name: 'HuntPilot', desc: 'Referral-first AI job-search copilot that finds roles, scores fit, tailors résumés and referral asks, and keeps your tracker.', href: 'https://github.com/JawadulHadi/huntpilot', kind: 'Source' },
+              { name: 'PitchFire', desc: 'Seven-agent job application pipeline that discovers matched jobs, tailors each application, tracks replies and books interviews.', href: 'https://github.com/JawadulHadi/pitchfire', kind: 'Source' },
+              { name: 'TalentFlow AI', desc: 'Lightweight applicant tracking system with an AI recruiting agent, STAR scorecards and hiring analytics.', href: 'https://github.com/JawadulHadi/talentflow-ai', kind: 'Source' },
+              { name: 'Scanwise', desc: 'Turns photos, scans, PDFs and Office files into a cited summary with key factors and options, showing how sure it is of each word.', href: 'https://github.com/JawadulHadi/scanwise', kind: 'Source' },
+              { name: 'Catchbox', desc: 'A safety net for web scrapers: failed scrapes land in an inbox, a person fixes them, and only approved records count as data.', href: 'https://github.com/JawadulHadi/catch-box', kind: 'Source' },
+              { name: 'Scrapio', desc: 'Human-in-the-loop triage dashboard for web scrapers.', href: 'https://github.com/JawadulHadi/scrapio', kind: 'Source' },
+              { name: 'SAP-AGI Procure', desc: 'Procurement and accounts-payable control centre built on UiPath agentic AI and an SAP S/4HANA RFC/BAPI bridge.', href: 'https://github.com/JawadulHadi/sap-agi-procure', kind: 'Source' },
+              { name: 'Ticket Automation', desc: 'Support triage and resolution engine combining FastAPI, LLM reasoning, Redis event queues and UiPath unattended robots.', href: 'https://github.com/JawadulHadi/llm-powered-ticket-automation', kind: 'Source' },
+              { name: 'GitHub Glow-Up', desc: 'Workspace for repository documentation that drafts READMEs and publishes docs, topics and releases.', href: 'https://github.com/JawadulHadi/git-glow', kind: 'Source' },
+              { name: 'Taskmaster Agent', desc: 'Hackathon entry: an event-driven HR operations agent on Google Genkit and Gemini.', href: 'https://github.com/JawadulHadi/taskmaster-agent', kind: 'Source' },
+              { name: 'AI Job Search', desc: 'Fork of an AI job-application framework built on Claude Code, used to evaluate postings, tailor CVs and prep interviews.', href: 'https://github.com/JawadulHadi/ai-job-search', kind: 'Fork' },
+              { name: 'This portfolio', desc: 'Static portfolio pages plus one serverless endpoint that powers Ask Jawad, a Claude-backed portfolio agent you can talk to by text or voice.', href: 'https://github.com/JawadulHadi/juh_Bukhari_Portfolio', kind: 'Source' }
             ],
             jobs: [
               { dates: 'Jan 2024 – Present', org: 'MicroAgility Services (Pvt) Ltd., Islamabad', role: 'Backend Lead Engineer', points: [
