@@ -32,7 +32,7 @@
     "cache:clean": "rimraf node_modules/.cache package-lock.json && npm install"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^1.8.0",
+    "@anthropic-ai/sdk": "^1.11.0",
     "dotenv": "^18.0.10",
     "express": "^4.22.0"
   },
